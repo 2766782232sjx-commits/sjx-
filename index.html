@@ -207,10 +207,10 @@ function vDash(){
   const applied = Object.keys(APPS).filter(id=>APPS[id].status>0).length;
   const stats = `
     <div class="grid g4">
-      <div class="stat"><div class="n">${ALL_JOBS().length}</div><div class="l">岗位库（含我加的）</div></div>
-      <div class="stat"><div class="n">${applied}</div><div class="l">已投递</div></div>
-      <div class="stat"><div class="n">${n('2')+n('3')}</div><div class="l">笔试+面试进行中</div></div>
-      <div class="stat"><div class="n">${n('4')}</div><div class="l">Offer 🎉</div></div>
+      <div class="stat" style="cursor:pointer;border-bottom:3px solid #1d1d1f" onclick="goJobs()"><div class="n">${ALL_JOBS().length}</div><div class="l">岗位库（含我加的）→</div></div>
+      <div class="stat" style="cursor:pointer;border-bottom:3px solid #1565C0" onclick="goApps('applied')"><div class="n" style="color:#1565C0">${applied}</div><div class="l">已投递 →</div></div>
+      <div class="stat" style="cursor:pointer;border-bottom:3px solid #e67e22" onclick="goApps('progress')"><div class="n" style="color:#e67e22">${n('2')+n('3')}</div><div class="l">笔试+面试进行中 →</div></div>
+      <div class="stat" style="cursor:pointer;border-bottom:3px solid #1e7e34" onclick="goApps('offer')"><div class="n" style="color:#1e7e34">${n('4')}</div><div class="l">Offer 🎉 →</div></div>
     </div>`;
   // 即将截止
   const soon = ALL_JOBS().map(j=>({j,d:daysLeft(j.dl)})).filter(x=>x.d!==null&&x.d>=0&&x.d<=21)
@@ -237,7 +237,7 @@ function vDash(){
     ${stats}
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">⏰ 21天内即将截止（参考窗口）</h3>${soonHtml}</div>
     ${confHtml?`<div class="card"><h3 style="font-size:15px;margin-bottom:8px">🚨 日程冲突预警</h3>${confHtml}</div>`:''}
-    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📣 最新公告（每日自动抓取）</h3>${annListHtml(6)}</div>
+    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📣 最新公告（每日自动抓取）</h3>${annListHtml(12)}</div>
     <div class="card"><h3 style="font-size:15px;margin-bottom:6px">🧭 考公备战</h3><div style="font-size:13px;color:#555">行测五大模块进度 · 模考成绩记录 · 国考/京考/省考倒计时</div>
       <div style="margin-top:8px"><a class="btn small" href="javascript:void(0)" onclick="document.querySelector('nav a[data-v=gk]').click()">进入考公备战 →</a></div></div>
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">💪 上岸实证（他们可以，你也可以）</h3>
@@ -252,7 +252,7 @@ function vJobs(){
   const btns = Object.keys(CATS).map(k=>
     `<span class="fbtn ${curCat===k?'on':''}" style="${curCat===k?`background:${CATS[k].color};border-color:${CATS[k].color}`:''}"
       onclick="curCat='${k}';render('jobs')">${CATS[k].name}</span>`).join('');
-  return `<h2>岗位库</h2><div class="sub">按体制属性分色 · 点击卡片展开报名条件/考试/待遇/优劣势</div>
+  return `<h2>岗位库</h2><div class="sub">共 ${ALL_JOBS().length} 个岗位全部展示（无分页） · 按体制属性分色 · 点击卡片展开详情</div>
     <div class="filterbar">
       <span class="fbtn ${curCat==='all'?'on':''}" style="${curCat==='all'?'background:#1d1d1f;border-color:#1d1d1f':''}" onclick="curCat='all';render('jobs')">全部</span>${btns}
       <span style="flex:1"></span>
@@ -325,6 +325,9 @@ function setStatus(id,v){
   if(+v===1 && !APPS[id].appliedAt) APPS[id].appliedAt = new Date().toLocaleDateString('zh-CN');
   save(); render('jobs');
 }
+let curAppFilter = 'all';
+function goJobs(){ document.querySelector('nav a[data-v=jobs]').click(); }
+function goApps(f){ curAppFilter=f; document.querySelector('nav a[data-v=apps]').click(); }
 function toggleApply(id){ APPS[id]=APPS[id]||{events:[]}; APPS[id].status = APPS[id].status>0?0:1; if(APPS[id].status===1)APPS[id].appliedAt=new Date().toLocaleDateString('zh-CN'); save(); render('dash'); }
 function goSched(id){ document.querySelector('nav a[data-v=sched]').click(); }
 function addCustom(){
@@ -339,27 +342,57 @@ function delCustom(id){ if(!confirm('删除这条自己加的岗位？'))return;
 
 /* ================= 我的投递 ================= */
 function vApps(){
-  const rows = ALL_JOBS().filter(j=>APPS[j.id]&&APPS[j.id].status>0)
-    .sort((a,b)=>APPS[a.id].status-APPS[b.id].status)
-    .map(j=>{
+  const all = ALL_JOBS().filter(j=>APPS[j.id]&&APPS[j.id].status>0)
+    .sort((a,b)=>APPS[a.id].status-APPS[b.id].status);
+  const flt = f => f==='all' ? all : f==='progress' ? all.filter(j=>['2','3'].includes(APPS[j.id].status+'')) : all.filter(j=>(APPS[j.id].status+'')===f);
+  const cnt = f => flt(f).length;
+  const chips = [['all','全部'],['1','投递中'],['2','笔试'],['3','面试'],['4','Offer 🎉'],['5','已挂']].map(([f,l])=>
+    `<span class="fbtn ${curAppFilter===f?'on':''}" style="${curAppFilter===f?'background:#1d1d1f;border-color:#1d1d1f':''}" onclick="curAppFilter='${f}';render('apps')">${l}(${cnt(f)})</span>`).join('');
+  const rows = flt(curAppFilter).map(j=>{
       const a = APPS[j.id], cat=CATS[j.cat];
       const evs = (a.events||[]).map((e,i)=>
         `<span class="st s2">${e.type} ${e.date}</span> <span style="font-size:11px;color:#aaa;cursor:pointer" onclick="delEvent('${j.id}',${i})">✕</span>`).join(' ');
+      const imgs = (a.imgs||[]).map((d,i)=>
+        `<div style="display:inline-block;position:relative;margin:4px 6px 0 0"><img src="${d}" style="max-width:130px;max-height:100px;border-radius:8px;border:1px solid var(--line);cursor:pointer" onclick="window.open(this.src)"><span style="position:absolute;top:-6px;right:-6px;background:#fff;border:1px solid var(--line);border-radius:50%;width:18px;height:18px;font-size:11px;line-height:16px;text-align:center;cursor:pointer;color:#999" onclick="delOfferImg('${j.id}',${i})">✕</span></div>`).join('');
       return `<div class="job" style="--jc:${cat.color};border-left-width:4px">
         <div class="top"><span class="comp">${esc(j.c)}</span><span class="role">${esc(j.r)}</span>
           <span class="st s${a.status}">${STATUS[a.status]}</span></div>
         <div class="meta">投递时间：${a.appliedAt||'—'} ｜ ${evs||'尚无考试/面试记录'}</div>
+        ${imgs?`<div>${imgs}</div>`:''}
         <div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
           <select onchange="setStatus('${j.id}',this.value)">
             ${STATUS.map((s,i)=>`<option value="${i}" ${a.status===i?'selected':''}>${s}</option>`).join('')}</select>
           <input type="date" id="ev-d-${j.id}">
           <select id="ev-t-${j.id}"><option>笔试</option><option>面试</option><option>网申截止</option></select>
           <button class="btn small" onclick="addEvent('${j.id}')">添加日程</button>
+          <input type="file" accept="image/*" style="display:none" id="img-${j.id}" onchange="addOfferImg('${j.id}',this)">
+          <button class="btn small sec" onclick="document.getElementById('img-${j.id}').click()">📷 传意向邮件/通知截图</button>
         </div></div>`;
     }).join('');
-  return `<h2>我的投递</h2><div class="sub">共 ${rows?ALL_JOBS().filter(j=>APPS[j.id]&&APPS[j.id].status>0).length:0} 条投递记录 ｜ 状态与日程保存在本机</div>
-    ${rows||'<div class="empty">还没有投递记录。去<a href="javascript:void(0)" onclick="document.querySelector(\'nav a[data-v=jobs]\').click()" style="color:#1565C0">岗位库</a>里展开卡片并设置状态。</div>'}`;
+  return `<h2>我的投递</h2><div class="sub">共 ${all.length} 条投递记录（状态与截图保存在本机，可随「导出」迁移） · 状态更新后总览自动同步</div>
+    <div class="filterbar">${chips}</div>
+    ${rows||'<div class="empty">这里还没有记录。去<a href="javascript:void(0)" onclick="goJobs()" style="color:#1565C0">岗位库</a>里展开卡片并设置状态。</div>'}`;
 }
+function addOfferImg(id,input){
+  const f=input.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{
+    const img=new Image();
+    img.onload=()=>{
+      const cv=document.createElement('canvas');
+      const scale=Math.min(1,1100/img.width);
+      cv.width=Math.round(img.width*scale); cv.height=Math.round(img.height*scale);
+      cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
+      APPS[id]=APPS[id]||{events:[]}; APPS[id].imgs=APPS[id].imgs||[];
+      APPS[id].imgs.push(cv.toDataURL('image/jpeg',0.72));
+      save(); render('apps');
+    };
+    img.onerror=()=>alert('图片读取失败，换一张试试');
+    img.src=r.result;
+  };
+  r.readAsDataURL(f);
+}
+function delOfferImg(id,i){ APPS[id].imgs.splice(i,1); save(); render('apps'); }
 function addEvent(id){
   const d = $(`#ev-d-${id}`).value, t = $(`#ev-t-${id}`).value;
   if(!d) return alert('请选择日期');
@@ -475,7 +508,7 @@ function vAnn(){
   const d = annData(); if(!d) return '<h2>最新公告</h2><div class="empty">公告数据未加载（部署时需包含 announcements.js）</div>';
   const manual = (d.manualSites||[]).map(s=>`<a class="fbtn" style="text-decoration:none" href="${esc(s.url)}" target="_blank">${esc(s.name)} ↗</a>`).join(' ');
   return `<h2>最新公告</h2><div class="sub">GitHub Actions 每日 8:30 自动抓取 ｜ 上次更新：${esc(d.lastUpdate)} ｜ 共 ${d.total} 条</div>
-    <div class="card">${annListHtml(30)}</div>
+    <div class="card">${annListHtml(99)}</div>
     <div class="card"><h3 style="font-size:14px;margin-bottom:8px">🖐 需手动查看的入口（网申/反爬站点）</h3><div style="display:flex;gap:8px;flex-wrap:wrap">${manual}</div></div>`;
 }
 

@@ -255,6 +255,18 @@ def main():
             seen.add(key)
             final_items.append(it)
 
+    # 每个来源最多保留 8 条，防止单一来源（如中信职位流）刷屏挤掉其他公告
+    MAX_PER_SOURCE = 8
+    per_source = {}
+    capped = []
+    for it in final_items:  # 已按日期倒序
+        c = per_source.get(it["source"], 0)
+        if c >= MAX_PER_SOURCE:
+            continue
+        per_source[it["source"]] = c + 1
+        capped.append(it)
+    final_items = capped
+
     data = {
         "lastUpdate": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "total": len(final_items),
