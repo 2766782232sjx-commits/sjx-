@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>校招中控台 · 2027届</title>
+<style>
+  :root{--ink:#222;--gray:#777;--bg:#f7f6f4;--card:#fff;--line:#e6e2dc;--red:#B71C1C;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;}
+  a{color:inherit;}
+  nav{position:sticky;top:0;z-index:50;background:#1d1d1f;color:#fff;display:flex;align-items:center;padding:0 14px;gap:2px;overflow-x:auto;}
+  nav .brand{font-weight:700;font-size:14.5px;padding:12px 12px;white-space:nowrap;border-right:1px solid rgba(255,255,255,.18);margin-right:6px;}
+  nav a{color:rgba(255,255,255,.85);font-size:13.5px;padding:13px 11px;text-decoration:none;white-space:nowrap;cursor:pointer;}
+  nav a.on{color:#ffd97a;font-weight:600;}
+  main{max-width:1020px;margin:0 auto;padding:20px 16px 70px;}
+  h2{font-size:19px;margin-bottom:4px;}
+  .sub{color:var(--gray);font-size:13px;margin-bottom:14px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:14px;}
+  .grid{display:grid;gap:12px;}
+  .g4{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+  .stat .n{font-size:24px;font-weight:800;}
+  .stat .l{font-size:12px;color:var(--gray);}
+  /* 岗位卡片 */
+  .job{background:#fff;border:1px solid var(--line);border-left:5px solid var(--jc,#999);border-radius:10px;padding:14px 16px;margin-bottom:12px;}
+  .job .top{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+  .job .comp{font-weight:700;font-size:15.5px;}
+  .job .role{font-size:14px;color:#444;}
+  .job .cat-tag{font-size:11px;color:#fff;background:var(--jc,#999);border-radius:10px;padding:1px 8px;font-weight:600;}
+  .job .fit{font-size:12px;color:var(--gold,#B8860B);font-weight:700;}
+  .job .meta{font-size:12.5px;color:#555;margin-top:6px;}
+  .job .meta b{color:#333;}
+  .job .dl-soon{color:var(--red);font-weight:700;}
+  .job .detail{display:none;margin-top:10px;border-top:1px dashed var(--line);padding-top:10px;font-size:13px;color:#444;}
+  .job.open .detail{display:block;}
+  .job .detail p{margin-bottom:6px;}
+  .job .detail .lb{display:inline-block;width:64px;color:var(--gray);font-size:12px;flex-shrink:0;}
+  .flexrow{display:flex;gap:10px;align-items:flex-start;}
+  .fitbox{flex:1;}
+  .fitbox .pro{color:#1e7e34;} .fitbox .con{color:#b02a2a;}
+  .btn{border:none;border-radius:8px;padding:7px 16px;font-size:13px;cursor:pointer;background:#1d1d1f;color:#fff;}
+  .btn.sec{background:#fff;border:1px solid var(--line);color:#333;}
+  .btn.small{padding:4px 10px;font-size:12px;}
+  /* 状态 */
+  .st{font-size:11px;padding:2px 9px;border-radius:10px;font-weight:600;display:inline-block;}
+  .st.s0{background:#eee;color:#888;} .st.s1{background:#e3f0fb;color:#1565C0;}
+  .st.s2{background:#fff3cd;color:#8a6d3b;} .st.s3{background:#fde8e8;color:#B71C1C;}
+  .st.s4{background:#e6f4ea;color:#1e7e34;} .st.s5{background:#333;color:#fff;}
+  select,input[type=text],input[type=date],textarea{font-family:inherit;font-size:13px;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:#fff;}
+  textarea{width:100%;min-height:70px;resize:vertical;}
+  .filterbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;align-items:center;}
+  .fbtn{font-size:12.5px;padding:5px 13px;border-radius:16px;border:1px solid var(--line);background:#fff;cursor:pointer;}
+  .fbtn.on{color:#fff;}
+  .alert{border-left:4px solid var(--red);background:#fdf0ef;border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:8px;}
+  .alert.warn{border-left-color:#e67e22;background:#fdf6ec;}
+  .evrow{display:flex;gap:10px;padding:9px 4px;border-bottom:1px dashed var(--line);font-size:13.5px;align-items:center;}
+  .evdate{font-weight:700;min-width:88px;}
+  .empty{text-align:center;color:var(--gray);font-size:13px;padding:24px;}
+  .xp{border:1px solid var(--line);border-radius:10px;padding:12px 15px;margin-bottom:10px;background:#fff;font-size:13px;}
+  .xp .xmeta{font-size:11.5px;color:var(--gray);margin-bottom:3px;}
+  .note-item{border-bottom:1px dashed var(--line);padding:9px 2px;font-size:13px;position:relative;}
+  .note-item .ndel{position:absolute;right:4px;top:9px;color:#aaa;cursor:pointer;font-size:12px;}
+  .profile-traits span{display:inline-block;font-size:12px;background:#f1ede6;border-radius:10px;padding:2px 10px;margin:2px 4px 2px 0;}
+  footer{text-align:center;color:#aaa;font-size:12px;padding:20px;}
+  code{background:#f0ece6;padding:1px 6px;border-radius:4px;font-size:12px;}
+</style>
+</head>
+<body>
+<nav>
+  <span class="brand">🎓 校招中控台</span>
+  <a data-v="dash" class="on">总览</a>
+  <a data-v="jobs">岗位库</a>
+  <a data-v="apps">我的投递</a>
+  <a data-v="sched">日程预警</a>
+  <a data-v="xp">经验贴</a>
+  <a data-v="notes">随手记</a>
+  <a data-v="ann">公告</a>
+  <a onclick="exportData()" title="备份投递/日程/笔记到文件">⬇ 导出</a>
+  <a onclick="document.getElementById('impFile').click()" title="从备份文件恢复">⬆ 导入</a>
+</nav>
+<input type="file" id="impFile" accept=".json" style="display:none" onchange="importData(this)">
+<main>
+  <div id="view"></div>
+</main>
+<footer>数据参考2026届窗口 · 2027届以最新公告为准 ｜ 公告由 GitHub Actions 每日自动抓取<br>投递/日程/笔记存在浏览器本地，换设备用「导出/导入」迁移</footer>
+
+<script src="data.js"></script>
+<script src="announcements.js"></script>
+<script>
+/* ================= 存储层 ================= */
+const LS = {
+  get(k, d){ try{ return JSON.parse(localStorage.getItem(k)) ?? d; }catch(e){ return d; } },
+  set(k, v){ localStorage.setItem(k, JSON.stringify(v)); }
+};
+let APPS  = LS.get('hub-apps', {});      // jobId -> {status, appliedAt, events:[{type,date,note}]}
+let XPS   = LS.get('hub-xps', []);       // 经验贴
+let NOTES = LS.get('hub-notes', []);     // 随手记
+let JOBSTAT = LS.get('hub-jobstat', {}); // 岗位人工备注/补充
+const STATUS = ['未投递','已投递','笔试','面试','Offer','已挂'];
+
+function save(){ LS.set('hub-apps',APPS); LS.set('hub-xps',XPS); LS.set('hub-notes',NOTES); LS.set('hub-jobstat',JOBSTAT); }
+const $ = s => document.querySelector(s);
+const job = id => JOBS.find(j=>j.id===id);
+const esc = t => { const d=document.createElement('div'); d.textContent=t??''; return d.innerHTML; };
+
+// 已预置的经验贴（真实可查来源 + 检索词指引）
+const SEED_XPS = [
+  {t:'国航2026届管理储备生官方招聘公告', src:'官方一手', time:'2025-10', url:'http://et.airchina.com.cn/cn/ground_crew_info/184753.shtml', note:'岗位要求/流程/联系方式以官方公告为准'},
+  {t:'进出口银行2026年校园招聘公告', src:'官方一手', time:'2025-10-29', url:'http://www.eximbank.gov.cn/202510/t20251029_70302.html', note:'笔试含申论式写作，国关积累可直接转化'},
+  {t:'花生十三 · 行测资料分析基础课（备考）', src:'B站课程', time:'长期有效', url:'https://www.bilibili.com/cheese/play/ep42565', note:'体制内笔试资料分析性价比最高课程'},
+  {t:'粉笔行测题库（刷题主战场）', src:'工具', time:'长期有效', url:'https://fenbi.com/spa/tiku/guide/catalog/xingce', note:'央企行测与国考题型高度重合'},
+];
+// 补充预置
+XPS = XPS.length ? XPS : SEED_XPS.slice();
+
+/* ================= 视图路由 ================= */
+let curCat = 'all', curSort = 'dl', curFilter = 'all';
+document.querySelectorAll('nav a[data-v]').forEach(a=>{
+  a.onclick = ()=>{ document.querySelectorAll('nav a').forEach(x=>x.classList.remove('on'));
+    a.classList.add('on'); render(a.dataset.v); };
+});
+function render(v){
+  const el = $('#view');
+  if(v==='dash') el.innerHTML = vDash();
+  if(v==='jobs') el.innerHTML = vJobs();
+  if(v==='apps') el.innerHTML = vApps();
+  if(v==='sched') el.innerHTML = vSched();
+  if(v==='xp') el.innerHTML = vXp();
+  if(v==='notes') el.innerHTML = vNotes();
+  if(v==='ann') el.innerHTML = vAnn();
+  afterRender(v);
+}
+function daysLeft(dl){ // dl 形如 2026-11-23
+  const m = String(dl).match(/(\d{4})-(\d{2})-(\d{2})/);
+  if(!m) return null;
+  return Math.ceil((new Date(m[1],m[2]-1,m[3]) - new Date())/86400000);
+}
+
+/* ================= 总览 ================= */
+function vDash(){
+  const n = s => JOBS.filter(j=>(APPS[j.id]?.status)===s).length;
+  const applied = Object.keys(APPS).filter(id=>APPS[id].status>0).length;
+  const stats = `
+    <div class="grid g4">
+      <div class="stat"><div class="n">${JOBS.length}</div><div class="l">岗位库（你专业适用）</div></div>
+      <div class="stat"><div class="n">${applied}</div><div class="l">已投递</div></div>
+      <div class="stat"><div class="n">${n('2')+n('3')}</div><div class="l">笔试+面试进行中</div></div>
+      <div class="stat"><div class="n">${n('4')}</div><div class="l">Offer 🎉</div></div>
+    </div>`;
+  // 即将截止
+  const soon = JOBS.map(j=>({j,d:daysLeft(j.dl)})).filter(x=>x.d!==null&&x.d>=0&&x.d<=21)
+    .sort((a,b)=>a.d-b.d);
+  const soonHtml = soon.length ? soon.map(({j,d})=>`
+    <div class="alert ${d<=7?'':'warn'}"><b>${d}天</b> 后截止 ｜ <b>${esc(j.c)}</b> ${esc(j.r)}
+      <a class="btn small sec" style="margin-left:8px" onclick="toggleApply('${j.id}')">${APPS[j.id]?.status>0?'已投':'一键标记已投'}</a>
+    </div>`).join('') : '<div class="empty">未来21天暂无截止的参考窗口</div>';
+  // 冲突
+  const conflicts = detectConflicts();
+  const confHtml = conflicts.length ? conflicts.map(c=>
+    `<div class="alert">⚠️ <b>${c.date}</b> 同日有 ${c.n} 项安排：${c.items.map(esc).join(' / ')}</div>`).join('') : '';
+
+  // 我的底牌 + 分行业优劣势
+  const insight = Object.keys(CATS).map(k=>{
+    const cnt = JOBS.filter(j=>j.cat===k).length;
+    return `<div style="margin-bottom:8px;"><span class="cat-tag" style="background:${CATS[k].color}">${CATS[k].name}</span>
+      <span style="font-size:12.5px;color:#444"> ${cnt}个岗 ｜ <span style="color:#1e7e34">✓ ${esc(CAT_INSIGHT[k].pro)}</span> ｜ <span style="color:#b02a2a">△ ${esc(CAT_INSIGHT[k].con)}</span></span></div>`;
+  }).join('');
+
+  return `<h2>总览</h2><div class="sub">${esc(PROFILE.school)} · ${esc(PROFILE.major)} · ${esc(PROFILE.degree)}</div>
+    ${stats}
+    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">⏰ 21天内即将截止（参考窗口）</h3>${soonHtml}</div>
+    ${confHtml?`<div class="card"><h3 style="font-size:15px;margin-bottom:8px">🚨 日程冲突预警</h3>${confHtml}</div>`:''}
+    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📣 最新公告（每日自动抓取）</h3>${annListHtml(6)}</div>
+    <div class="card profile-traits"><h3 style="font-size:15px;margin-bottom:8px">🃏 我的底牌（匹配判断依据）</h3>
+      <div style="margin-bottom:8px">${PROFILE.traits.map(t=>'<span>'+esc(t)+'</span>').join('')}</div>${insight}</div>`;
+}
+
+/* ================= 岗位库 ================= */
+function vJobs(){
+  const btns = Object.keys(CATS).map(k=>
+    `<span class="fbtn ${curCat===k?'on':''}" style="${curCat===k?`background:${CATS[k].color};border-color:${CATS[k].color}`:''}"
+      onclick="curCat='${k}';render('jobs')">${CATS[k].name}</span>`).join('');
+  return `<h2>岗位库</h2><div class="sub">按体制属性分色 · 点击卡片展开报名条件/考试/待遇/优劣势</div>
+    <div class="filterbar">
+      <span class="fbtn ${curCat==='all'?'on':''}" style="${curCat==='all'?'background:#1d1d1f;border-color:#1d1d1f':''}" onclick="curCat='all';render('jobs')">全部</span>${btns}
+      <span style="flex:1"></span>
+      <select onchange="curSort=this.value;render('jobs')">
+        <option value="dl" ${curSort==='dl'?'selected':''}>按截止时间</option>
+        <option value="fit" ${curSort==='fit'?'selected':''}>按匹配度</option>
+        <option value="pay" ${curSort==='pay'?'selected':''}>按薪资下限</option>
+      </select>
+      <input type="text" placeholder="搜索公司/岗位…" oninput="JOBSTAT.__q=this.value;render('jobs')" value="${esc(JOBSTAT.__q||'')}" style="width:150px">
+    </div><div id="joblist">${jobListHtml()}</div>`;
+}
+function jobListHtml(){
+  let list = JOBS.slice();
+  if(curCat!=='all') list = list.filter(j=>j.cat===curCat);
+  const q = (JOBSTAT.__q||'').trim();
+  if(q) list = list.filter(j=>(j.c+j.r+j.req).includes(q));
+  const payMin = p => { const m=String(p).match(/(\d+)[-–]/); return m?+m[1]:0; };
+  if(curSort==='dl') list.sort((a,b)=>(daysLeft(a.dl)??999)-(daysLeft(b.dl)??999));
+  if(curSort==='fit') list.sort((a,b)=>b.fit-a.fit);
+  if(curSort==='pay') list.sort((a,b)=>payMin(b.pay)-payMin(a.pay));
+  if(!list.length) return '<div class="empty">没有匹配的岗位</div>';
+  return list.map(j=>{
+    const cat = CATS[j.cat], d = daysLeft(j.dl), st = APPS[j.id]?.status||0;
+    const dlHtml = d===null ? esc(j.dlNote||j.dl) :
+      d<0 ? `<span style="color:#999">已过期(参考)</span>` :
+      `<span class="${d<=14?'dl-soon':''}">${j.dl}（剩${d}天）</span>`;
+    return `<div class="job" style="--jc:${cat.color}" onclick="this.classList.toggle('open')">
+      <div class="top"><span class="comp">${esc(j.c)}</span><span class="role">${esc(j.r)}</span>
+        <span class="cat-tag">${cat.name}</span><span class="fit">${'★'.repeat(j.fit)}${'☆'.repeat(5-j.fit)}</span></div>
+      <div class="meta">截止：<b>${dlHtml}</b> ｜ 考试：<b>${j.exam?'✅ '+esc(j.examInfo.slice(0,22))+(j.examInfo.length>22?'…':''):'❌ 无统一笔试'}</b> ｜ 待遇：<b>${esc(j.pay)}</b></div>
+      <div class="detail">
+        <p><span class="lb">报名条件</span>${esc(j.req)}</p>
+        <p><span class="lb">考试安排</span>${esc(j.examInfo)}</p>
+        <p><span class="lb">投递通道</span><a href="${j.url.startsWith('http')?j.url:'javascript:void(0)'}" ${j.url.startsWith('http')?'target="_blank"':''} style="color:#1565C0">${esc(j.url)}</a> <span style="color:#999;font-size:12px">（${esc(j.src)}）</span></p>
+        <p><span class="lb">待遇</span>${esc(j.pay)}</p>
+        <div class="flexrow" onclick="event.stopPropagation()"><span class="lb" style="margin-top:2px">优劣势</span>
+          <div class="fitbox"><p class="pro">✓ ${esc(j.pro)}</p><p class="con">△ ${esc(j.con)}</p>
+          <p style="color:#999;font-size:12px">🔎 小红书/牛客检索词：<b>${esc(j.kw)}</b></p></div></div>
+        <div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap" onclick="event.stopPropagation()">
+          <span>我的状态：</span><select onchange="setStatus('${j.id}',this.value)">
+            ${STATUS.map((s,i)=>`<option value="${i}" ${st===i?'selected':''}>${s}</option>`).join('')}</select>
+          <a class="btn small sec" href="javascript:void(0)" onclick="goSched('${j.id}')">📝 记考试/面试时间</a>
+        </div>
+      </div></div>`;
+  }).join('');
+}
+function setStatus(id,v){
+  APPS[id] = APPS[id]||{events:[]}; APPS[id].status=+v;
+  if(+v===1 && !APPS[id].appliedAt) APPS[id].appliedAt = new Date().toLocaleDateString('zh-CN');
+  save(); render('jobs');
+}
+function toggleApply(id){ APPS[id]=APPS[id]||{events:[]}; APPS[id].status = APPS[id].status>0?0:1; if(APPS[id].status===1)APPS[id].appliedAt=new Date().toLocaleDateString('zh-CN'); save(); render('dash'); }
+function goSched(id){ document.querySelector('nav a[data-v=sched]').click(); }
+
+/* ================= 我的投递 ================= */
+function vApps(){
+  const rows = JOBS.filter(j=>APPS[j.id]&&APPS[j.id].status>0)
+    .sort((a,b)=>APPS[a.id].status-APPS[b.id].status)
+    .map(j=>{
+      const a = APPS[j.id], cat=CATS[j.cat];
+      const evs = (a.events||[]).map((e,i)=>
+        `<span class="st s2">${e.type} ${e.date}</span> <span style="font-size:11px;color:#aaa;cursor:pointer" onclick="delEvent('${j.id}',${i})">✕</span>`).join(' ');
+      return `<div class="job" style="--jc:${cat.color};border-left-width:4px">
+        <div class="top"><span class="comp">${esc(j.c)}</span><span class="role">${esc(j.r)}</span>
+          <span class="st s${a.status}">${STATUS[a.status]}</span></div>
+        <div class="meta">投递时间：${a.appliedAt||'—'} ｜ ${evs||'尚无考试/面试记录'}</div>
+        <div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <select onchange="setStatus('${j.id}',this.value)">
+            ${STATUS.map((s,i)=>`<option value="${i}" ${a.status===i?'selected':''}>${s}</option>`).join('')}</select>
+          <input type="date" id="ev-d-${j.id}">
+          <select id="ev-t-${j.id}"><option>笔试</option><option>面试</option><option>网申截止</option></select>
+          <button class="btn small" onclick="addEvent('${j.id}')">添加日程</button>
+        </div></div>`;
+    }).join('');
+  return `<h2>我的投递</h2><div class="sub">共 ${rows?JOBS.filter(j=>APPS[j.id]&&APPS[j.id].status>0).length:0} 条投递记录 ｜ 状态与日程保存在本机</div>
+    ${rows||'<div class="empty">还没有投递记录。去<a href="javascript:void(0)" onclick="document.querySelector(\'nav a[data-v=jobs]\').click()" style="color:#1565C0">岗位库</a>里展开卡片并设置状态。</div>'}`;
+}
+function addEvent(id){
+  const d = $(`#ev-d-${id}`).value, t = $(`#ev-t-${id}`).value;
+  if(!d) return alert('请选择日期');
+  APPS[id].events.push({type:t,date:d}); save(); render('apps');
+}
+function delEvent(id,i){ APPS[id].events.splice(i,1); save(); render('apps'); }
+
+/* ================= 日程预警 ================= */
+function collectEvents(){
+  const evs = [];
+  JOBS.forEach(j=>{
+    const a = APPS[j.id]; if(!a||a.status===0) return;
+    (a.events||[]).forEach(e=>evs.push({date:e.date, label:`${j.c}·${e.type}`, job:j}));
+    const d = daysLeft(j.dl);
+    if(d!==null&&d>=0) evs.push({date:j.dl.slice(0,10), label:`${j.c}·网申截止`, job:j});
+  });
+  return evs.sort((a,b)=>a.date<b.date?-1:1);
+}
+function detectConflicts(){
+  const byDate = {};
+  collectEvents().forEach(e=>{ (byDate[e.date]=byDate[e.date]||[]).push(e.label); });
+  return Object.keys(byDate).filter(d=>byDate[d].length>1)
+    .map(d=>({date:d, n:byDate[d].length, items:byDate[d]}));
+}
+function vSched(){
+  const evs = collectEvents();
+  const today = new Date();
+  const future = evs.filter(e=>{ const m=e.date.match(/(\d{4})-(\d{2})-(\d{2})/); return m && new Date(+m[1],+m[2]-1,+m[3])>=today; });
+  const past = evs.filter(e=>!future.includes(e));
+  const conf = detectConflicts();
+  const confHtml = conf.length ? conf.map(c=>`<div class="alert">🚨 <b>${c.date}</b> 冲突：${c.items.map(esc).join(' ＋ ')}</div>`).join('') : '';
+  const soonHtml = future.slice(0,12).map(e=>{
+    const m=e.date.match(/(\d{4})-(\d{2})-(\d{2})/);
+    const dd = Math.ceil((new Date(+m[1],+m[2]-1,+m[3])-today)/86400000);
+    const cat = CATS[e.job.cat];
+    return `<div class="evrow"><span class="evdate" style="color:${dd<=3?'var(--red)':'#333'}">${e.date}（${dd===0?'今天':dd+'天'}）</span>
+      <span class="st" style="background:${cat.color};color:#fff">${esc(cat.name)}</span><span>${esc(e.label)}</span></div>`;
+  }).join('') || '<div class="empty">暂无日程。在「我的投递」里给岗位添加笔试/面试时间。</div>';
+  return `<h2>日程预警</h2><div class="sub">自动汇总所有已投岗位的考试/面试/截止日期；同日多项自动红色预警</div>
+    ${confHtml}<div class="card">${soonHtml}</div>
+    ${past.length?`<div class="card"><h3 style="font-size:14px;margin-bottom:6px;color:#999">已过去</h3>${past.map(e=>`<div class="evrow" style="color:#aaa"><span class="evdate">${e.date}</span><span>${esc(e.label)}</span></div>`).join('')}</div>`:''}`;
+}
+
+/* ================= 经验贴 ================= */
+function vXp(){
+  const items = XPS.map((x,i)=>`<div class="xp"><div class="xmeta">[${esc(x.src)}] ${esc(x.time)}</div>
+    <b>${esc(x.t)}</b> ${x.url&&x.url.startsWith('http')?`<a href="${esc(x.url)}" target="_blank" style="color:#1565C0;font-size:12.5px">↗</a>`:''}
+    <div style="color:#555;margin-top:2px">${esc(x.note||'')}</div>
+    <span class="ndel" style="float:right;color:#aaa;cursor:pointer;font-size:12px" onclick="delXp(${i})">✕</span></div>`).join('');
+  return `<h2>经验贴</h2><div class="sub">官方公告与工具已预置；小红书/牛客无法自动抓取，刷到好帖手动记一条（附检索词即可溯源）</div>
+    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+      <input type="text" id="xp-t" placeholder="标题（如：国航管培一面面经）" style="flex:2;min-width:180px">
+      <input type="text" id="xp-s" placeholder="来源（小红书/牛客/知乎…）" style="flex:1;min-width:120px">
+      <input type="text" id="xp-time" placeholder="时间（如 2026-09）" style="width:110px">
+    </div>
+    <textarea id="xp-n" placeholder="要点/链接/检索词……"></textarea>
+    <div style="margin-top:8px;text-align:right"><button class="btn" onclick="addXp()">保存经验贴</button></div></div>
+    <div class="card">${items||'<div class="empty">暂无</div>'}</div>`;
+}
+function addXp(){
+  const t=$('#xp-t').value.trim(); if(!t) return alert('请填标题');
+  XPS.unshift({t, src:$('#xp-s').value.trim()||'手动记录', time:$('#xp-time').value.trim()||new Date().toLocaleDateString('zh-CN'), note:$('#xp-n').value.trim()});
+  save(); render('xp');
+}
+function delXp(i){ XPS.splice(i,1); save(); render('xp'); }
+
+/* ================= 随手记 ================= */
+function vNotes(){
+  const items = NOTES.map((n,i)=>`<div class="note-item"><b style="font-size:12px;color:${n.cat==='salary'?'#B71C1C':'#1565C0'}">[${esc(n.cat)}]</b>
+    <span class="ndel" onclick="delNote(${i})">✕</span><div style="color:#999;font-size:11.5px">${esc(n.date)}</div>${esc(n.text)}</div>`).join('');
+  return `<h2>随手记 · 复盘</h2><div class="sub">面经要点 / 薪资爆料 / 每次笔试面试后的复盘，全部本机保存</div>
+    <div class="card">
+      <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+        <span class="fbtn on" style="background:#B71C1C;border-color:#B71C1C" onclick="noteCat='面经';this.parentNode.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));this.classList.add('on')">面经</span>
+        <span class="fbtn" onclick="noteCat='薪资';this.parentNode.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));this.classList.add('on')">薪资</span>
+        <span class="fbtn" onclick="noteCat='复盘';this.parentNode.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));this.classList.add('on')">复盘</span>
+        <span class="fbtn" onclick="noteCat='其他';this.parentNode.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));this.classList.add('on')">其他</span>
+      </div>
+      <textarea id="note-t" placeholder="记录…（面试问了什么 / 某岗位到手多少 / 这次笔试哪里失分）"></textarea>
+      <div style="margin-top:8px;text-align:right"><button class="btn" onclick="addNote()">保存</button></div></div>
+    <div class="card">${items||'<div class="empty">暂无记录</div>'}</div>`;
+}
+let noteCat = '面经';
+function addNote(){
+  const t=$('#note-t').value.trim(); if(!t) return alert('请输入内容');
+  NOTES.unshift({cat:noteCat, text:t, date:new Date().toLocaleString('zh-CN')}); save(); render('notes');
+}
+function delNote(i){ NOTES.splice(i,1); save(); render('notes'); }
+
+/* ================= 最新公告（每日自动抓取） ================= */
+function annData(){ return (typeof ANNOUNCEMENTS_DATA!=='undefined') ? ANNOUNCEMENTS_DATA : null; }
+function annListHtml(n){
+  const d = annData(); if(!d) return '<div class="empty">公告数据未加载</div>';
+  const seven = 7*86400000, now = Date.now();
+  return d.items.slice(0,n).map(it=>{
+    const fresh = (now - new Date(it.date).getTime()) < seven;
+    return `<div class="evrow"><span class="evdate" style="min-width:76px">${esc(it.date)}${fresh?' <span style="color:#B71C1C">新</span>':''}</span>
+      <span><b style="font-size:12px;color:#1565C0">[${esc(it.source)}]</b> <a href="${esc(it.url)}" target="_blank" style="color:#1565C0">${esc(it.title)}</a></span></div>`;
+  }).join('');
+}
+function vAnn(){
+  const d = annData(); if(!d) return '<h2>最新公告</h2><div class="empty">公告数据未加载（部署时需包含 announcements.js）</div>';
+  const manual = (d.manualSites||[]).map(s=>`<a class="fbtn" style="text-decoration:none" href="${esc(s.url)}" target="_blank">${esc(s.name)} ↗</a>`).join(' ');
+  return `<h2>最新公告</h2><div class="sub">GitHub Actions 每日 8:30 自动抓取 ｜ 上次更新：${esc(d.lastUpdate)} ｜ 共 ${d.total} 条</div>
+    <div class="card">${annListHtml(30)}</div>
+    <div class="card"><h3 style="font-size:14px;margin-bottom:8px">🖐 需手动查看的入口（网申/反爬站点）</h3><div style="display:flex;gap:8px;flex-wrap:wrap">${manual}</div></div>`;
+}
+
+/* ================= 数据导出/导入（跨设备迁移） ================= */
+function exportData(){
+  const payload = {exportedAt:new Date().toLocaleString('zh-CN'),
+    'hub-apps':LS.get('hub-apps',{}),'hub-xps':LS.get('hub-xps',[]),
+    'hub-notes':LS.get('hub-notes',[]),'hub-jobstat':LS.get('hub-jobstat',{})};
+  const blob = new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '校招中控台备份-'+new Date().toISOString().slice(0,10)+'.json';
+  a.click(); URL.revokeObjectURL(a.href);
+}
+function importData(input){
+  const f = input.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try{
+      const d = JSON.parse(r.result);
+      ['hub-apps','hub-xps','hub-notes','hub-jobstat'].forEach(k=>{ if(d[k]!==undefined) localStorage.setItem(k,JSON.stringify(d[k])); });
+      alert('导入成功，页面即将刷新'); location.reload();
+    }catch(e){ alert('文件格式不对，请选择「导出」生成的 json 文件'); }
+  };
+  r.readAsText(f);
+}
+
+function afterRender(v){ window.scrollTo(0,0); }
+render('dash');
+</script>
+</body>
+</html>
