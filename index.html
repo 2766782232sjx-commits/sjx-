@@ -175,6 +175,17 @@ const MOTIVATION = [
   ['你不是在求职，','是在选择和谁共度未来十年。','会挑岗位的人，才配得上好岗位。'],
   ['害怕选择，是因为你还有得选。','这本身，就是一种领先。'],
   ['把每一次笔试面试当成免费模考。','投上100家练出来的临场感，','是任何辅导班都给不了的。'],
+  ['真正拉开差距的不是天赋，','是投递那天你没有犹豫，','刷题那晚你没有开黑。','自律的爽感，秋招结束那天兑现。'],
+  ['你以为的运气，','不过是别人偷偷刷完的第三遍错题。','所谓上岸，就是把不确定性一格一格做完。'],
+  ['投了50家没回音很正常，','HR的邮箱和你一样会累。','第51封发出去的瞬间，','概率已经开始改变。'],
+  ['面试官问「你有什么问题」时，','问成长路径，别问加班。','你问什么，就会成为什么样的人。'],
+  ['别把秋招当审判，','当成人生第一次大规模尽调：','你在挑公司，公司也在被你尽调。'],
+  ['状态不好的日子，就做机械的事：','背单词、刷一组资料分析、改一版简历。','行动是治愈焦虑的唯一解药。'],
+  ['同届人都在晒offer的时候，','请记住：晒出来的都是幸存者偏差，','你的节奏只属于你自己。'],
+  ['公积金顶格、带薪年假、双休，','这些不是玄学，是你谈判的底气。','信息越多，条件越好——这正是这张表的意义。'],
+  ['女生在职场的上限，','由打破规则的人不断抬高。','你投出的每一份简历，','都是在给下一个女生铺路。'],
+  ['三个月后你会站在哪个offer面前，','取决于今天这十个小时怎么用。','未来的你在等你，别让她久等。'],
+  ['人生是旷野不是轨道。','选调、央企、大厂、国际组织，','每条路都通向不同的风景，','但没有一条是死路。'],
 ];
 function dailyQuote(){
   const d = new Date();
@@ -264,6 +275,15 @@ function vJobs(){
       </select>
       <input type="text" placeholder="搜索公司/岗位…" oninput="JOBSTAT.__q=this.value;render('jobs')" value="${esc(JOBSTAT.__q||'')}" style="width:150px">
     </div>
+    ${(curCat==='xt'||curCat==='gw')?`<div class="card" style="border-left:4px solid #B71C1C;margin-bottom:12px"><h3 style="font-size:14px;margin-bottom:6px">📅 选调/公务员考试时间轴（清北通道优先 · 2027届参考）</h3>
+      <div style="font-size:12.5px;color:#444;line-height:2">
+      <b>9月</b>：云南/广西/四川等清北定向选调报名（最早批次）· 中央选调启动（校内推荐，北大约9月底截止）<br>
+      <b>10月上旬</b>：江西/江苏/沪浙陆续发公告 · <b>国考报名（10月15日左右，笔试11月底周日）</b><br>
+      <b>10-11月</b>：各省清北定向选调笔试面试高峰（一批11月底前完成）<br>
+      <b>11月</b>：国考笔试 · 京考报名 · 深圳市考<br>
+      <b>12月</b>：京考笔试（12月中旬）· 上海选调面试<br>
+      <b>次年1-3月</b>：部分省二批 · <b>省考联考（3月中旬）</b><br>
+      💡 策略：清北定向一批锁保底 → 国考同步考（同一套行测申论复用）→ 省考联考最后一次冲高</div></div>`:''}
     <details class="card" style="margin-bottom:12px"><summary style="cursor:pointer;font-size:13.5px;font-weight:600">➕ 自己看到的岗位，手动加一条（和岗位库同框显示）</summary>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
         <input type="text" id="cj-c" placeholder="公司（如：米哈游）" style="flex:1;min-width:150px">
@@ -300,6 +320,7 @@ function jobListHtml(){
       <div class="top"><span class="comp">${esc(j.c)}</span><span class="role">${esc(j.r)}</span>
         <span class="cat-tag">${cat.name}</span><span class="fit">${'★'.repeat(j.fit)}${'☆'.repeat(5-j.fit)}</span>
         <span class="cat-tag" style="background:#1d1d1f">🎯 ${jobScore(j)}分</span>
+        ${/外派|驻外|海外派驻|常驻海外|接受出国|全球轮岗|海外基地/.test((j.pro||'')+(j.req||'')+(j.r||''))?`<span class="cat-tag" style="background:#0277BD">✈ 外派</span>`:''}
         ${j.custom?`<span class="cat-tag" style="background:#555" onclick="event.stopPropagation();delCustom('${j.id}')">我加的 ✕</span>`:''}</div>
       <div class="meta">截止：<b>${dlHtml}</b> ｜ 考试：<b>${j.exam?'✅ '+esc(j.examInfo.slice(0,22))+(j.examInfo.length>22?'…':''):'❌ 无统一笔试'}</b> ｜ 待遇：<b>${esc(j.pay)}</b> ｜ Base：<b>${esc(j.base||'—')}</b></div>
       ${j.flag?`<div class="meta" style="color:#B71C1C;background:#fdf0ef;border-radius:8px;padding:4px 8px;margin-top:4px">${esc(j.flag)}</div>`:''}
