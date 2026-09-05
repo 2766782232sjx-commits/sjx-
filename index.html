@@ -79,6 +79,7 @@
   <a data-v="sched">日程预警</a>
   <a data-v="xp">经验贴</a>
   <a data-v="notes">随手记</a>
+  <a data-v="gk">考公备战</a>
   <a data-v="ann">公告</a>
   <a onclick="exportData()" title="备份投递/日程/笔记到文件">⬇ 导出</a>
   <a onclick="document.getElementById('impFile').click()" title="从备份文件恢复">⬆ 导入</a>
@@ -101,22 +102,29 @@ let APPS  = LS.get('hub-apps', {});      // jobId -> {status, appliedAt, events:
 let XPS   = LS.get('hub-xps', []);       // 经验贴
 let NOTES = LS.get('hub-notes', []);     // 随手记
 let JOBSTAT = LS.get('hub-jobstat', {}); // 岗位人工备注/补充
+let CUSTOMS = LS.get('hub-customs', []); // 我自己补充的岗位
+let GKMODS  = LS.get('hub-gk-mods', {}); // 考公行测模块进度
+let GKMOCKS = LS.get('hub-gk-mocks', []);// 考公模考记录
 const STATUS = ['未投递','已投递','笔试','面试','Offer','已挂'];
 
-function save(){ LS.set('hub-apps',APPS); LS.set('hub-xps',XPS); LS.set('hub-notes',NOTES); LS.set('hub-jobstat',JOBSTAT); }
+function save(){ LS.set('hub-apps',APPS); LS.set('hub-xps',XPS); LS.set('hub-notes',NOTES); LS.set('hub-jobstat',JOBSTAT); LS.set('hub-customs',CUSTOMS); LS.set('hub-gk-mods',GKMODS); LS.set('hub-gk-mocks',GKMOCKS); }
 const $ = s => document.querySelector(s);
-const job = id => JOBS.find(j=>j.id===id);
+const ALL_JOBS = () => JOBS.concat(CUSTOMS);
+const job = id => ALL_JOBS().find(j=>j.id===id);
 const esc = t => { const d=document.createElement('div'); d.textContent=t??''; return d.innerHTML; };
 
-// 已预置的经验贴（真实可查来源 + 检索词指引）
+// 已预置的经验贴（全部为可直达的搜索页/官网首页，不会失效）
 const SEED_XPS = [
-  {t:'国航2026届管理储备生官方招聘公告', src:'官方一手', time:'2025-10', url:'http://et.airchina.com.cn/cn/ground_crew_info/184753.shtml', note:'岗位要求/流程/联系方式以官方公告为准'},
-  {t:'进出口银行2026年校园招聘公告', src:'官方一手', time:'2025-10-29', url:'http://www.eximbank.gov.cn/202510/t20251029_70302.html', note:'笔试含申论式写作，国关积累可直接转化'},
-  {t:'花生十三 · 行测资料分析基础课（备考）', src:'B站课程', time:'长期有效', url:'https://www.bilibili.com/cheese/play/ep42565', note:'体制内笔试资料分析性价比最高课程'},
-  {t:'粉笔行测题库（刷题主战场）', src:'工具', time:'长期有效', url:'https://fenbi.com/spa/tiku/guide/catalog/xingce', note:'央企行测与国考题型高度重合'},
+  {t:'牛客 · 搜面经（央企管培/国考/大厂产品）', src:'牛客搜索', time:'长期有效', url:'https://www.nowcoder.com/search/all?query=%E7%AE%A1%E5%9F%B9%E7%94%9F%E9%9D%A2%E7%BB%8F', note:'进入后按公司名再搜，如「国航 管培 面经」「中信 联合招聘」'},
+  {t:'知乎 · 央企/选调经验检索', src:'知乎搜索', time:'长期有效', url:'https://www.zhihu.com/search?type=content&q=%E5%A4%AE%E4%BC%81%E7%AE%A1%E5%9F%B9%E7%94%9F', note:'搜具体公司+秋招，如「中信管培 怎么样」「定向选调 值得吗」'},
+  {t:'B站 · 行测/申论备考课检索', src:'B站搜索', time:'长期有效', url:'https://search.bilibili.com/all?keyword=%E8%A1%8C%E6%B5%8B%E8%B5%84%E6%96%99%E5%88%86%E6%9E%90', note:'资料分析先看花生十三/粉笔系统课再刷题'},
+  {t:'粉笔 · 行测题库主战场', src:'工具', time:'长期有效', url:'https://fenbi.com/page/tiku', note:'央企行测与国考题型高度重合，每天一组资料分析保持手感'},
+  {t:'小红书 · 秋招信息流（建议App内搜）', src:'小红书', time:'长期有效', url:'https://www.xiaohongshu.com/search_result?keyword=%E7%A7%8B%E6%8B%9B%E9%9D%A2%E7%BB%8F', note:'网页版部分内容需登录，手机App直接搜「公司名+面经/薪资」更全'},
 ];
-// 补充预置
-XPS = XPS.length ? XPS : SEED_XPS.slice();
+// 清理旧版失效链接 + 合并新预置（只动预置项，你手动记的不会丢）
+const BROKEN_XP = ['http://et.airchina.com.cn/cn/ground_crew_info/184753.shtml','http://www.eximbank.gov.cn/202510/t20251029_70302.html','https://www.bilibili.com/cheese/play/ep42565','https://fenbi.com/spa/tiku/guide/catalog/xingce'];
+XPS = XPS.filter(x => !BROKEN_XP.includes(x.url));
+SEED_XPS.forEach(s => { if(!XPS.some(x=>x.url===s.url)) XPS.push(s); });
 
 /* ================= 视图路由 ================= */
 let curCat = 'all', curSort = 'dl', curFilter = 'all';
@@ -133,6 +141,7 @@ function render(v){
   if(v==='xp') el.innerHTML = vXp();
   if(v==='notes') el.innerHTML = vNotes();
   if(v==='ann') el.innerHTML = vAnn();
+  if(v==='gk') el.innerHTML = vGk();
   afterRender(v);
 }
 function daysLeft(dl){ // dl 形如 2026-11-23
@@ -143,17 +152,17 @@ function daysLeft(dl){ // dl 形如 2026-11-23
 
 /* ================= 总览 ================= */
 function vDash(){
-  const n = s => JOBS.filter(j=>(APPS[j.id]?.status)===s).length;
+  const n = s => ALL_JOBS().filter(j=>(APPS[j.id]?.status)===s).length;
   const applied = Object.keys(APPS).filter(id=>APPS[id].status>0).length;
   const stats = `
     <div class="grid g4">
-      <div class="stat"><div class="n">${JOBS.length}</div><div class="l">岗位库（你专业适用）</div></div>
+      <div class="stat"><div class="n">${ALL_JOBS().length}</div><div class="l">岗位库（含我加的）</div></div>
       <div class="stat"><div class="n">${applied}</div><div class="l">已投递</div></div>
       <div class="stat"><div class="n">${n('2')+n('3')}</div><div class="l">笔试+面试进行中</div></div>
       <div class="stat"><div class="n">${n('4')}</div><div class="l">Offer 🎉</div></div>
     </div>`;
   // 即将截止
-  const soon = JOBS.map(j=>({j,d:daysLeft(j.dl)})).filter(x=>x.d!==null&&x.d>=0&&x.d<=21)
+  const soon = ALL_JOBS().map(j=>({j,d:daysLeft(j.dl)})).filter(x=>x.d!==null&&x.d>=0&&x.d<=21)
     .sort((a,b)=>a.d-b.d);
   const soonHtml = soon.length ? soon.map(({j,d})=>`
     <div class="alert ${d<=7?'':'warn'}"><b>${d}天</b> 后截止 ｜ <b>${esc(j.c)}</b> ${esc(j.r)}
@@ -166,7 +175,7 @@ function vDash(){
 
   // 我的底牌 + 分行业优劣势
   const insight = Object.keys(CATS).map(k=>{
-    const cnt = JOBS.filter(j=>j.cat===k).length;
+    const cnt = ALL_JOBS().filter(j=>j.cat===k).length;
     return `<div style="margin-bottom:8px;"><span class="cat-tag" style="background:${CATS[k].color}">${CATS[k].name}</span>
       <span style="font-size:12.5px;color:#444"> ${cnt}个岗 ｜ <span style="color:#1e7e34">✓ ${esc(CAT_INSIGHT[k].pro)}</span> ｜ <span style="color:#b02a2a">△ ${esc(CAT_INSIGHT[k].con)}</span></span></div>`;
   }).join('');
@@ -176,6 +185,8 @@ function vDash(){
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">⏰ 21天内即将截止（参考窗口）</h3>${soonHtml}</div>
     ${confHtml?`<div class="card"><h3 style="font-size:15px;margin-bottom:8px">🚨 日程冲突预警</h3>${confHtml}</div>`:''}
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📣 最新公告（每日自动抓取）</h3>${annListHtml(6)}</div>
+    <div class="card"><h3 style="font-size:15px;margin-bottom:6px">🧭 考公备战</h3><div style="font-size:13px;color:#555">行测五大模块进度 · 模考成绩记录 · 国考/京考/省考倒计时</div>
+      <div style="margin-top:8px"><a class="btn small" href="javascript:void(0)" onclick="document.querySelector('nav a[data-v=gk]').click()">进入考公备战 →</a></div></div>
     <div class="card profile-traits"><h3 style="font-size:15px;margin-bottom:8px">🃏 我的底牌（匹配判断依据）</h3>
       <div style="margin-bottom:8px">${PROFILE.traits.map(t=>'<span>'+esc(t)+'</span>').join('')}</div>${insight}</div>`;
 }
@@ -195,13 +206,28 @@ function vJobs(){
         <option value="pay" ${curSort==='pay'?'selected':''}>按薪资下限</option>
       </select>
       <input type="text" placeholder="搜索公司/岗位…" oninput="JOBSTAT.__q=this.value;render('jobs')" value="${esc(JOBSTAT.__q||'')}" style="width:150px">
-    </div><div id="joblist">${jobListHtml()}</div>`;
+    </div>
+    <details class="card" style="margin-bottom:12px"><summary style="cursor:pointer;font-size:13.5px;font-weight:600">➕ 自己看到的岗位，手动加一条（和岗位库同框显示）</summary>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <input type="text" id="cj-c" placeholder="公司（如：米哈游）" style="flex:1;min-width:150px">
+        <input type="text" id="cj-r" placeholder="岗位（如：产品经理）" style="flex:1;min-width:150px">
+        <select id="cj-cat">${Object.keys(CATS).map(k=>`<option value="${k}">${CATS[k].name}</option>`).join('')}</select>
+        <input type="date" id="cj-dl">
+        <input type="text" id="cj-base" placeholder="Base地" style="width:100px">
+        <input type="text" id="cj-pay" placeholder="薪资（如25-35万）" style="width:120px">
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+        <input type="text" id="cj-url" placeholder="投递链接（可选）" style="flex:1;min-width:180px">
+        <input type="text" id="cj-note" placeholder="要求/备注（可选）" style="flex:1;min-width:180px">
+        <button class="btn" onclick="addCustom()">保存岗位</button>
+      </div></details>
+    <div id="joblist">${jobListHtml()}</div>`;
 }
 function jobListHtml(){
-  let list = JOBS.slice();
+  let list = ALL_JOBS().slice();
   if(curCat!=='all') list = list.filter(j=>j.cat===curCat);
   const q = (JOBSTAT.__q||'').trim();
-  if(q) list = list.filter(j=>(j.c+j.r+j.req).includes(q));
+  if(q) list = list.filter(j=>(j.c+j.r+j.req+(j.base||'')).includes(q));
   const payMin = p => { const m=String(p).match(/(\d+)[-–]/); return m?+m[1]:0; };
   if(curSort==='dl') list.sort((a,b)=>(daysLeft(a.dl)??999)-(daysLeft(b.dl)??999));
   if(curSort==='fit') list.sort((a,b)=>b.fit-a.fit);
@@ -214,8 +240,9 @@ function jobListHtml(){
       `<span class="${d<=14?'dl-soon':''}">${j.dl}（剩${d}天）</span>`;
     return `<div class="job" style="--jc:${cat.color}" onclick="this.classList.toggle('open')">
       <div class="top"><span class="comp">${esc(j.c)}</span><span class="role">${esc(j.r)}</span>
-        <span class="cat-tag">${cat.name}</span><span class="fit">${'★'.repeat(j.fit)}${'☆'.repeat(5-j.fit)}</span></div>
-      <div class="meta">截止：<b>${dlHtml}</b> ｜ 考试：<b>${j.exam?'✅ '+esc(j.examInfo.slice(0,22))+(j.examInfo.length>22?'…':''):'❌ 无统一笔试'}</b> ｜ 待遇：<b>${esc(j.pay)}</b></div>
+        <span class="cat-tag">${cat.name}</span><span class="fit">${'★'.repeat(j.fit)}${'☆'.repeat(5-j.fit)}</span>
+        ${j.custom?`<span class="cat-tag" style="background:#555" onclick="event.stopPropagation();delCustom('${j.id}')">我加的 ✕</span>`:''}</div>
+      <div class="meta">截止：<b>${dlHtml}</b> ｜ 考试：<b>${j.exam?'✅ '+esc(j.examInfo.slice(0,22))+(j.examInfo.length>22?'…':''):'❌ 无统一笔试'}</b> ｜ 待遇：<b>${esc(j.pay)}</b> ｜ Base：<b>${esc(j.base||'—')}</b></div>
       <div class="detail">
         <p><span class="lb">报名条件</span>${esc(j.req)}</p>
         <p><span class="lb">考试安排</span>${esc(j.examInfo)}</p>
@@ -239,10 +266,19 @@ function setStatus(id,v){
 }
 function toggleApply(id){ APPS[id]=APPS[id]||{events:[]}; APPS[id].status = APPS[id].status>0?0:1; if(APPS[id].status===1)APPS[id].appliedAt=new Date().toLocaleDateString('zh-CN'); save(); render('dash'); }
 function goSched(id){ document.querySelector('nav a[data-v=sched]').click(); }
+function addCustom(){
+  const c=$('#cj-c').value.trim(); if(!c) return alert('至少填公司名');
+  CUSTOMS.unshift({ id:'c'+Date.now(), custom:true, c, r:$('#cj-r').value.trim()||'待补充岗位',
+    cat:$('#cj-cat').value, dl:$('#cj-dl').value||'2026-10-15', base:$('#cj-base').value.trim()||'—',
+    pay:$('#cj-pay').value.trim()||'待了解', url:$('#cj-url').value.trim()||'手动记录', src:'我自己加的',
+    req:$('#cj-note').value.trim()||'—', examInfo:'—', pro:'—', con:'—', kw:c, fit:3 });
+  save(); render('jobs');
+}
+function delCustom(id){ if(!confirm('删除这条自己加的岗位？'))return; CUSTOMS = CUSTOMS.filter(j=>j.id!==id); save(); render('jobs'); }
 
 /* ================= 我的投递 ================= */
 function vApps(){
-  const rows = JOBS.filter(j=>APPS[j.id]&&APPS[j.id].status>0)
+  const rows = ALL_JOBS().filter(j=>APPS[j.id]&&APPS[j.id].status>0)
     .sort((a,b)=>APPS[a.id].status-APPS[b.id].status)
     .map(j=>{
       const a = APPS[j.id], cat=CATS[j.cat];
@@ -260,7 +296,7 @@ function vApps(){
           <button class="btn small" onclick="addEvent('${j.id}')">添加日程</button>
         </div></div>`;
     }).join('');
-  return `<h2>我的投递</h2><div class="sub">共 ${rows?JOBS.filter(j=>APPS[j.id]&&APPS[j.id].status>0).length:0} 条投递记录 ｜ 状态与日程保存在本机</div>
+  return `<h2>我的投递</h2><div class="sub">共 ${rows?ALL_JOBS().filter(j=>APPS[j.id]&&APPS[j.id].status>0).length:0} 条投递记录 ｜ 状态与日程保存在本机</div>
     ${rows||'<div class="empty">还没有投递记录。去<a href="javascript:void(0)" onclick="document.querySelector(\'nav a[data-v=jobs]\').click()" style="color:#1565C0">岗位库</a>里展开卡片并设置状态。</div>'}`;
 }
 function addEvent(id){
@@ -273,7 +309,7 @@ function delEvent(id,i){ APPS[id].events.splice(i,1); save(); render('apps'); }
 /* ================= 日程预警 ================= */
 function collectEvents(){
   const evs = [];
-  JOBS.forEach(j=>{
+  ALL_JOBS().forEach(j=>{
     const a = APPS[j.id]; if(!a||a.status===0) return;
     (a.events||[]).forEach(e=>evs.push({date:e.date, label:`${j.c}·${e.type}`, job:j}));
     const d = daysLeft(j.dl);
@@ -371,11 +407,71 @@ function vAnn(){
     <div class="card"><h3 style="font-size:14px;margin-bottom:8px">🖐 需手动查看的入口（网申/反爬站点）</h3><div style="display:flex;gap:8px;flex-wrap:wrap">${manual}</div></div>`;
 }
 
+/* ================= 考公备战 ================= */
+const GK_TARGETS = [
+  {n:'国考笔试', d:'2026-11-29'},
+  {n:'京考笔试', d:'2026-12-13'},
+  {n:'省考联考', d:'2027-03-15'},
+];
+const GK_MODS = ['资料分析','言语理解','判断推理','数量关系','常识判断'];
+function vGk(){
+  const cards = GK_TARGETS.map(t=>{ const dd=daysLeft(t.d);
+    return `<div class="stat"><div class="n" style="color:${dd!==null&&dd<=60?'var(--red)':'#222'}">${dd===null?'—':dd+'天'}</div><div class="l">${t.n}<br>${t.d}（参考）</div></div>`; }).join('');
+  const modRows = GK_MODS.map(m=>{
+    const st=GKMODS[m]||{}, acc=parseFloat(st.acc);
+    const lv = isNaN(acc)?'<span style="color:#999">未测</span>':acc>=85?'<span style="color:#1e7e34;font-weight:700">强</span>':acc>=75?'<span style="color:#B8860B;font-weight:700">稳</span>':'<span style="color:#B71C1C;font-weight:700">弱·需补</span>';
+    return `<tr><td style="padding:8px 6px;font-weight:600">${m}</td>
+      <td style="padding:8px 6px"><input type="number" min="0" style="width:100px" placeholder="已刷题数" value="${st.done??''}" onchange="gkSetMod('${m}','done',this.value)"></td>
+      <td style="padding:8px 6px"><input type="text" style="width:80px" placeholder="正确率%" value="${st.acc??''}" onchange="gkSetMod('${m}','acc',this.value)"></td>
+      <td style="padding:8px 6px">${lv}</td></tr>`; }).join('');
+  const mockRows = GKMOCKS.length ? GKMOCKS.map((m,i)=>`
+    <tr><td style="padding:8px 6px">${esc(m.date)}</td><td style="padding:8px 6px">${esc(m.name)}</td>
+      <td style="padding:8px 6px;font-weight:700;color:${m.xz>=75?'#1e7e34':m.xz>=65?'#B8860B':'#B71C1C'}">${m.xz??'—'}</td>
+      <td style="padding:8px 6px;font-weight:700;color:${m.sl>=60?'#1e7e34':m.sl>=50?'#B8860B':'#B71C1C'}">${m.sl??'—'}</td>
+      <td style="padding:8px 6px;font-size:12px;color:#555">${esc(m.note||'')}</td>
+      <td style="padding:8px 6px"><span style="color:#aaa;cursor:pointer" onclick="gkDelMock(${i})">✕</span></td></tr>`).join('')
+    : '<tr><td colspan="6" style="padding:16px;text-align:center;color:#999">还没有模考记录：粉笔模考/真题卷都记进来，进步靠积累</td></tr>';
+  return `<h2>考公备战</h2><div class="sub">行测模块进度 + 模考成绩 + 关键节点倒计时（日期参考历年，以当年公告为准）</div>
+    <div class="grid g4" style="margin-bottom:14px">${cards}</div>
+    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📊 行测五大模块 · 刷题进度与正确率</h3>
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr style="border-bottom:2px solid var(--line);color:#999;font-size:12px"><th align="left" style="padding:6px">模块</th><th align="left" style="padding:6px">已刷题数</th><th align="left" style="padding:6px">正确率%</th><th align="left" style="padding:6px">状态</th></tr></thead>
+        <tbody>${modRows}</tbody></table></div>
+      <div style="font-size:12px;color:#999;margin-top:6px">输入即自动保存。资料分析性价比最高（优先拉到85%+）；数量关系可战略性放弃。</div></div>
+    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📝 模考记录</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <input type="date" id="gk-d">
+        <input type="text" id="gk-n" placeholder="模考名称（粉笔第X季/国考真题卷）" style="flex:1;min-width:180px">
+        <input type="number" id="gk-xz" placeholder="行测分" style="width:90px">
+        <input type="number" id="gk-sl" placeholder="申论分" style="width:90px">
+        <input type="text" id="gk-note" placeholder="反思一句话（可选）" style="flex:1;min-width:160px">
+        <button class="btn" onclick="gkAddMock()">记录</button>
+      </div>
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr style="border-bottom:2px solid var(--line);color:#999;font-size:12px"><th align="left" style="padding:6px">日期</th><th align="left" style="padding:6px">模考</th><th align="left" style="padding:6px">行测</th><th align="left" style="padding:6px">申论</th><th align="left" style="padding:6px">反思</th><th></th></tr></thead>
+        <tbody>${mockRows}</tbody></table></div></div>
+    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">💡 备考节奏（秋招+考公两线并行）</h3>
+      <div style="font-size:13px;color:#444;line-height:1.9">
+        ① 现在-10月：秋招是主线，行测只做<b>资料分析</b>（每天1组20题保手感），其余靠央企笔试真题带练；<br>
+        ② 10月-11月中：面试间隙刷<b>言语+判断</b>，正确率拉到75%+；<br>
+        ③ 11月中-国考前：两套真题卷全真模考，申论直接用国关写作功底转化；<br>
+        ④ 数量关系目标60%即可；常识判断不用专门复习，政治素养底子够。</div></div>`;
+}
+function gkSetMod(m,k,v){ GKMODS[m]=GKMODS[m]||{}; GKMODS[m][k]=v; save(); render('gk'); }
+function gkAddMock(){
+  const d=$('#gk-d').value, n=$('#gk-n').value.trim();
+  if(!d||!n) return alert('请填日期和模考名称');
+  GKMOCKS.unshift({date:d, name:n, xz:$('#gk-xz').value||null, sl:$('#gk-sl').value||null, note:$('#gk-note').value.trim()});
+  save(); render('gk');
+}
+function gkDelMock(i){ GKMOCKS.splice(i,1); save(); render('gk'); }
+
 /* ================= 数据导出/导入（跨设备迁移） ================= */
 function exportData(){
   const payload = {exportedAt:new Date().toLocaleString('zh-CN'),
     'hub-apps':LS.get('hub-apps',{}),'hub-xps':LS.get('hub-xps',[]),
-    'hub-notes':LS.get('hub-notes',[]),'hub-jobstat':LS.get('hub-jobstat',{})};
+    'hub-notes':LS.get('hub-notes',[]),'hub-jobstat':LS.get('hub-jobstat',{}),
+    'hub-customs':LS.get('hub-customs',[]),'hub-gk-mods':LS.get('hub-gk-mods',{}),'hub-gk-mocks':LS.get('hub-gk-mocks',[])};
   const blob = new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -388,7 +484,7 @@ function importData(input){
   r.onload = () => {
     try{
       const d = JSON.parse(r.result);
-      ['hub-apps','hub-xps','hub-notes','hub-jobstat'].forEach(k=>{ if(d[k]!==undefined) localStorage.setItem(k,JSON.stringify(d[k])); });
+      ['hub-apps','hub-xps','hub-notes','hub-jobstat','hub-customs','hub-gk-mods','hub-gk-mocks'].forEach(k=>{ if(d[k]!==undefined) localStorage.setItem(k,JSON.stringify(d[k])); });
       alert('导入成功，页面即将刷新'); location.reload();
     }catch(e){ alert('文件格式不对，请选择「导出」生成的 json 文件'); }
   };
