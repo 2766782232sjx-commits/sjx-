@@ -1,10 +1,154 @@
 // 自动生成，请勿手动修改
-// 生成时间: 2026-09-05 18:15:38
+// 生成时间: 2026-09-05 13:34:13
 
 const ANNOUNCEMENTS_DATA = {
-  "lastUpdate": "2026-09-05 18:15:38",
-  "total": 8,
+  "lastUpdate": "2026-09-05 13:34:13",
+  "total": 32,
   "items": [
+    {
+      "title": "中信校招在招职位（共258个）· 中信集团总部管理培训生",
+      "source": "中信集团",
+      "date": "2026-09-05",
+      "url": "https://job.citic.com/recruit#/index"
+    },
+    {
+      "title": "中信校招在招职位（共258个）· 中国中信集团有限公司",
+      "source": "中信集团",
+      "date": "2026-09-05",
+      "url": "https://job.citic.com/recruit#/index"
+    },
+    {
+      "title": "中信校招在招职位（共258个）· 全国，海外，澳门特别行政区，香港特别行政区",
+      "source": "中信集团",
+      "date": "2026-09-05",
+      "url": "https://job.citic.com/recruit#/index"
+    },
+    {
+      "title": "中信校招在招职位（共258个）· 2026-08-31",
+      "source": "中信集团",
+      "date": "2026-09-05",
+      "url": "https://job.citic.com/recruit#/index"
+    },
+    {
+      "title": "中信校招在招职位（共258个）· 大众出版营销编辑",
+      "source": "中信集团",
+      "date": "2026-09-05",
+      "url": "https://job.citic.com/recruit#/index"
+    },
+    {
+      "title": "中信校招在招职位（共258个）· 中信出版集团股份有限公司",
+      "source": "中信集团",
+      "date": "2026-09-05",
+      "url": "https://job.citic.com/recruit#/index"
+    },
+    {
+      "title": "中信校招在招职位（共258个）· 新消费板块",
+      "source": "中信集团",
+      "date": "2026-09-05",
+      "url": "https://job.citic.com/recruit#/index"
+    },
+    {
+      "title": "中信校招在招职位（共258个）· 朝阳区嘉铭中心",
+      "source": "中信集团",
+      "date": "2026-09-05",
+      "url": "https://job.citic.com/recruit#/index"
+    },
+    {
+      "title": "中信校招在招职位（共258个）· 大众出版助理编辑",
+      "source": "中信集团",
+      "date": "2026-09-05",
+      "url": "https://job.citic.com/recruit#/index"
+    },
+    {
+      "title": "中化学校招在招岗位 · 法务管理岗",
+      "source": "中化学国际",
+      "date": "2026-09-05",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 财务管理岗",
+      "source": "中化学国际",
+      "date": "2026-09-05",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 安装技术岗",
+      "source": "中化学国际",
+      "date": "2026-09-05",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 土建技术岗",
+      "source": "中化学国际",
+      "date": "2026-09-05",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 党务管理岗",
+      "source": "中化学国际",
+      "date": "2026-09-05",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 俄语翻译岗",
+      "source": "中化学国际",
+      "date": "2026-09-05",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 工程造价",
+      "source": "中化学国际",
+      "date": "2026-09-05",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 设备材料岗",
+      "source": "中化学国际",
+      "date": "2026-09-05",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 测绘技术岗实习生-俄罗斯",
+      "source": "中化学国际",
+      "date": "2026-09-05",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 电气仪表安装工程师",
+      "source": "中化学国际",
+      "date": "2026-09-05",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 海外安装工程师",
+      "source": "中化学国际",
+      "date": "2026-09-05",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 涉外法务",
+      "source": "中化学国际",
+      "date": "2026-09-05",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 化工设计岗",
+      "source": "中化学国际",
+      "date": "2026-09-05",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 电气技术（校招-海外岗）",
+      "source": "中化学国际",
+      "date": "2026-09-05",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 防腐保温管理（校招-海外岗）",
+      "source": "中化学国际",
+      "date": "2026-09-05",
+      "url": "https://cncec.iguopin.com/job"
+    },
     {
       "title": "中航集团（国航股份）数字化转型办公室2026年市场化人才招聘简章",
       "source": "国航招聘",
