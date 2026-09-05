@@ -54,8 +54,12 @@
   .fbtn.on{color:#fff;}
   .alert{border-left:4px solid var(--red);background:#fdf0ef;border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:8px;}
   .alert.warn{border-left-color:#e67e22;background:#fdf6ec;}
-  .evrow{display:flex;gap:10px;padding:9px 4px;border-bottom:1px dashed var(--line);font-size:13.5px;align-items:center;}
-  .evdate{font-weight:700;min-width:88px;}
+.evrow{display:flex;gap:10px;padding:9px 4px;border-bottom:1px dashed var(--line);font-size:13.5px;align-items:center;}
+.evdate{font-weight:700;min-width:88px;}
+@media(max-width:640px){
+  .evrow{flex-wrap:wrap;font-size:13px;}
+  .evdate{min-width:0;}
+}
   .empty{text-align:center;color:var(--gray);font-size:13px;padding:24px;}
   .xp{border:1px solid var(--line);border-radius:10px;padding:12px 15px;margin-bottom:10px;background:#fff;font-size:13px;}
   .xp .xmeta{font-size:11.5px;color:var(--gray);margin-bottom:3px;}
@@ -355,7 +359,7 @@ function annListHtml(n){
   const seven = 7*86400000, now = Date.now();
   return d.items.slice(0,n).map(it=>{
     const fresh = (now - new Date(it.date).getTime()) < seven;
-    return `<div class="evrow"><span class="evdate" style="min-width:76px">${esc(it.date)}${fresh?' <span style="color:#B71C1C">新</span>':''}</span>
+    return `<div class="evrow"><span class="evdate">${esc(it.date)}${fresh?' <span style="color:#B71C1C">新</span>':''}</span>
       <span><b style="font-size:12px;color:#1565C0">[${esc(it.source)}]</b> <a href="${esc(it.url)}" target="_blank" style="color:#1565C0">${esc(it.title)}</a></span></div>`;
   }).join('');
 }

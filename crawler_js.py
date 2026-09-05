@@ -48,7 +48,7 @@ def crawl_citic(page):
 
     items = []
     try:
-        cells = page.locator(".virtual-scroll-container .flex-content .cell-content")
+        cells = page.locator('.virtual-scroll-container .table-cell[col-key="name"] .cell-content')
         n = min(cells.count(), 15)
         titles = []
         for i in range(n):
