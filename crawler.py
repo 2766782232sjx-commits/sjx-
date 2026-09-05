@@ -71,6 +71,11 @@ MANUAL_SITES = [
     {"name": "中信集团网申", "url": "https://job.citic.com/", "reason": "职位列表每日自动抓取，网申需登录"},
     {"name": "中国信保网申", "url": "https://sinosure.zhiye.com/", "reason": "官网公告已自动抓取，网申入口"},
     {"name": "中石油", "url": "https://zhaopin.cnpc.com.cn/", "reason": "反爬拦截，需手动查看"},
+    {"name": "国聘 iguopin", "url": "https://www.iguopin.com", "reason": "央企国企公告聚合平台（三桶油/两网/烟草等），JS渲染需手动查看"},
+    {"name": "北大就业中心", "url": "https://scc.pku.edu.cn", "reason": "北大宣讲/经验分享/选调与国际组织专栏，列表为JS动态渲染"},
+    {"name": "北大选调生专栏", "url": "https://scc.pku.edu.cn/frontpage/pku/html/xds_index.html", "reason": "各省面向北大定向选调公告入口"},
+    {"name": "北大国际组织专栏", "url": "https://scc.pku.edu.cn/frontpage/pku/html/gjzz_index.html", "reason": "UNDP/JPO等国际组织推送信息"},
+    {"name": "中海油", "url": "https://zhaopin.cnooc.com", "reason": "网申需登录，公告手动查看"},
 ]
 
 

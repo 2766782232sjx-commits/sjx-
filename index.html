@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>校招中控台 · 2027届</title>
+<title>我的未来式我做主 · 2027届</title>
 <style>
   :root{--ink:#222;--gray:#777;--bg:#f7f6f4;--card:#fff;--line:#e6e2dc;--red:#B71C1C;}
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -72,7 +72,7 @@
 </head>
 <body>
 <nav>
-  <span class="brand">🎓 校招中控台</span>
+  <span class="brand">✨ 我的未来式我做主</span>
   <a data-v="dash" class="on">总览</a>
   <a data-v="jobs">岗位库</a>
   <a data-v="apps">我的投递</a>
@@ -119,7 +119,16 @@ const SEED_XPS = [
   {t:'知乎 · 央企/选调经验检索', src:'知乎搜索', time:'长期有效', url:'https://www.zhihu.com/search?type=content&q=%E5%A4%AE%E4%BC%81%E7%AE%A1%E5%9F%B9%E7%94%9F', note:'搜具体公司+秋招，如「中信管培 怎么样」「定向选调 值得吗」'},
   {t:'B站 · 行测/申论备考课检索', src:'B站搜索', time:'长期有效', url:'https://search.bilibili.com/all?keyword=%E8%A1%8C%E6%B5%8B%E8%B5%84%E6%96%99%E5%88%86%E6%9E%90', note:'资料分析先看花生十三/粉笔系统课再刷题'},
   {t:'粉笔 · 行测题库主战场', src:'工具', time:'长期有效', url:'https://fenbi.com/page/tiku', note:'央企行测与国考题型高度重合，每天一组资料分析保持手感'},
-  {t:'小红书 · 秋招信息流（建议App内搜）', src:'小红书', time:'长期有效', url:'https://www.xiaohongshu.com/search_result?keyword=%E7%A7%8B%E6%8B%9B%E9%9D%A2%E7%BB%8F', note:'网页版部分内容需登录，手机App直接搜「公司名+面经/薪资」更全'},
+  {t:'小红书 · 秋招信息流（建议App内搜）', src:'小红书', time:'长期有效', url:'https://www.xiaohongshu.com/search_result?keyword=%E7%A7%8B%E6%8B%9B%E9%9D%A2%E7%BB%8F', note:'网页版部分内容需登录，手机App直接搜「公司名+面经/薪资」更全', g:'综合'},
+  {t:'北大就业中心 · 官网（一手·最契合你）', src:'官网', time:'每日更新', url:'https://scc.pku.edu.cn', note:'北大同学的宣讲/去向/经验分享都在这。树洞和未名BBS需校内账号无法外部抓取，就业中心官网是公开的官方替代，每周必刷', g:'北大内部'},
+  {t:'北大就业中心 · 选调生专栏', src:'官网', time:'常年更新', url:'https://scc.pku.edu.cn/frontpage/pku/html/xds_index.html', note:'各省面向北大定向选调公告入口，清北通道信息最全，还有历年上岸名单可看去向', g:'北大内部'},
+  {t:'北大就业中心 · 国际组织专栏', src:'官网', time:'常年更新', url:'https://scc.pku.edu.cn/frontpage/pku/html/gjzz_index.html', note:'UNDP/UNESCO/JPO 推荐通道与项目发布，北大有专项推送名额', g:'北大内部'},
+  {t:'国聘 iguopin · 央企国企官方平台', src:'官网', time:'实时更新', url:'https://www.iguopin.com', note:'三桶油/两网/烟草/中交等公告多在这里首发，信息差行业必盯', g:'国央企'},
+  {t:'知乎 · 清北定向选调经验（备考时间线/难度/待遇）', src:'知乎搜索', time:'实时更新', url:'https://www.zhihu.com/search?type=content&q=%E6%B8%85%E5%8C%97%20%E5%AE%9A%E5%90%91%E9%80%89%E8%B0%83%20%E7%BB%8F%E9%AA%8C', note:'按省份名+选调再搜，如「云南定向选调 待遇」', g:'选调/国考'},
+  {t:'半月谈 · 申论素材库', src:'官网', time:'实时更新', url:'https://www.banyuetan.org', note:'申论大作文素材，国关写稿功底可直接迁移', g:'选调/国考'},
+  {t:'知乎 · 外企秋招全流程（英文面试/时间线）', src:'知乎搜索', time:'实时更新', url:'https://www.zhihu.com/search?type=content&q=%E5%A4%96%E4%BC%81%E7%A7%8B%E6%8B%9B%20%E9%9D%A2%E7%BB%8F', note:'外企节奏比互联网晚，10-11月是主战场', g:'外企/国际组织'},
+  {t:'UN Careers · 联合国全球职位', src:'官网', time:'实时更新', url:'https://careers.un.org', note:'YPP/JPO 官方入口；关注 Inspira 平台', g:'外企/国际组织'},
+  {t:'小红书 · 女生体制内岗位避雷与推荐', src:'小红书搜索', time:'实时更新', url:'https://www.xiaohongshu.com/search_result?keyword=%E5%A5%B3%E7%94%9F%20%E4%BD%93%E5%88%B6%E5%86%85%20%E5%B2%97%E4%BD%8D', note:'一线岗（油田/平台/稽查）性别倾向的前辈反馈：机关、国际业务、总部岗普遍友好', g:'女生视角'},
 ];
 // 清理旧版失效链接 + 合并新预置（只动预置项，你手动记的不会丢）
 const BROKEN_XP = ['http://et.airchina.com.cn/cn/ground_crew_info/184753.shtml','http://www.eximbank.gov.cn/202510/t20251029_70302.html','https://www.bilibili.com/cheese/play/ep42565','https://fenbi.com/spa/tiku/guide/catalog/xingce'];
@@ -127,7 +136,7 @@ XPS = XPS.filter(x => !BROKEN_XP.includes(x.url));
 SEED_XPS.forEach(s => { if(!XPS.some(x=>x.url===s.url)) XPS.push(s); });
 
 /* ================= 视图路由 ================= */
-let curCat = 'all', curSort = 'dl', curFilter = 'all';
+let curCat = 'all', curSort = 'score', curFilter = 'all';
 document.querySelectorAll('nav a[data-v]').forEach(a=>{
   a.onclick = ()=>{ document.querySelectorAll('nav a').forEach(x=>x.classList.remove('on'));
     a.classList.add('on'); render(a.dataset.v); };
@@ -149,6 +158,48 @@ function daysLeft(dl){ // dl 形如 2026-11-23
   if(!m) return null;
   return Math.ceil((new Date(m[1],m[2]-1,m[3]) - new Date())/86400000);
 }
+
+/* ================= 每日鼓励 + 上岸实证 ================= */
+const MOTIVATION = [
+  ['性格好是稀缺资源。','很多人可能感觉不到，直到有一天你会发现，','这个世界上偏执暴躁、精神内耗、被害妄想的人真的很多——','他们平时非常正常，却在某些时刻给你带来伤害和麻烦。','和性格好的人在一起，轻松自在，如沐春风。','所以先成为性格好的人，','你想要的，会绕过千山万水来找你。'],
+  ['「我会亲手把我自己，','送上想要的高度。」','——这句话，请抄在笔记本第一页。','每天10小时的复利，三个月后见分晓。'],
+  ['永远不要抱怨。','能解决就去解决，这是能力；','不能解决就去忍受，这是坚韧。','真正的强大不是对抗，','是允许一切发生。'],
+  ['你走的每一步都算数：','读过的书、写过的报告、熬过的夜，','会在某个面试的下午，','被你自己惊艳到。'],
+  ['秋招不是考试，是匹配。','被拒绝不代表你不好，','只代表这里不是你的位置。','找到位置的人从来不是全才，','是找准了的人。'],
+  ['允许自己有状态差的一天。','休息不是落后，','是给子弹上膛。'],
+  ['别人焦虑的时候你在刷题，','别人放弃的时候你还在投递。','三年后回头看，','你会感谢现在这个没有躺平的自己。'],
+  ['理想主义不是缺点，是稀缺的燃料。','这个时代缺的从来不是精明的人，','是还想认真做点事的人。','而你的专业，本身就是理想主义者的阵地。'],
+  ['Offer会迟到，但不会缺席。','你要做的只是在它到来之前，','把状态保持住。'],
+  ['所谓上岸，不是挤进别人的船，','是学会造自己的船。'],
+  ['压力最大的时候，','恰恰是离突破最近的时候。','数据不会骗人：多投20家，','面试率翻倍。'],
+  ['你不是在求职，','是在选择和谁共度未来十年。','会挑岗位的人，才配得上好岗位。'],
+  ['害怕选择，是因为你还有得选。','这本身，就是一种领先。'],
+  ['把每一次笔试面试当成免费模考。','投上100家练出来的临场感，','是任何辅导班都给不了的。'],
+];
+function dailyQuote(){
+  const d = new Date();
+  const day = Math.floor((d - new Date(d.getFullYear(),0,0))/86400000);
+  return MOTIVATION[day % MOTIVATION.length].map(l=>`<div style="font-size:14.5px;line-height:1.9">${esc(l)}</div>`).join('');
+}
+const UP_CASES = [
+  {t:'二本硕上岸江浙中烟', d:'每天10小时×3个月：行测模考58→82，笔试断层第一。时间线：6月开始刷题→8月盯各省公告→9月底笔试→10月面试。', kw:'中烟 双非 上岸 经验'},
+  {t:'英专硕士上岸国家电网国际部', d:'无电气背景，报非电类国际业务岗，靠英语+综合能力拉开分差，1个月专项准备。一批11月报名、二批次年3月，英语占比高——正是你的优势。', kw:'国网 非电类 英专 上岸'},
+  {t:'北大文科硕上岸清北定向选调', d:'定向通道笔试报录比约3:1（普通岗80:1），申论直接用课程论文功底写，不背模板。', kw:'清北 定向选调 经验帖'},
+  {t:'德语专业女生拿下中石油国际事业', d:'秋招投60家拿3个offer，最冷的岗位竞争最小——信息差就是红利。', kw:'中石油 国际事业 文科 面经'},
+];
+
+/* ================= 岗位综合匹配分（搜索排序模型） ================= */
+function payMid(p){ const s=String(p); const m=s.match(/(\d+)[-–~](\d+)/); if(m) return (+m[1]+ +m[2])/2; const one=s.match(/(\d+)/); return one?+one[1]:12; }
+function scoreParts(j){
+  const txt = (j.pro||'')+(j.con||'');
+  return {
+    fit: Math.round(j.fit/5*40),
+    pay: Math.round(Math.min(payMid(j.pay),60)/60*30),
+    growth: /名额极少|名额更少|晋升慢|晋升难/.test(j.con||'') ? 4 : (/晋升|培养|管培|轮岗|通道|储备|扩编/.test(j.pro||'') ? 13 : 8),
+    mob: (/收护照|护照上交|管理严格/.test(txt)?-8:0) + (/外派|驻外|全球|国际/.test(j.pro||'')?7:0) + (/英语|语言|雅思|英文/.test((j.pro||'')+(j.req||''))?4:0)
+  };
+}
+function jobScore(j){ const s=scoreParts(j); return Math.round(s.fit+s.pay+s.growth+s.mob) + ((daysLeft(j.dl)??1)<0 ? -8 : 0); }
 
 /* ================= 总览 ================= */
 function vDash(){
@@ -181,12 +232,17 @@ function vDash(){
   }).join('');
 
   return `<h2>总览</h2><div class="sub">${esc(PROFILE.school)} · ${esc(PROFILE.major)} · ${esc(PROFILE.degree)}</div>
+    <div class="card" style="background:linear-gradient(135deg,#fff8e6,#fff);border-color:#f0e2b6">
+      <div style="font-size:12px;color:#B8860B;font-weight:700;margin-bottom:6px">🔥 今日份 · 我的未来式（每天换一句）</div>${dailyQuote()}</div>
     ${stats}
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">⏰ 21天内即将截止（参考窗口）</h3>${soonHtml}</div>
     ${confHtml?`<div class="card"><h3 style="font-size:15px;margin-bottom:8px">🚨 日程冲突预警</h3>${confHtml}</div>`:''}
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📣 最新公告（每日自动抓取）</h3>${annListHtml(6)}</div>
     <div class="card"><h3 style="font-size:15px;margin-bottom:6px">🧭 考公备战</h3><div style="font-size:13px;color:#555">行测五大模块进度 · 模考成绩记录 · 国考/京考/省考倒计时</div>
       <div style="margin-top:8px"><a class="btn small" href="javascript:void(0)" onclick="document.querySelector('nav a[data-v=gk]').click()">进入考公备战 →</a></div></div>
+    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">💪 上岸实证（他们可以，你也可以）</h3>
+      ${UP_CASES.map(c=>`<div style="border-bottom:1px dashed var(--line);padding:7px 0;font-size:13px"><b>${esc(c.t)}</b>　<span style="color:#555">${esc(c.d)}</span> <span style="color:#999;font-size:12px">🔎 检索词：${esc(c.kw)}</span></div>`).join('')}
+      <div style="font-size:12px;color:#999;margin-top:6px">部分行业一线岗（油田/平台/稽查）实操中存在性别倾向，机关、国际业务、总部岗不明显——岗位库里带 ⚠️ 标注的已帮你标出。</div></div>
     <div class="card profile-traits"><h3 style="font-size:15px;margin-bottom:8px">🃏 我的底牌（匹配判断依据）</h3>
       <div style="margin-bottom:8px">${PROFILE.traits.map(t=>'<span>'+esc(t)+'</span>').join('')}</div>${insight}</div>`;
 }
@@ -201,6 +257,7 @@ function vJobs(){
       <span class="fbtn ${curCat==='all'?'on':''}" style="${curCat==='all'?'background:#1d1d1f;border-color:#1d1d1f':''}" onclick="curCat='all';render('jobs')">全部</span>${btns}
       <span style="flex:1"></span>
       <select onchange="curSort=this.value;render('jobs')">
+        <option value="score" ${curSort==='score'?'selected':''}>🎯 按综合匹配分（推荐）</option>
         <option value="dl" ${curSort==='dl'?'selected':''}>按截止时间</option>
         <option value="fit" ${curSort==='fit'?'selected':''}>按匹配度</option>
         <option value="pay" ${curSort==='pay'?'selected':''}>按薪资下限</option>
@@ -229,6 +286,7 @@ function jobListHtml(){
   const q = (JOBSTAT.__q||'').trim();
   if(q) list = list.filter(j=>(j.c+j.r+j.req+(j.base||'')).includes(q));
   const payMin = p => { const m=String(p).match(/(\d+)[-–]/); return m?+m[1]:0; };
+  if(curSort==='score') list.sort((a,b)=>jobScore(b)-jobScore(a));
   if(curSort==='dl') list.sort((a,b)=>(daysLeft(a.dl)??999)-(daysLeft(b.dl)??999));
   if(curSort==='fit') list.sort((a,b)=>b.fit-a.fit);
   if(curSort==='pay') list.sort((a,b)=>payMin(b.pay)-payMin(a.pay));
@@ -241,13 +299,16 @@ function jobListHtml(){
     return `<div class="job" style="--jc:${cat.color}" onclick="this.classList.toggle('open')">
       <div class="top"><span class="comp">${esc(j.c)}</span><span class="role">${esc(j.r)}</span>
         <span class="cat-tag">${cat.name}</span><span class="fit">${'★'.repeat(j.fit)}${'☆'.repeat(5-j.fit)}</span>
+        <span class="cat-tag" style="background:#1d1d1f">🎯 ${jobScore(j)}分</span>
         ${j.custom?`<span class="cat-tag" style="background:#555" onclick="event.stopPropagation();delCustom('${j.id}')">我加的 ✕</span>`:''}</div>
       <div class="meta">截止：<b>${dlHtml}</b> ｜ 考试：<b>${j.exam?'✅ '+esc(j.examInfo.slice(0,22))+(j.examInfo.length>22?'…':''):'❌ 无统一笔试'}</b> ｜ 待遇：<b>${esc(j.pay)}</b> ｜ Base：<b>${esc(j.base||'—')}</b></div>
+      ${j.flag?`<div class="meta" style="color:#B71C1C;background:#fdf0ef;border-radius:8px;padding:4px 8px;margin-top:4px">${esc(j.flag)}</div>`:''}
       <div class="detail">
         <p><span class="lb">报名条件</span>${esc(j.req)}</p>
         <p><span class="lb">考试安排</span>${esc(j.examInfo)}</p>
         <p><span class="lb">投递通道</span><a href="${j.url.startsWith('http')?j.url:'javascript:void(0)'}" ${j.url.startsWith('http')?'target="_blank"':''} style="color:#1565C0">${esc(j.url)}</a> <span style="color:#999;font-size:12px">（${esc(j.src)}）</span></p>
         <p><span class="lb">待遇</span>${esc(j.pay)}</p>
+        <p><span class="lb">匹配分</span><b>${jobScore(j)}</b>＝契合度${scoreParts(j).fit}+薪资${scoreParts(j).pay}+成长${scoreParts(j).growth}+语言外派${scoreParts(j).mob}${(daysLeft(j.dl)??1)<0?'−已截止8':''}（满分约94，仅作排序参考）</p>
         <div class="flexrow" onclick="event.stopPropagation()"><span class="lb" style="margin-top:2px">优劣势</span>
           <div class="fitbox"><p class="pro">✓ ${esc(j.pro)}</p><p class="con">△ ${esc(j.con)}</p>
           <p style="color:#999;font-size:12px">🔎 小红书/牛客检索词：<b>${esc(j.kw)}</b></p></div></div>
@@ -343,12 +404,23 @@ function vSched(){
 }
 
 /* ================= 经验贴 ================= */
+const XP_CHANNELS = [
+  {g:'北大内部（最契合你）', color:'#B71C1C', links:[['就业中心官网','https://scc.pku.edu.cn'],['选调生专栏','https://scc.pku.edu.cn/frontpage/pku/html/xds_index.html'],['国际组织专栏','https://scc.pku.edu.cn/frontpage/pku/html/gjzz_index.html']]},
+  {g:'选调/国考', color:'#B71C1C', links:[['粉笔题库','https://fenbi.com/page/tiku'],['半月谈','https://www.banyuetan.org'],['知乎:清北选调经验','https://www.zhihu.com/search?type=content&q=%E6%B8%85%E5%8C%97%20%E5%AE%9A%E5%90%91%E9%80%89%E8%B0%83%20%E7%BB%8F%E9%AA%8C'],['国家公务员局','http://www.scs.gov.cn']]},
+  {g:'国央企', color:'#1565C0', links:[['国聘iguopin','https://www.iguopin.com'],['知乎:央企待遇','https://www.zhihu.com/search?type=content&q=%E5%A4%AE%E4%BC%81%E7%AE%A1%E5%9F%B9%E7%94%9F%20%E5%BE%85%E9%81%87'],['牛客:国企面经','https://www.nowcoder.com/search/all?query=%E5%9B%BD%E4%BC%81%20%E9%9D%A2%E7%BB%8F']]},
+  {g:'互联网', color:'#e67e22', links:[['牛客:产品面经','https://www.nowcoder.com/search/all?query=2027%E5%B1%8A%20%E4%BA%A7%E5%93%81%20%E9%9D%A2%E7%BB%8F'],['知乎:秋招时间线','https://www.zhihu.com/search?type=content&q=%E4%BA%92%E8%81%94%E7%BD%91%E7%A7%8B%E6%8B%9B%20%E6%97%B6%E9%97%B4%E7%BA%BF'],['B站:面经视频','https://search.bilibili.com/all?keyword=%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%20%E6%A0%A1%E6%8B%9B%20%E9%9D%A2%E7%BB%8F']]},
+  {g:'外企/国际组织', color:'#6A1B9A', links:[['UN Careers','https://careers.un.org'],['知乎:外企面经','https://www.zhihu.com/search?type=content&q=%E5%A4%96%E4%BC%81%E7%A7%8B%E6%8B%9B%20%E9%9D%A2%E7%BB%8F'],['OfferShow→App内搜','javascript:void(0)']]},
+  {g:'女生视角', color:'#ad1457', links:[['小红书:女生体制内','https://www.xiaohongshu.com/search_result?keyword=%E5%A5%B3%E7%94%9F%20%E4%BD%93%E5%88%B6%E5%86%85%20%E5%B2%97%E4%BD%8D'],['小红书:秋招避雷','https://www.xiaohongshu.com/search_result?keyword=%E7%A7%8B%E6%8B%9B%20%E9%81%BF%E9%9B%B7']]},
+];
 function vXp(){
-  const items = XPS.map((x,i)=>`<div class="xp"><div class="xmeta">[${esc(x.src)}] ${esc(x.time)}</div>
+  const items = XPS.map((x,i)=>`<div class="xp"><div class="xmeta">${x.g?`<span class="cat-tag" style="background:#888;font-size:10px">${esc(x.g)}</span> `:''}[${esc(x.src)}] ${esc(x.time)}</div>
     <b>${esc(x.t)}</b> ${x.url&&x.url.startsWith('http')?`<a href="${esc(x.url)}" target="_blank" style="color:#1565C0;font-size:12.5px">↗</a>`:''}
     <div style="color:#555;margin-top:2px">${esc(x.note||'')}</div>
     <span class="ndel" style="float:right;color:#aaa;cursor:pointer;font-size:12px" onclick="delXp(${i})">✕</span></div>`).join('');
-  return `<h2>经验贴</h2><div class="sub">官方公告与工具已预置；小红书/牛客无法自动抓取，刷到好帖手动记一条（附检索词即可溯源）</div>
+  const chans = XP_CHANNELS.map(c=>`<div style="margin-bottom:10px"><span class="cat-tag" style="background:${c.color}">${esc(c.g)}</span>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">${c.links.map(l=>`<a class="fbtn" style="text-decoration:none" href="${l[1].startsWith('http')?l[1]:'javascript:void(0)'}" ${l[1].startsWith('http')?'target="_blank"':''}>${esc(l[0])} ↗</a>`).join('')}</div></div>`).join('');
+  return `<h2>经验贴</h2><div class="sub">树洞/未名BBS/小红书需登录无法自动抓取 → 官方专栏+多平台检索直达，点开永远是最新帖；好帖随手记一条沉淀在这里</div>
+    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">🔎 分行业实时检索（每天点开都是新帖）</h3>${chans}</div>
     <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
       <input type="text" id="xp-t" placeholder="标题（如：国航管培一面面经）" style="flex:2;min-width:180px">
       <input type="text" id="xp-s" placeholder="来源（小红书/牛客/知乎…）" style="flex:1;min-width:120px">
@@ -475,7 +547,7 @@ function exportData(){
   const blob = new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = '校招中控台备份-'+new Date().toISOString().slice(0,10)+'.json';
+  a.download = '我的未来式我做主备份-'+new Date().toISOString().slice(0,10)+'.json';
   a.click(); URL.revokeObjectURL(a.href);
 }
 function importData(input){
