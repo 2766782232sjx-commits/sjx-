@@ -644,6 +644,7 @@ function vAnn(){
 
 /* ================= 考公备战 ================= */
 const GK_TARGETS = [
+  {n:'北大约中央选调·校内推荐截止', d:'2026-09-30'},
   {n:'国考笔试', d:'2026-11-29'},
   {n:'京考笔试', d:'2026-12-13'},
   {n:'省考联考', d:'2027-03-15'},
@@ -667,7 +668,7 @@ function vGk(){
       <td style="padding:8px 6px"><span style="color:#aaa;cursor:pointer" onclick="gkDelMock(${i})">✕</span></td></tr>`).join('')
     : '<tr><td colspan="6" style="padding:16px;text-align:center;color:#999">还没有模考记录：粉笔模考/真题卷都记进来，进步靠积累</td></tr>';
   return `<h2>考公备战</h2><div class="sub">行测模块进度 + 模考成绩 + 关键节点倒计时（日期参考历年，以当年公告为准）</div>
-    <div class="card" style="border-left:4px solid #B71C1C;background:linear-gradient(135deg,#fff5f5,#fff)"><h3 style="font-size:14px;margin-bottom:6px">🎬 零基础三阶段路线（从0开始就这么走）</h3><div style="font-size:12.5px;color:#333;line-height:2"><div><b>① 基础期（第1-6周）：</b>粉笔980系统班把行测五大模块过一遍（资料分析/言语/判断优先），申论先看半月谈+人民日报评论找语感</div><div><b>② 强化期（第7-12周）：</b>资料分析跟花生十三把正确率提到90%+，每天1组行测+隔天1篇申论大作文（用你的论文功底）</div><div><b>③ 冲刺期（考前4周）：</b>国考/京考历年真题整套限时刷+错题本复盘；这套备考同时服务选调/央企/事业编笔试，一鱼多吃</div><div>📌 <b>你占便宜的地方：</b>申论=你的写稿本行；国关属政治学类，事业单位选B类卷（综合应用=社科写作），备考成本比行测低一档</div></div></div>
+    <div class="card" style="border-left:4px solid #B71C1C;background:linear-gradient(135deg,#fff5f5,#fff)"><h3 style="font-size:14px;margin-bottom:6px">🎬 零基础作战计划（9月6日启动 · 85天到国考）</h3><div style="font-size:12.5px;color:#333;line-height:2"><div><b>🚨 本周必办（9/7-9/13）：</b>刷北大就业中心选调专栏，确认「约中央选调」校内推荐的材料清单（成绩单/党员证明/学院意见），该找辅导员问的这周问完——<b>这是全部时间线里最紧的一扇门</b></div><div><b>① 基础期（9/7-10/18，6周）：</b>粉笔980系统班把行测五大模块过一遍（资料分析/言语/判断优先），每周日一套分模块模考记进度；申论每周1篇大作文+看半月谈找语感（用论文功底写，别背模板）</div><div><b>⏰ 10月15日左右国考报名：</b>岗位表发布当天就筛（限应届+政治学类+限党员三重叠加），别拖到截止日；选调同步报</div><div><b>② 冲刺期（10/19-11/28，5周半）：</b>国考历年真题整套限时刷（上午行测下午申论还原考场）+错题本复盘；行测保住资料分析90%+，申论大作文二稿重写打磨</div><div><b>③ 考后连轴（11/29之后）：</b>京考12月中笔试同一套题热着上；央企/事业编笔试全套复用，一鱼多吃</div><div>📌 <b>你占便宜的地方：</b>申论=写稿本行；国关属政治学类，事业单位选B类卷（综合应用=社科写作）；选调报录比3:1，你不需要在万人坑里赢</div></div></div>
     <div class="grid g4" style="margin-bottom:14px">${cards}</div>
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📊 行测五大模块 · 刷题进度与正确率</h3>
       <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">
