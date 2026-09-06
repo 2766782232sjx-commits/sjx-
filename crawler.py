@@ -64,6 +64,46 @@ SITES = [
         "urls": ["https://www.sinosure.com.cn/rczp/"],
         "base_url": "https://www.sinosure.com.cn",
     },
+    {
+        "name": "中核集团",
+        "urls": ["https://www.cnnc.com.cn/cnnc/xwzx/tzgg/list.shtml"],
+        "base_url": "https://www.cnnc.com.cn",
+    },
+    {
+        "name": "中国建筑",
+        "urls": ["https://www.cscec.com/xwzx/gsgg/"],
+        "base_url": "https://www.cscec.com",
+    },
+    {
+        "name": "国家电网",
+        "urls": ["https://zhaopin.sgcc.com.cn/xyzp/recruit_notice.html"],
+        "base_url": "https://zhaopin.sgcc.com.cn",
+    },
+    {
+        "name": "航天科技",
+        "urls": ["http://www.spacechina.com/n25/n144/n206/n214/index.html"],
+        "base_url": "http://www.spacechina.com",
+    },
+    {
+        "name": "国投集团",
+        "urls": ["https://www.sdiconline.com/site/term/26.html"],
+        "base_url": "https://www.sdiconline.com",
+    },
+    {
+        "name": "保利集团",
+        "urls": ["https://www.poly.com.cn/xwzx/gsgg/"],
+        "base_url": "https://www.poly.com.cn",
+    },
+    {
+        "name": "华润集团",
+        "urls": ["https://www.crc.com.cn/news/enterprise/"],
+        "base_url": "https://www.crc.com.cn",
+    },
+    {
+        "name": "中远海运",
+        "urls": ["https://career.coscoshipping.com/post/new"],
+        "base_url": "https://career.coscoshipping.com",
+    },
 ]
 
 # JS 动态渲染 / 反爬站点：由 crawler_js.py（浏览器渲染）尝试，或作为网站上的手动入口
@@ -76,6 +116,10 @@ MANUAL_SITES = [
     {"name": "北大选调生专栏", "url": "https://scc.pku.edu.cn/frontpage/pku/html/xds_index.html", "reason": "各省面向北大定向选调公告入口"},
     {"name": "北大国际组织专栏", "url": "https://scc.pku.edu.cn/frontpage/pku/html/gjzz_index.html", "reason": "UNDP/JPO等国际组织推送信息"},
     {"name": "中海油", "url": "https://zhaopin.cnooc.com", "reason": "网申需登录，公告手动查看"},
+    {"name": "中核人才招聘网", "url": "https://campus.cnnc.com.cn", "reason": "中核2027届校招主入口（公众号同步发布），网申需登录"},
+    {"name": "国家电网招聘平台", "url": "https://zhaopin.sgcc.com.cn", "reason": "两网公告主渠道，网申需注册"},
+    {"name": "中国烟草招聘", "url": "http://www.tobacco.gov.cn/gjtab/zpxx/", "reason": "烟草系统公告聚合页，各省市中烟分开发布"},
+    {"name": "国投SDIC校招", "url": "https://campus.sdiconline.com", "reason": "国投集团校招网申主入口"},
 ]
 
 
