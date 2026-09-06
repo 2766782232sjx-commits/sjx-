@@ -134,6 +134,7 @@ const SEED_XPS = [
   {t:'国家大学生就业服务平台（24365）· 官方岗位总入口', src:'官网', time:'实时更新', url:'https://www.ncss.cn', note:'教育部官方平台，央国企/事业单位岗位不少在这里首发；用「国际关系/政治学类」筛选', g:'综合'},
   {t:'应届生求职网 · BBS面经宝库', src:'官网', time:'实时更新', url:'https://www.yingjiesheng.com', note:'老牌校招网站，BBS区的长篇面经（尤其银行/快消/外企）比社平台更详细', g:'综合'},
   {t:'知乎 · 2027届秋招时间线话题', src:'知乎搜索', time:'实时更新', url:'https://www.zhihu.com/search?type=content&q=2027%E5%B1%8A%20%E7%A7%8B%E6%8B%9B%20%E6%97%B6%E9%97%B4%E7%BA%BF', note:'各行业节奏与截止日期汇总帖，每周扫一次防止漏投', g:'综合'},
+  {t:'知乎·俱新《泛文科择业杂谈十七：再论部委/北京市直/央国企》（深度必读）', src:'知乎专栏', time:'发帖2026-08-20', url:'https://zhuanlan.zhihu.com/p/2073155167906697416', note:'体制内择业天花板级长文：部委涨薪真相（硕士转正四主约19万/年）、部委vs央企35年总收入差、金融央企为何优于实业、北京市直隐藏福利、择业七要素打分法。精华版见岗位库「体制内性价比情报」卡', g:'选调/国考', saved:'2026-09-06记录'},
 ];
 // 清理旧版失效链接 + 合并新预置（只动预置项，你手动记的不会丢）
 const BROKEN_XP = ['http://et.airchina.com.cn/cn/ground_crew_info/184753.shtml','http://www.eximbank.gov.cn/202510/t20251029_70302.html','https://www.bilibili.com/cheese/play/ep42565','https://fenbi.com/spa/tiku/guide/catalog/xingce'];
@@ -316,6 +317,16 @@ function vJobs(){
     <details class="card" style="border-left:4px solid #B71C1C;margin-bottom:12px" open><summary style="cursor:pointer;font-size:14px;font-weight:700">🔥 竞争激烈程度（2027届情报 · 点谁卷谁一目了然）</summary>
       <div style="margin-top:10px">${HEAT.map(x=>`<div style="border-bottom:1px dashed var(--line);padding:8px 0;font-size:13px;line-height:1.8"><b style="color:${x.level>=5?'#B71C1C':x.level>=4?'#E65100':x.level>=3?'#F9A825':'#2E7D32'}">${'🔥'.repeat(x.level)}${x.name}</b>　<span style="color:#555">${esc(x.fact)}</span><br><span style="color:#1565C0">🧭 应对：${esc(x.tip)}</span></div>`).join('')}</div>
       <div style="font-size:11.5px;color:#999;margin-top:6px">数据来源：各厂官方招聘计划、脉脉高聘、前程无忧《2026就业白皮书》、牛客面经 · 2026年9月整理 · 🔥1-5=竞争从低到极高（绿色=对你是机会）</div></details>
+    <details class="card" style="border-left:4px solid #5D4037;margin-bottom:12px"><summary style="cursor:pointer;font-size:14px;font-weight:700">🧭 体制内性价比情报（部委/央企/北京市直 · 深度好文精华）</summary>
+      <div style="margin-top:10px;font-size:13px;line-height:1.9;color:#444">
+      <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b>💰 部委涨薪真相：</b>2026年结构性调薪落地，硕士转正四级主任科员全年可支配约19万（含公积金房补），九年到四调约23万——但涨薪是「反弹不是反转」：好房子已经分完、工作强度指数级增长，同档央企35年总收入仍比部委高350-500万，部委的反超要等到45岁+的处长/副司长才开始了</div>
+      <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b>⚠️ 别被误导的两个点：</b>80-85%的部委事业单位性价比低（只当解决户口的跳板，别无脑冲）；「先苦后甜」不可复制——分房红利是75-85年出生那代人的，同龄人差五年入职差一个阶层</div>
+      <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b>🏦 央企怎么挑（三标准）：</b>①未来5-10年盈利能力强（看年报净利润）②有专业壁垒（判断法：一纸命令改成公务员还能不能照常运转——所以推崇电网不看好烟草）③主业关乎国计民生。三条全中=待遇进前四分之一</div>
+      <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b>📊 金融央企 &gt; 实业央企（泛文科版）：</b>文科生在金融央企能进核心部门、下放少、15-20年总收入比实业类平均高120-180万；代价是晋升更玄学。实业央企警惕兼并重组下放（中石化二次创业/兵工兵装合并的教训），且注意2026年财政部上调了35%档央企的利润上缴比例</div>
+      <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b>🏠 北京市直被低估：</b>同职级工资比部委高10-15%（四主转正首年约22万），通州住房基本不排队（未婚一居室/已婚两室一厅）+十二年一贯制附中分校，晚7点前下班是常态，二调退休是大概率——对无首付能力的人实际优于多数部委</div>
+      <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b>🧮 择业七要素打分法：</b>户口/薪资福利（非货币化要折现）/内部发展空间/外部发展空间（体面离开的可能）/稳定性（防兼并重组）/工作强度/岗位契合度。你的画像的权重建议：<b>女生→平台+工作强度优先；泛文科→平台优先；应届生→平台优先</b></div>
+      <div style="padding:7px 0"><b>⚖️ 同档比较原则：</b>只在做同档次单位间比较（部委之间也分三六九等）；跨档放弃高平台仅当平台差≤半个到一个档次才可接受。选部委还是选央企=选延迟满足还是选现金流，选定后中途换赛道要降半档到一档，决策立足自己和配偶，不纳入父母师长期望。原文：<a href="https://zhuanlan.zhihu.com/p/2073155167906697416" target="_blank" style="color:#1565C0">俱新·泛文科择业杂谈十七</a>（2026-08-20，论坛转载+讨论亦值得读）</div>
+      </div></details>
     ${catStrategyHtml()}
     <details class="card" style="margin-bottom:12px"><summary style="cursor:pointer;font-size:13.5px;font-weight:600">➕ 自己看到的岗位，手动加一条（和岗位库同框显示）</summary>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
