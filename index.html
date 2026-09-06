@@ -276,7 +276,7 @@ function mpSave(){
   const chks=n=>[...document.querySelectorAll('input[name="'+n+'"]:checked')].map(x=>x.value);
   MYSCORE = {sch:g('mp-sch'),deg:g('mp-deg'),pol:g('mp-pol'),eng:g('mp-eng'),city:g('mp-city'),skills:chks('mp-skill'),cats:chks('mp-cat')};
   localStorage.setItem('hub-myp',JSON.stringify(MYSCORE));
-  render('jobs');
+  setSort(curSort);
 }
 function mpClear(){ localStorage.removeItem('hub-myp'); MYSCORE=null; render('jobs'); }
 function myScore(j){
@@ -440,32 +440,22 @@ function vDash(){
 /* ================= 岗位库 ================= */
 function vJobs(){
   const btns = Object.keys(CATS).map(k=>
-    `<span class="fbtn ${curCat===k?'on':''}" style="${curCat===k?`background:${CATS[k].color};border-color:${CATS[k].color}`:''}"
-      onclick="curCat='${k}';render('jobs')">${CATS[k].name}</span>`).join('');
-  return `<h2>岗位库</h2><div class="sub">共 ${ALL_JOBS().length} 个岗位全部展示（无分页） · 按体制属性分色 · 点击卡片展开详情 · 🔥×N=竞争激烈度（情报见下方） · 截止日期多为预估口径，以各单位官方公告为准</div>
-    <div class="filterbar">
-      <span class="fbtn ${curCat==='all'?'on':''}" style="${curCat==='all'?'background:#1d1d1f;border-color:#1d1d1f':''}" onclick="curCat='all';render('jobs')">全部</span>${btns}
+    `<span class="fbtn ${curCat===k?'on':''}" data-fcat="${k}" data-c="${CATS[k].color}" style="${curCat===k?`background:${CATS[k].color};border-color:${CATS[k].color}`:''}"
+      onclick="setCat('${k}')">${CATS[k].name}</span>`).join('');
+  return `<h2>岗位库</h2><div class="sub">共 ${ALL_JOBS().length} 个岗位 · 默认加载50条，点「加载更多」继续看 · 按体制属性分色 · 点击卡片展开详情 · 🔥×N=竞争激烈度（情报见下方） · 截止日期多为预估口径，以各单位官方公告为准</div>
+    <div class="filterbar" id="jobbar">
+      <span class="fbtn ${curCat==='all'?'on':''}" data-fcat="all" data-c="#1d1d1f" style="${curCat==='all'?'background:#1d1d1f;border-color:#1d1d1f':''}" onclick="setCat('all')">全部</span>${btns}
       <span style="flex:1"></span>
-      <select onchange="curSort=this.value;render('jobs')">
+      <select onchange="setSort(this.value)">
         <option value="score" ${curSort==='score'?'selected':''}>🎯 按综合匹配分（推荐）</option>
         <option value="dl" ${curSort==='dl'?'selected':''}>按截止时间</option>
         <option value="fit" ${curSort==='fit'?'selected':''}>按匹配度</option>
         <option value="pay" ${curSort==='pay'?'selected':''}>按薪资下限</option>
         <option value="myscore" ${curSort==='myscore'?'selected':''}>🧑 按我的画像分</option>
       </select>
-      <input type="text" placeholder="搜索公司/岗位…" oninput="JOBSTAT.__q=this.value;document.getElementById('joblist').innerHTML=jobListHtml()" value="${esc(JOBSTAT.__q||'')}" style="width:150px">
+      <input type="text" placeholder="搜索公司/岗位…" oninput="JOBSTAT.__q=this.value;jqDebounce()" value="${esc(JOBSTAT.__q||'')}" style="width:150px">
     </div>
-    ${(curCat==='xt'||curCat==='gw')?`<div class="card" style="border-left:4px solid #B71C1C;margin-bottom:12px"><h3 style="font-size:14px;margin-bottom:6px">📅 选调/公务员考试时间轴（清北通道优先 · 2027届参考）</h3>
-      <div style="font-size:12.5px;color:#444;line-height:2">
-      <b style="color:#B71C1C">✅ 已启动（9月初）：</b>上海、黑龙江2027届定向选调——<b style="color:#B71C1C">这两省报名窗口就在眼前，本周去查官方公告</b>；中央选调同步启动（北大校内推荐，约9月底截止）<br>
-      <b>9月中旬：</b>北京定向选调+优培计划公告（预计）<br>
-      <b>10月上旬：</b>山东专额定向选调公告+报名（岗位含省直及济南/青岛市直）<br>
-      <b>10月14日：</b>国考公告发布（预计）→ <b>10月15-24日国考报名</b>（先观望2-3天看报录比，别拖到最后一天）<br>
-      <b>10月下旬-11月初：</b>山东专额笔试 · 军队文职公告 · 各省定向选调密集发布（集中到11月初，江西预计10-11月）<br>
-      <b>11月28-29日：</b>国考笔试（28日上午行测，29日下午申论）· 11月上旬山东省考报名（参考11月7-10日）<br>
-      <b>12月：</b>京考笔试（12月中）· 广东定向选调（最晚，12月初启动）<br>
-      <b>次年1月：</b>国考成绩 · <b>3月中旬：省考联考</b><br>
-      💡 策略：上海/黑龙江马上报 → 专额定向（清北专项）一批锁保底 → 国考同步考（同一套行测申论复用）→ 省考联考最后冲高。时间来源：中公/金标尺等机构2026-09预测，以各省组织部官方公告为准</div></div>`:''}
+    <div id="xtcard">${xtCardHtml()}</div>
     ${mpPanel()}
     <details class="card" style="border-left:4px solid #B71C1C;margin-bottom:12px"><summary style="cursor:pointer;font-size:14px;font-weight:700">🔥 竞争激烈程度（2027届情报 · 默认折叠，点开看谁卷谁一目了然）</summary>
       <div style="margin-top:10px">${HEAT.map(x=>`<div style="border-bottom:1px dashed var(--line);padding:8px 0;font-size:13px;line-height:1.8"><b style="color:${x.level>=5?'#B71C1C':x.level>=4?'#E65100':x.level>=3?'#F9A825':'#2E7D32'}">${'🔥'.repeat(x.level)}${x.name}</b>　<span style="color:#555">${esc(x.fact)}</span><br><span style="color:#1565C0">🧭 应对：${esc(x.tip)}</span></div>`).join('')}</div>
@@ -547,13 +537,32 @@ function jobListHtml(){
   const q = (JOBSTAT.__q||'').trim();
   if(q) list = list.filter(j=>(j.c+j.r+j.req+(j.base||'')).includes(q));
   const payMin = p => { const m=String(p).match(/(\d+)[-–]/); return m?+m[1]:0; };
-  if(curSort==='score') list.sort((a,b)=>(MYSCORE?myScore(b):jobScore(b))-(MYSCORE?myScore(a):jobScore(a)));
-  if(curSort==='myscore') list.sort((a,b)=>(myScore(b)??0)-(myScore(a)??0));
+  if(curSort==='score'||curSort==='myscore'){
+    const scf = curSort==='score' ? (j=>MYSCORE?myScore(j):jobScore(j)) : (j=>myScore(j)??0);
+    list.forEach(j=>{ j.__s=scf(j); });
+    list.sort((a,b)=>b.__s-a.__s);
+  }
   if(curSort==='dl') list.sort((a,b)=>(daysLeft(a.dl)??999)-(daysLeft(b.dl)??999));
   if(curSort==='fit') list.sort((a,b)=>b.fit-a.fit);
   if(curSort==='pay') list.sort((a,b)=>payMin(b.pay)-payMin(a.pay));
+  JOBSTAT.__all = list; JOBSTAT.__page = JOBSTAT.__page||1;
   if(!list.length) return '<div class="empty">没有匹配的岗位</div>';
-  return list.map(j=>{
+  const PAGE = 50;
+  return list.slice(0,JOBSTAT.__page*PAGE).map(jobCard).join('') + moreBtnHtml(list.length);
+}
+function moreBtnHtml(total){
+  const PAGE = 50, shown = Math.min((JOBSTAT.__page||1)*PAGE, total);
+  if(shown>=total) return '';
+  return `<div class="loadmore" style="text-align:center;margin:14px 0"><button class="btn" onclick="loadMoreJobs()">📥 加载更多（已显示 ${shown}/${total}）</button></div>`;
+}
+function loadMoreJobs(){
+  const el = document.getElementById('joblist'); if(!el||!JOBSTAT.__all) return;
+  const PAGE = 50, list = JOBSTAT.__all, start = (JOBSTAT.__page||1)*PAGE;
+  JOBSTAT.__page = (JOBSTAT.__page||1)+1;
+  const btn = el.querySelector('.loadmore'); if(btn) btn.remove();
+  el.insertAdjacentHTML('beforeend', list.slice(start, JOBSTAT.__page*PAGE).map(jobCard).join('') + moreBtnHtml(list.length));
+}
+function jobCard(j){
     const cat = CATS[j.cat], d = daysLeft(j.dl), st = APPS[j.id]?.status||0, h = heatOf(j);
     const dlHtml = d===null ? esc(j.dlNote||j.dl) :
       d<0 ? `<span style="color:#999">已过期(参考)</span>` :
@@ -583,8 +592,26 @@ function jobListHtml(){
           <a class="btn small sec" href="javascript:void(0)" onclick="goSched('${j.id}')">📝 记考试/面试时间</a>
         </div>
       </div></div>`;
-  }).join('');
 }
+function jqDebounce(){ clearTimeout(JOBSTAT.__t); JOBSTAT.__t=setTimeout(()=>{ JOBSTAT.__page=1; const el=document.getElementById('joblist'); if(el) el.innerHTML=jobListHtml(); },250); }
+function setCat(k){ curCat=k; JOBSTAT.__page=1;
+  document.querySelectorAll('#jobbar .fbtn').forEach(b=>{ const on=b.dataset.fcat===k; b.classList.toggle('on',on); b.style.background=on?(b.dataset.c||'#1d1d1f'):''; b.style.borderColor=on?(b.dataset.c||'#1d1d1f'):''; });
+  const xc=document.getElementById('xtcard'); if(xc) xc.innerHTML=xtCardHtml();
+  const el=document.getElementById('joblist'); if(el) el.innerHTML=jobListHtml();
+}
+function setSort(v){ curSort=v; JOBSTAT.__page=1; const el=document.getElementById('joblist'); if(el) el.innerHTML=jobListHtml(); }
+
+function xtCardHtml(){ return (curCat==='xt'||curCat==='gw')?`<div class="card" style="border-left:4px solid #B71C1C;margin-bottom:12px"><h3 style="font-size:14px;margin-bottom:6px">📅 选调/公务员考试时间轴（清北通道优先 · 2027届参考）</h3>
+      <div style="font-size:12.5px;color:#444;line-height:2">
+      <b style="color:#B71C1C">✅ 已启动（9月初）：</b>上海、黑龙江2027届定向选调——<b style="color:#B71C1C">这两省报名窗口就在眼前，本周去查官方公告</b>；中央选调同步启动（北大校内推荐，约9月底截止）<br>
+      <b>9月中旬：</b>北京定向选调+优培计划公告（预计）<br>
+      <b>10月上旬：</b>山东专额定向选调公告+报名（岗位含省直及济南/青岛市直）<br>
+      <b>10月14日：</b>国考公告发布（预计）→ <b>10月15-24日国考报名</b>（先观望2-3天看报录比，别拖到最后一天）<br>
+      <b>10月下旬-11月初：</b>山东专额笔试 · 军队文职公告 · 各省定向选调密集发布（集中到11月初，江西预计10-11月）<br>
+      <b>11月28-29日：</b>国考笔试（28日上午行测，29日下午申论）· 11月上旬山东省考报名（参考11月7-10日）<br>
+      <b>12月：</b>京考笔试（12月中）· 广东定向选调（最晚，12月初启动）<br>
+      <b>次年1月：</b>国考成绩 · <b>3月中旬：省考联考</b><br>
+      💡 策略：上海/黑龙江马上报 → 专额定向（清北专项）一批锁保底 → 国考同步考（同一套行测申论复用）→ 省考联考最后冲高。时间来源：中公/金标尺等机构2026-09预测，以各省组织部官方公告为准</div></div>`:''; }
 function setStatus(id,v){
   APPS[id] = APPS[id]||{events:[]}; APPS[id].status=+v;
   if(+v===1 && !APPS[id].appliedAt) APPS[id].appliedAt = new Date().toLocaleDateString('zh-CN');
