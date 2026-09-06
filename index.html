@@ -649,7 +649,10 @@ function vArchive(){
       浏览器给每个网站的本地存储上限约 <b>5MB</b>（纯文本，约250万字）。你现在用了 <b>${fmtKB(u.total)}</b>，占上限 <b>${pct.toFixed(2)}%</b>——按一年高强度记录估算也只用到1-2%，<b>使用一年完全够</b>。保险起见每月点一次「导出」存份JSON到云盘即可高枕无忧；存储真满时保存会弹窗提醒你。
       <div style="background:#eee;border-radius:6px;height:10px;margin:8px 0;overflow:hidden"><div style="width:${Math.max(0.5,pct)}%;height:100%;background:${barColor}"></div></div>
       ${u.rows.map(r=>`<span style="display:inline-block;margin:2px 10px 2px 0;font-size:12px;color:#666">${r.n}: ${fmtKB(r.s)}</span>`).join('')}
-      <div style="margin-top:8px"><button class="btn small" onclick="exportData()">⬇️ 立即导出全部数据备份</button></div></div></div>
+      <div style="margin-top:8px"><button class="btn small" onclick="exportData()">⬇️ 立即导出全部数据备份</button></div>
+      <div style="border-top:1px dashed var(--line);margin-top:10px;padding-top:10px"><b>☁️ 云端备份（换电脑/离职迁移必读）：</b>你的记录默认只存在当前浏览器里，换电脑就看不到了。存到 GitHub 云端三步：<b>①</b>点下方「复制备份JSON」按钮；<b>②</b>浏览器打开 GitHub 仓库根目录的 <b>backup.json</b> 文件 → 点铅笔图标编辑 → 全选删掉旧内容 → 粘贴刚复制的内容 → Commit changes；<b>③</b>搞定。以后在任何新电脑/新浏览器首次打开本网站，会<b>自动从云端恢复全部记录</b>（本地已有更新的数据时不会被旧备份覆盖）。建议每1-2周或每次大更新后同步一次。
+      <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn small" onclick="copyBackup()">☁️ 复制备份JSON（存到GitHub用）</button></div>
+      <div style="font-size:11.5px;color:#999;margin-top:4px">云端备份状态：上次同步时间保存在备份内容开头一行 exportedAt 里；若从未做过云端备份，仓库 backup.json 为占位空文件</div></div></div></div>
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📬 投递全记录（${all.length}条，含已挂/历史）</h3>${appRows}</div>
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📚 经验贴全记录（${XPS.length}条）</h3>${xpRows}</div>
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">🗒 随手记全记录（${NOTES.length}条）</h3>${noteRows}</div>
@@ -747,16 +750,31 @@ function gkAddMock(){
 function gkDelMock(i){ GKMOCKS.splice(i,1); save(); render('gk'); }
 
 /* ================= 数据导出/导入（跨设备迁移） ================= */
-function exportData(){
-  const payload = {exportedAt:new Date().toLocaleString('zh-CN'),
+function buildBackupPayload(){
+  return {exportedAt:new Date().toLocaleString('zh-CN'),
     'hub-apps':LS.get('hub-apps',{}),'hub-xps':LS.get('hub-xps',[]),
     'hub-notes':LS.get('hub-notes',[]),'hub-jobstat':LS.get('hub-jobstat',{}),
     'hub-customs':LS.get('hub-customs',[]),'hub-gk-mods':LS.get('hub-gk-mods',{}),'hub-gk-mocks':LS.get('hub-gk-mocks',[]),'hub-events':LS.get('hub-events',[])};
+}
+function exportData(){
+  const payload = buildBackupPayload();
   const blob = new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = '我的未来式我做主备份-'+new Date().toISOString().slice(0,10)+'.json';
   a.click(); URL.revokeObjectURL(a.href);
+}
+async function copyBackup(){
+  const text = JSON.stringify(buildBackupPayload(),null,2);
+  try{
+    await navigator.clipboard.writeText(text);
+    alert('已复制完整备份JSON到剪贴板。\n\n下一步：浏览器打开 GitHub 仓库根目录的 backup.json → 点铅笔图标编辑 → 全选删除旧内容 → 粘贴 → Commit changes。\n\n之后任何新电脑打开网站会自动恢复。');
+  }catch(e){
+    // 剪贴板不可用（非https/旧浏览器）时降级：弹窗展示让用户手动复制
+    const w = window.open('', '_blank');
+    if(w){ w.document.write('<title>备份JSON-全选复制</title><textarea style="width:100%;height:90vh">'+text.replace(/</g,'&lt;')+'</textarea>'); }
+    else alert('剪贴板不可用，请改用「立即导出全部数据备份」下载文件后上传到 GitHub');
+  }
 }
 function importData(input){
   const f = input.files[0]; if(!f) return;
@@ -773,6 +791,16 @@ function importData(input){
 
 function afterRender(v){ window.scrollTo(0,0); }
 render('dash');
+/* ================= 云端备份自动恢复（backup.json · 仅新浏览器首次生效，不覆盖本地已有数据） ================= */
+(async ()=>{ try{
+  const r = await fetch('backup.json',{cache:'no-store'});
+  if(!r.ok) return;
+  const d = await r.json(); let changed=false;
+  ['hub-apps','hub-xps','hub-notes','hub-jobstat','hub-customs','hub-gk-mods','hub-gk-mocks','hub-events'].forEach(k=>{
+    if(localStorage.getItem(k)===null && d[k]!==undefined){ localStorage.setItem(k,JSON.stringify(d[k])); changed=true; }
+  });
+  if(changed) location.reload();
+}catch(e){} })();
 </script>
 </body>
 </html>
