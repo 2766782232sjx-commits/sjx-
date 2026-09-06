@@ -292,7 +292,7 @@ function vJobs(){
   const btns = Object.keys(CATS).map(k=>
     `<span class="fbtn ${curCat===k?'on':''}" style="${curCat===k?`background:${CATS[k].color};border-color:${CATS[k].color}`:''}"
       onclick="curCat='${k}';render('jobs')">${CATS[k].name}</span>`).join('');
-  return `<h2>岗位库</h2><div class="sub">共 ${ALL_JOBS().length} 个岗位全部展示（无分页） · 按体制属性分色 · 点击卡片展开详情</div>
+  return `<h2>岗位库</h2><div class="sub">共 ${ALL_JOBS().length} 个岗位全部展示（无分页） · 按体制属性分色 · 点击卡片展开详情 · 🔥×N=竞争激烈度（情报见下方）</div>
     <div class="filterbar">
       <span class="fbtn ${curCat==='all'?'on':''}" style="${curCat==='all'?'background:#1d1d1f;border-color:#1d1d1f':''}" onclick="curCat='all';render('jobs')">全部</span>${btns}
       <span style="flex:1"></span>
@@ -313,6 +313,9 @@ function vJobs(){
       <b>12月</b>：京考笔试（12月中旬）· 上海选调面试<br>
       <b>次年1-3月</b>：部分省二批 · <b>省考联考（3月中旬）</b><br>
       💡 策略：清北定向一批锁保底 → 国考同步考（同一套行测申论复用）→ 省考联考最后一次冲高</div></div>`:''}
+    <details class="card" style="border-left:4px solid #B71C1C;margin-bottom:12px" open><summary style="cursor:pointer;font-size:14px;font-weight:700">🔥 竞争激烈程度（2027届情报 · 点谁卷谁一目了然）</summary>
+      <div style="margin-top:10px">${HEAT.map(x=>`<div style="border-bottom:1px dashed var(--line);padding:8px 0;font-size:13px;line-height:1.8"><b style="color:${x.level>=5?'#B71C1C':x.level>=4?'#E65100':x.level>=3?'#F9A825':'#2E7D32'}">${'🔥'.repeat(x.level)}${x.name}</b>　<span style="color:#555">${esc(x.fact)}</span><br><span style="color:#1565C0">🧭 应对：${esc(x.tip)}</span></div>`).join('')}</div>
+      <div style="font-size:11.5px;color:#999;margin-top:6px">数据来源：各厂官方招聘计划、脉脉高聘、前程无忧《2026就业白皮书》、牛客面经 · 2026年9月整理 · 🔥1-5=竞争从低到极高（绿色=对你是机会）</div></details>
     ${catStrategyHtml()}
     <details class="card" style="margin-bottom:12px"><summary style="cursor:pointer;font-size:13.5px;font-weight:600">➕ 自己看到的岗位，手动加一条（和岗位库同框显示）</summary>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
@@ -330,6 +333,7 @@ function vJobs(){
       </div></details>
     <div id="joblist">${jobListHtml()}</div>`;
 }
+function heatOf(j){ const s=String(j.c); for(const k in HEAT_MAP){ if(s.includes(k)) return HEAT_MAP[k]; } return 0; }
 function jobListHtml(){
   let list = ALL_JOBS().slice();
   if(curCat!=='all') list = list.filter(j=>j.cat===curCat);
@@ -342,7 +346,7 @@ function jobListHtml(){
   if(curSort==='pay') list.sort((a,b)=>payMin(b.pay)-payMin(a.pay));
   if(!list.length) return '<div class="empty">没有匹配的岗位</div>';
   return list.map(j=>{
-    const cat = CATS[j.cat], d = daysLeft(j.dl), st = APPS[j.id]?.status||0;
+    const cat = CATS[j.cat], d = daysLeft(j.dl), st = APPS[j.id]?.status||0, h = heatOf(j);
     const dlHtml = d===null ? esc(j.dlNote||j.dl) :
       d<0 ? `<span style="color:#999">已过期(参考)</span>` :
       `<span class="${d<=14?'dl-soon':''}">${j.dl}（剩${d}天）</span>`;
@@ -350,6 +354,7 @@ function jobListHtml(){
       <div class="top"><span class="comp">${esc(j.c)}</span><span class="role">${esc(j.r)}</span>
         <span class="cat-tag">${cat.name}</span><span class="fit">${'★'.repeat(j.fit)}${'☆'.repeat(5-j.fit)}</span>
         <span class="cat-tag" style="background:#1d1d1f">🎯 ${jobScore(j)}分</span>
+        ${h>=3?`<span class="cat-tag" style="background:${h>=5?'#B71C1C':'#E65100'}" title="竞争激烈度：基于转正率/报录比/HC情报">🔥×${h}</span>`:''}
         ${/外派|驻外|海外派驻|常驻海外|接受出国|全球轮岗|海外基地/.test((j.pro||'')+(j.req||'')+(j.r||''))?`<span class="cat-tag" style="background:#0277BD">✈ 外派</span>`:''}
         ${j.custom?`<span class="cat-tag" style="background:#555" onclick="event.stopPropagation();delCustom('${j.id}')">我加的 ✕</span>`:''}</div>
       <div class="meta">截止：<b>${dlHtml}</b> ｜ 考试：<b>${j.exam?'✅ '+esc(j.examInfo.slice(0,22))+(j.examInfo.length>22?'…':''):'❌ 无统一笔试'}</b> ｜ 待遇：<b>${esc(j.pay)}</b> ｜ Base：<b>${esc(j.base||'—')}</b></div>
