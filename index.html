@@ -135,6 +135,7 @@ const SEED_XPS = [
   {t:'应届生求职网 · BBS面经宝库', src:'官网', time:'实时更新', url:'https://www.yingjiesheng.com', note:'老牌校招网站，BBS区的长篇面经（尤其银行/快消/外企）比社平台更详细', g:'综合'},
   {t:'知乎 · 2027届秋招时间线话题', src:'知乎搜索', time:'实时更新', url:'https://www.zhihu.com/search?type=content&q=2027%E5%B1%8A%20%E7%A7%8B%E6%8B%9B%20%E6%97%B6%E9%97%B4%E7%BA%BF', note:'各行业节奏与截止日期汇总帖，每周扫一次防止漏投', g:'综合'},
   {t:'知乎·俱新《泛文科择业杂谈十七：再论部委/北京市直/央国企》（深度必读）', src:'知乎专栏', time:'发帖2026-08-20', url:'https://zhuanlan.zhihu.com/p/2073155167906697416', note:'体制内择业天花板级长文：部委涨薪真相（硕士转正四主约19万/年）、部委vs央企35年总收入差、金融央企为何优于实业、北京市直隐藏福利、择业七要素打分法。精华版见岗位库「体制内性价比情报」卡', g:'选调/国考', saved:'2026-09-06记录'},
+  {t:'BBS·「央国企 or 逼自己大厂算法？」学长姐高质量回帖（一手情报必读）', src:'校园BBS', time:'发帖2026-08-20 · 回帖至08-25', url:'bbs://job/2026-cygq-vs-dachang', note:'金融科技硕研三楼主+约20条学长姐回帖：单行道效应、垄断央企真实薪资（一线月薪8-9k/5年后30-45万）、银行总行关系门槛、谈薪别自报低价、女生视角婚育分析、中债登祛魅、选调上岸水土不服实录。精华版见岗位库「体制内性价比情报」卡后半段', g:'国央企', saved:'2026-09-06记录'},
 ];
 // 清理旧版失效链接 + 合并新预置（只动预置项，你手动记的不会丢）
 const BROKEN_XP = ['http://et.airchina.com.cn/cn/ground_crew_info/184753.shtml','http://www.eximbank.gov.cn/202510/t20251029_70302.html','https://www.bilibili.com/cheese/play/ep42565','https://fenbi.com/spa/tiku/guide/catalog/xingce'];
@@ -317,7 +318,7 @@ function vJobs(){
     <details class="card" style="border-left:4px solid #B71C1C;margin-bottom:12px" open><summary style="cursor:pointer;font-size:14px;font-weight:700">🔥 竞争激烈程度（2027届情报 · 点谁卷谁一目了然）</summary>
       <div style="margin-top:10px">${HEAT.map(x=>`<div style="border-bottom:1px dashed var(--line);padding:8px 0;font-size:13px;line-height:1.8"><b style="color:${x.level>=5?'#B71C1C':x.level>=4?'#E65100':x.level>=3?'#F9A825':'#2E7D32'}">${'🔥'.repeat(x.level)}${x.name}</b>　<span style="color:#555">${esc(x.fact)}</span><br><span style="color:#1565C0">🧭 应对：${esc(x.tip)}</span></div>`).join('')}</div>
       <div style="font-size:11.5px;color:#999;margin-top:6px">数据来源：各厂官方招聘计划、脉脉高聘、前程无忧《2026就业白皮书》、牛客面经 · 2026年9月整理 · 🔥1-5=竞争从低到极高（绿色=对你是机会）</div></details>
-    <details class="card" style="border-left:4px solid #5D4037;margin-bottom:12px"><summary style="cursor:pointer;font-size:14px;font-weight:700">🧭 体制内性价比情报（部委/央企/北京市直 · 深度好文精华）</summary>
+    <details class="card" style="border-left:4px solid #5D4037;margin-bottom:12px"><summary style="cursor:pointer;font-size:14px;font-weight:700">🧭 体制内性价比情报（部委/央企/银行总行 · 深度好文+BBS一手情报）</summary>
       <div style="margin-top:10px;font-size:13px;line-height:1.9;color:#444">
       <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b>💰 部委涨薪真相：</b>2026年结构性调薪落地，硕士转正四级主任科员全年可支配约19万（含公积金房补），九年到四调约23万——但涨薪是「反弹不是反转」：好房子已经分完、工作强度指数级增长，同档央企35年总收入仍比部委高350-500万，部委的反超要等到45岁+的处长/副司长才开始了</div>
       <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b>⚠️ 别被误导的两个点：</b>80-85%的部委事业单位性价比低（只当解决户口的跳板，别无脑冲）；「先苦后甜」不可复制——分房红利是75-85年出生那代人的，同龄人差五年入职差一个阶层</div>
@@ -326,6 +327,14 @@ function vJobs(){
       <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b>🏠 北京市直被低估：</b>同职级工资比部委高10-15%（四主转正首年约22万），通州住房基本不排队（未婚一居室/已婚两室一厅）+十二年一贯制附中分校，晚7点前下班是常态，二调退休是大概率——对无首付能力的人实际优于多数部委</div>
       <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b>🧮 择业七要素打分法：</b>户口/薪资福利（非货币化要折现）/内部发展空间/外部发展空间（体面离开的可能）/稳定性（防兼并重组）/工作强度/岗位契合度。你的画像的权重建议：<b>女生→平台+工作强度优先；泛文科→平台优先；应届生→平台优先</b></div>
       <div style="padding:7px 0"><b>⚖️ 同档比较原则：</b>只在做同档次单位间比较（部委之间也分三六九等）；跨档放弃高平台仅当平台差≤半个到一个档次才可接受。选部委还是选央企=选延迟满足还是选现金流，选定后中途换赛道要降半档到一档，决策立足自己和配偶，不纳入父母师长期望。原文：<a href="https://zhuanlan.zhihu.com/p/2073155167906697416" target="_blank" style="color:#1565C0">俱新·泛文科择业杂谈十七</a>（2026-08-20，论坛转载+讨论亦值得读）</div>
+      <div style="border-top:2px solid #5D4037;margin-top:6px;padding-top:2px;font-size:11.5px;color:#8D6E63">—— 以下为BBS帖「央国企or逼自己大厂算法？」一手情报（2026-08-20~25，约20条学长姐回帖）——</div>
+      <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b>🛤️ 单行道效应：</b>大厂和垄断央国企/好公务员之间几乎是单行道——互联网→央国企相对容易（技术下海再上岸可行），反向极难（央企干几年想回大厂，难度远大于应届直接冲；30+未育女生从互联网跳央国企，简历都过不了HR筛）。<b>应届这一年的选择权是最贵的资产</b></div>
+      <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b>💵 垄断央企真实薪资：</b>一线月薪8-9k、二线5-6k，好的一类熬到5年后约30-45万，且正在抓降薪；总部=坑位少、升迁快、年终稳，但同级都按国企薪资制度管理、差别不大。注意军工/建筑类不算「垄断国企」，躺着赚钱的才算（烟草/电力/三桶油/运营商这一档下限确实高：不犯大错开除不了、当地中上收入）</div>
+      <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b>🏦 银行/证券总行的隐形门槛：</b>国有行总行待遇在央国企总部里中上到上等，但30万是税前且要熬2-3年（税后得4-5年）；证券总部、银行总行校招普遍「需要很硬的关系提前打招呼」，普通家庭直接略过、当彩票投即可——<b>主攻目标城市的省分公司/省会区域总部</b>才现实。另：股份行总行（如招总）薪资更高但强度也更大</div>
+      <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b>💬 谈薪别自报低价：</b>心里预期30万也别在谈薪时说出口——北京税前30万扣完税五险一金+房租所剩无几；算法岗市场价通常远不止这个数。预期封死在心底，让公司先出价</div>
+      <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b>🔮 别迷信「神仙单位」：</b>中债登这类曾经的顶级神仙单位，一年内因权责变更+金融管控就从人人羡慕变成吐槽对象（利润降/福利缩/年终拖）。单位兴衰是动态的，没有一步到位的最优解——先按当下条件选，边干边动态调整优先级</div>
+      <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b>👩 女生视角（回帖共识）：</b>市场化国企警惕酒桌文化（陪酒风险真实存在，非市场化央国企好得多）；女生校招走泛体制普遍年20万左右（多的15-18万起步）；生育年龄与大厂晋升期高度重合是真实冲突——权重因人而异，但决策时必须放进公式</div>
+      <div style="padding:7px 0"><b>✅ 两条行动铁律：</b>①「都试试，拿到offer再比较」——纠结是选择权充足的奢侈品，先投满再说；②接到泛体制offer后<b>务必联系在职前辈全方位摸底</b>（辅导员/就业中心/XHS某鱼都能建联）：穿衣自由度、A4雕花、琐活烧水、未来5-10年真实薪资能否支撑生活预期——体制内一签多年，信息差值几十万。附：不要美化未曾选择的道路</div>
       </div></details>
     ${catStrategyHtml()}
     <details class="card" style="margin-bottom:12px"><summary style="cursor:pointer;font-size:13.5px;font-weight:600">➕ 自己看到的岗位，手动加一条（和岗位库同框显示）</summary>
