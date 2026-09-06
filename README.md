@@ -50,7 +50,75 @@
 - `f5fe3ae` BBS「央国企 or 逼自己大厂算法」（2026-08-20~25）
 - `abe6bae` BBS 体制内五帖合集（京户/萝卜坑/维权/生存法则/选调回家乡）
 - `d00c396` BBS 第三批大合集（找工七关方法论 + 体制内问答12帖）
+- `a26b08f` BBS 部委问答楼2025-26新鲜情报（爬取2638楼筛选211条）
+- `6bc5667` BBS 省烟草vs省属国资PE
+- 爬虫固定能力建立后首战：2026-09秋招新鲜四帖（央企调岗/被裁出路/国企副业/文科薪资）
 
-## 四、本项目无隐私顾虑说明
+## 四、BBS爬虫固定能力（任何AI助手照此可爬）
+
+前提：需要已登录的浏览器（北大未名BBS需校园网/VPN+账号登录态）。以下JS在任一已登录的 bbs.pku.edu.cn 页面控制台或 browser-action evaluate 中执行。
+
+### 1. 拉取版面主题帖列表
+
+```js
+(async () => {
+  const bid = 99; // 版面号：99=找工作啦Job，其他版面号从版面URL取
+  const r = await fetch(`https://bbs.pku.edu.cn/v2/thread.php?bid=${bid}&mode=topic&page=1`, {credentials: 'include'});
+  const html = await r.text();
+  const re = /threadid=(\d+)">\s*<\/a>[\s\S]*?<div class="title l limit"[^>]*>([\s\S]*?)<\/div>/g;
+  let m; const items = []; const seen = {};
+  while ((m = re.exec(html)) !== null) {
+    let title = m[2].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').trim();
+    if (title.length > 4 && !seen[m[1]]) { seen[m[1]] = 1; items.push(title + ' [' + m[1] + ']'); }
+  }
+  return items.join('\n'); // 每页20条，page=N翻页
+})();
+```
+
+### 2. 抓取单帖全文（含多页）
+
+```js
+(async () => {
+  const id = 18389715, bid = 99; // 帖子号、版面号
+  let full = '';
+  for (let p = 1; p <= 132; p++) { // 上限按总页数改
+    const r = await fetch(`https://bbs.pku.edu.cn/v2/post-read.php?bid=${bid}&threadid=${id}&page=${p}`, {credentials: 'include'});
+    const html = await r.text();
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    doc.querySelectorAll('script,style').forEach(n => n.remove());
+    const t = doc.body ? (doc.body.innerText || doc.body.textContent || '') : '';
+    if (t.length < 200) break;
+    full += '\n===== 第' + p + '页 =====\n' + t;
+    if (t.indexOf('下一页') < 0) break;
+  }
+  return full.length; // 存入 window.__posts[id] 供后续提取
+})();
+```
+
+### 3. 提取「作者+楼号+正文」结构化楼层
+
+```js
+(function () {
+  const t = window.__posts['帖子号']; // 或上一步的 full 文本
+  const re = /\n\s*([A-Za-z0-9_\u4e00-\u9fa5]{2,20})\s*\n\s*\[(离线|在线)\][\s\S]*?\n\s*(\d{1,4})楼\s*\n\s*([\s\S]*?)\n\s*赞\s*\((\d+)\)/g;
+  let m; const out = [];
+  while ((m = re.exec(t)) !== null) {
+    const body = m[4].replace(/\s+/g, ' ').trim();
+    if (body.length > 50) out.push(`【${m[3]}楼·${m[1]}·赞${m[5]}】${body}`);
+  }
+  return out.join('\n\n');
+})();
+```
+
+### 经验与限制
+
+- `post-read.php` 直接带 `page=N` 参数有效；`board.php` 的帖子列表是JS动态加载的，静态fetch拿不到，必须用 `thread.php`
+- 超长帖（如2638楼部委楼）全量约7秒/页，先全部抓完存 `window.__pg`，再按楼号/日期/点赞数分批提取，避免一次性输出
+- 大输出会被 browser-action 落盘成文件（tool-results目录），直接 read_file 读取
+- 长文本里楼与楼之间有大量空白行，提取正则容错性已调好，别改窄了
+- shell转义坑：browser-action 的 JS 里避免 `!`（zsh历史扩展破坏JSON）、避免反引号；复杂脚本先写到文件再 `catdesk browser-action "$(cat /tmp/_cmd.json)"`（用python json.dumps中转）
+- 树洞（独立App）不在BBS体系内，爬不了；BBS内无匿名版
+
+## 五、无隐私顾虑说明
 
 `backup.json` 会随仓库公开。内容仅含求职记录（公司/岗位/状态/笔记），如某天不想公开，可将仓库转为 Private（GitHub Pages 免费版对私有仓库有限制，需改用其他静态托管或保持公开但减少备份频率）。
