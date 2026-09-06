@@ -65,7 +65,7 @@
   .xp .xmeta{font-size:11.5px;color:var(--gray);margin-bottom:3px;}
   .note-item{border-bottom:1px dashed var(--line);padding:9px 2px;font-size:13px;position:relative;}
   .note-item .ndel{position:absolute;right:4px;top:9px;color:#aaa;cursor:pointer;font-size:12px;}
-  .profile-traits span{display:inline-block;font-size:12px;background:#f1ede6;border-radius:10px;padding:2px 10px;margin:2px 4px 2px 0;}
+  .profile-traits span{display:inline-block;font-size:12.5px;color:#1d1d1f;background:#fff;border:1px solid #d9d2c5;border-radius:10px;padding:2px 12px;margin:2px 4px 2px 0;}
   footer{text-align:center;color:#aaa;font-size:12px;padding:20px;}
   code{background:#f0ece6;padding:1px 6px;border-radius:4px;font-size:12px;}
 </style>
@@ -328,7 +328,11 @@ function vDash(){
         <b>💻 大厂策略产品：</b>实习STAR故事3版+case题库刷20道+盯正式批补录与春招窗口<br>
         <b>🌏 央企国际业务：</b>口语保持+把泰国报告写成「跨文化业务输出」案例+11月国网国际/中石油国际事业一批别错过<br>
         <b>🎓 高校/文职：</b>辅导员岗需学生骨干经历（现在还来得及补学院助理岗）+军队文职突击政治理论两周
-      </div></div>
+      </div>
+      <div style="margin-top:10px;border-top:1px dashed var(--line);padding-top:8px"><b style="font-size:13px">🃏 行业匹配速查（我的底牌 · 按行业分类）</b>
+      <div style="margin-top:6px">${PROFILE.traits.map(t=>'<span>'+esc(t)+'</span>').join('')}</div>
+      <div style="margin-top:6px">${insight}</div></div>
+    </div>
     ${stats}
     <div class="card" style="background:linear-gradient(135deg,#eef4ff,#fff);border-color:#c9d9f5"><h3 style="font-size:15px;margin-bottom:8px">📊 秋招市场洞察 <span style="font-size:11px;color:#888;font-weight:400">· 数据截至 ${MARKET_BRIEF.date}，定期更新</span></h3>${MARKET_BRIEF.items.map(x=>`<div style="margin-bottom:8px"><b style="font-size:12.5px">${x.i} ${x.t}：</b><span style="font-size:12.5px;color:#333">${esc(x.d)}</span></div>`).join('')}</div>
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">⏰ 21天内即将截止（参考窗口）</h3>${soonHtml}</div>
@@ -361,8 +365,23 @@ function vDash(){
       ${UP_CASES.map(c=>`<div style="border-bottom:1px dashed var(--line);padding:7px 0;font-size:13px"><b>${esc(c.t)}</b>　<span style="color:#555">${esc(c.d)}</span> <span style="color:#999;font-size:12px">🔎 检索词：${esc(c.kw)}</span></div>`).join('')}
       ${CASE_LIB.map(g=>`<details style="margin-top:10px;border-top:1px dashed var(--line);padding-top:8px"><summary style="cursor:pointer;font-size:13.5px;font-weight:700;color:${g.color}">${g.cat}（${g.items.length}帖 · 点开看全部）</summary><div style="margin-top:6px">${g.items.map(it=>`<a href="${bbsUrl(it.id)}" target="_blank" style="display:inline-block;margin:2px 10px 2px 0;font-size:12.5px;color:#1565C0;text-decoration:none;border-bottom:1px dashed #1565C0">↗ ${esc(it.t)}</a>`).join('')}</div></details>`).join('')}
       <div style="font-size:12px;color:#999;margin-top:6px">部分行业一线岗（油田/平台/稽查）实操中存在性别倾向，机关、国际业务、总部岗不明显——岗位库里带 ⚠️ 标注的已帮你标出。BBS链接需北大BBS登录态（校内网/VPN）。</div></div>
-    <div class="card profile-traits"><h3 style="font-size:15px;margin-bottom:8px">🃏 我的底牌（匹配判断依据）</h3>
-      <div style="margin-bottom:8px">${PROFILE.traits.map(t=>'<span>'+esc(t)+'</span>').join('')}</div>${insight}</div>`;
+    <div class="card" style="border-left:4px solid #2E7D32"><h3 style="font-size:15px;margin-bottom:8px">🌱 人生经验贴 · 人生是旷野，不是轨道（第一份工作≠一辈子）</h3>
+      <div style="font-size:12.5px;color:#555;margin-bottom:8px;line-height:1.8">东亚小孩容易用「防御性思维」规划人生：怕选错、怕回头。但这些真实案例说明：<b>人生充满机运，前提是人要善于准备</b>——语言、技能、存款、人脉都是你随时调头的「期权」。没有人从入职第一天走到退休还在同一条轨道上。</div>
+      <div style="font-size:12.5px;line-height:1.9">
+      <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b style="color:#00695C">🏦 央国企 → 海外：</b><a href="https://www.xiaohongshu.com/search_result?keyword=%E5%9B%BD%E4%BC%81%E8%A3%B8%E8%BE%9E%E5%87%BA%E5%9B%BD" target="_blank" style="color:#1565C0">英专生裸辞国企放弃北京户口勇闯欧洲↗</a>·33岁10年央企裸辞移居美国·国企裸辞拿到谷歌微软offer·国企辞职到新西兰上岸·裸辞gap 4个月死不了人上岸欧洲公司——「围城」里的人比你想象的多，但走出去活下来的也比你想象的多</div>
+      <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b style="color:#1565C0">💻 大厂 → 新赛道：</b><a href="https://www.xiaohongshu.com/search_result?keyword=30%E5%B2%81%E8%BD%AC%E8%A1%8C" target="_blank" style="color:#1565C0">30岁7年大厂经验转行当律师↗</a>·30岁大厂女生转行不后悔·从电商转AI没想象的难·36岁被裁转头备战北京考公·互联网人突3百万存款后躺平——35岁不是死刑，是被迫提前做本来该做的选择</div>
+      <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b style="color:#5D4037">🏛️ 体制内 → 出去：</b><a href="https://www.xiaohongshu.com/search_result?keyword=%E5%85%AC%E5%8A%A1%E5%91%98%E8%BE%9E%E8%81%8C%E5%90%8E%E6%B4%BB%E5%BE%97%E6%9B%B4%E5%A5%BD" target="_blank" style="color:#1565C0">部委公务员辞职之后过得怎么样↗</a>（三联也有长文：三十岁我从公务员岗位上辞职了）·gwy辞职到央企两年的感悟·从珠三角gwy到北京大厂「内耗的解药是先做」·七年公务员从后悔到和解·28岁top2公务员辞职「走错好过耗死」——注意：也有人辞职后后悔，围城内外都真实</div>
+      <div style="border-bottom:1px dashed var(--line);padding:7px 0"><b style="color:#B8860B">🔄 35岁+重启 · 语言开路：</b><a href="https://www.xiaohongshu.com/search_result?keyword=%E8%A3%81%E5%91%98%E5%90%8E%E8%87%AA%E5%AD%A6%E5%B0%8F%E8%AF%AD%E7%A7%8D%E5%87%BA%E5%9B%BD%E5%B7%A5%E4%BD%9C" target="_blank" style="color:#1565C0">35岁被裁领失业金出国学德语↗</a>·国内找欧洲工作两个半月上岸·文科生不会德语硬闯德国职场·辞掉教师来澳洲打工·普通打工人5条低成本去海外的路——语言能力是所有转折故事里出现频率最高的那个「准备」</div>
+      <div style="padding:7px 0"><b style="color:#6A1B9A">🎓 BBS前辈经验贴（背景相似 · 点直达）：</b>${[18774986,18934016,2278,19049957,19054413,18964714,18745663,19056909,19050002,19052892,19054484,19012291].map(id=>{const it=CASE_LIB.flatMap(g=>g.items).find(x=>x.id===id);return it?`<a href="${bbsUrl(id)}" target="_blank" style="display:inline-block;margin:2px 8px 2px 0;font-size:12.5px;color:#1565C0;text-decoration:none;border-bottom:1px dashed #1565C0">↗ ${esc(it.t)}</a>`:''}).join('')}</div>
+      </div>
+      <details style="margin-top:10px;border-top:2px solid var(--line);padding-top:8px"><summary style="cursor:pointer;font-size:13.5px;font-weight:700">⚖️ 行业稳定性长期账：一条路走到黑会遇到什么 · 还值不值得去（日美中对照）</summary>
+        <div style="font-size:12.5px;color:#333;line-height:2;margin-top:8px">
+        <b>💻 互联网大厂：</b>长期风险=35岁现象真实存在（2022-2024周期性裁员，N+1+期权是缓冲），职级金字塔越往上越窄；做得好=P7+/攒够资产，技能可迁移性最强是它最大的保险；前景=AI重塑行业，传统岗位收缩、AI岗位扩张（类比美国硅谷：周期性裁员是常态，裁后市场还会再招）。<b>还值得去：值得</b>——但当作「高收益高波动」资产配置：干2-5年携履历资本再选择，而不是默认干到退休
+<br><b>🏦 央国企：</b>长期风险=不会裁员但会重组/降薪/调岗，兼并重组下放真实发生（情报卡案例），国企改革深化期利润上缴提高压缩福利；做得好=总部核心岗+职级中层=当地体面中产+福利房；前景=集中度提高，头部央企主业稳、二级子公司分化。<b>还值得去：值得</b>，但用三标准选（盈利能力+专业壁垒+国计民生），避开夕阳主业<br>
+        <b>🏛️ 体制内：</b>长期风险=收入天花板靠财政、论资排辈、去能力化（想走时发现技能不可迁移）、边缘部门天花板低；做得好=处级以上资源地位双收、职级并行保底二调退休；前景=财政压力下绩效收紧，但中国国情下仍是波动最低的选择。<b>还值得去：看你买什么</b>——买「低波动」值得，买「高回报」会失望<br>
+        <b>🌏 日美中三方对照（判断依据）：</b>美国：BLS数据一代人平均捯12.4份工作，401k可携带，35岁换赛道无污名——跳槽是常规操作；日本：终身雇佣+年功序列在泡沫破裂后瓦解，2020年代中途采用市场大幅扩大——「以为的终身从来不是契约」；中国介于两者之间且所有行业波动都在加大。<b>结论：任何单一组织都不能托付一生，真正的防御不是选「最稳的轨道」，而是保持可选择性（optionality）——你的语言、SQL/AI技能、写作能力、存款，就是任何时候都能调头的期权。</b>这也是你「不怕吃苦怕没机会吃苦」的正确打开方式：机会来时接得住，比一开始就选中更重要
+        </div></details>
+      <div style="font-size:12px;color:#999;margin-top:6px">小红书案例为2026-09检索的真实发帖标题（点蓝色链接直达同一搜索页）；BBS链接需登录态。案例有幸存者偏差——辞职后悔的人发帖少，理性参考。</div></div>`;
 }
 
 /* ================= 岗位库 ================= */
