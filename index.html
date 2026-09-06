@@ -127,7 +127,7 @@ const SEED_XPS = [
   {t:'北大就业中心 · 选调生专栏', src:'官网', time:'常年更新', url:'https://scc.pku.edu.cn/frontpage/pku/html/xds_index.html', note:'各省面向北大定向选调公告入口，清北通道信息最全，还有历年上岸名单可看去向', g:'北大内部'},
   {t:'北大就业中心 · 国际组织专栏', src:'官网', time:'常年更新', url:'https://scc.pku.edu.cn/frontpage/pku/html/gjzz_index.html', note:'UNDP/UNESCO/JPO 推荐通道与项目发布，北大有专项推送名额', g:'北大内部'},
   {t:'国聘 iguopin · 央企国企官方平台', src:'官网', time:'实时更新', url:'https://www.iguopin.com', note:'三桶油/两网/烟草/中交等公告多在这里首发，信息差行业必盯', g:'国央企'},
-  {t:'知乎 · 清北定向选调经验（备考时间线/难度/待遇）', src:'知乎搜索', time:'实时更新', url:'https://www.zhihu.com/search?type=content&q=%E6%B8%85%E5%8C%97%20%E5%AE%9A%E5%90%91%E9%80%89%E8%B0%83%20%E7%BB%8F%E9%AA%8C', note:'按省份名+选调再搜，如「云南定向选调 待遇」', g:'选调/国考'},
+  {t:'知乎 · 定向选调经验（清北通道·备考时间线/难度/待遇）', src:'知乎搜索', time:'实时更新', url:'https://www.zhihu.com/search?type=content&q=%E6%B8%85%E5%8C%97%20%E5%AE%9A%E5%90%91%E9%80%89%E8%B0%83%20%E7%BB%8F%E9%AA%8C', note:'按省份名+选调再搜，如「云南定向选调 待遇」', g:'选调/国考'},
   {t:'半月谈 · 申论素材库', src:'官网', time:'实时更新', url:'https://www.banyuetan.org', note:'申论大作文素材，国关写稿功底可直接迁移', g:'选调/国考'},
   {t:'知乎 · 外企秋招全流程（英文面试/时间线）', src:'知乎搜索', time:'实时更新', url:'https://www.zhihu.com/search?type=content&q=%E5%A4%96%E4%BC%81%E7%A7%8B%E6%8B%9B%20%E9%9D%A2%E7%BB%8F', note:'外企节奏比互联网晚，10-11月是主战场', g:'外企/国际组织'},
   {t:'UN Careers · 联合国全球职位', src:'官网', time:'实时更新', url:'https://careers.un.org', note:'YPP/JPO 官方入口；关注 Inspira 平台', g:'外企/国际组织'},
@@ -180,7 +180,7 @@ const MARKET_BRIEF = {
   items: [
     {i:'🔥', t:'你的赛道', d:'AI相关岗位已占新发校招的近4成（脉脉2026年中数据），“策略产品+AI产品实习+数据分析”是本周期最稀缺的复合牌；央企秋招预计释放30万+岗，能源电力与国有金融占六成，9-11月是网申高峰。'},
     {i:'⚔️', t:'你的竞争者', d:'2026届硕士毕业生首次突破100万。但和你抢同一个岗位的不是1270万人，是投同公司同岗位的那约200人——他们里清北硕+党员+两段大厂实习的屈指可数，你在这200人里是第一梯队。'},
-    {i:'📌', t:'本周该做的事', d:'大厂提前批已大量关闭、正式批9月中收尾——本周完成美团系+字节+阿里正式批网申；央国企9月起密集开闸，每天刷一次国聘+中信/国投/华润；清北定向选调公告9月底前出，盯北大就业中心专栏。'},
+    {i:'📌', t:'本周该做的事', d:'大厂提前批已大量关闭、正式批9月中收尾——本周完成美团系+字节+阿里正式批网申；央国企9月起密集开闸，每天刷一次国聘+中信/国投/华润；各省面向清北等名校的定向选调公告9月底起陆续出，盯北大就业中心专栏。'},
     {i:'🧭', t:'下一个关键节点', d:'上海/黑龙江定向选调9月初已发公告（报名就在眼前，本周就去查官方公告）；北京定向选调预计9月中旬启动；10月14日左右国考公告、15-24日报名（岗位表发布当天就筛好，别拖到截止日）；9月底北大约中央选调校内推荐截止。'}
   ]
 };
@@ -218,7 +218,7 @@ function dailyQuote(){
 const UP_CASES = [
   {t:'二本硕上岸江浙中烟', d:'每天10小时×3个月：行测模考58→82，笔试断层第一。时间线：6月开始刷题→8月盯各省公告→9月底笔试→10月面试。', kw:'中烟 双非 上岸 经验'},
   {t:'英专硕士上岸国家电网国际部', d:'无电气背景，报非电类国际业务岗，靠英语+综合能力拉开分差，1个月专项准备。一批11月报名、二批次年3月，英语占比高——正是你的优势。', kw:'国网 非电类 英专 上岸'},
-  {t:'北大文科硕上岸清北定向选调', d:'定向通道笔试报录比约3:1（普通岗80:1），申论直接用课程论文功底写，不背模板。', kw:'清北 定向选调 经验帖'},
+  {t:'名校文科硕上岸定向选调（清北专额通道）', d:'定向通道笔试报录比约3:1（普通岗80:1），申论直接用课程论文功底写，不背模板。', kw:'清北 定向选调 经验帖'},
   {t:'德语专业女生拿下中石油国际事业', d:'秋招投60家拿3个offer，最冷的岗位竞争最小——信息差就是红利。', kw:'中石油 国际事业 文科 面经'},
   {t:'北大国关硕士上岸商务部地区司', d:'国考135分+商务部专业加试靠平时积累；面试用区域研究案例答题——部委面试没有标准答案，分析框架就是你的护城河。', kw:'商务部 国考 面经'},
   {t:'文科硕士上岸央企总部管培（中信系）', d:'笔试行测与公考同源；面试全程实习案例复盘，一次供需诊断讲透30分钟。总部岗纯国内、竞争比海外岗温和。', kw:'中信 管培 总部 面经'},
@@ -267,6 +267,59 @@ function catStrategyHtml(){
   const s = (typeof CAT_STRATEGY!=='undefined') && CAT_STRATEGY[curCat];
   if(!s) return '';
   return `<div class="card" style="border-left:4px solid ${CATS[curCat].color};margin-bottom:12px;background:linear-gradient(135deg,#f6f9ff,#fff)"><h3 style="font-size:14px;margin-bottom:6px">🎯 ${CATS[curCat].name} · 备考策略</h3><div style="font-size:12.5px;color:#333;line-height:2"><div>📚 <b>先备好：</b>${esc(s.books)}</div><div>🗓 <b>节奏：</b>${esc(s.plan)}</div><div>⚔️ <b>你的打法：</b>${esc(s.edge)}</div></div></div>`;
+}
+
+/* ================= 自定义画像打分（访客自填背景 → 全库重打分） ================= */
+let MYSCORE = null; try{ MYSCORE = JSON.parse(localStorage.getItem('hub-myp')||'null'); }catch(e){}
+function mpSave(){
+  const g=id=>{const el=document.getElementById(id);return el?el.value:'';};
+  const chks=n=>[...document.querySelectorAll('input[name="'+n+'"]:checked')].map(x=>x.value);
+  MYSCORE = {sch:g('mp-sch'),deg:g('mp-deg'),pol:g('mp-pol'),eng:g('mp-eng'),city:g('mp-city'),skills:chks('mp-skill'),cats:chks('mp-cat')};
+  localStorage.setItem('hub-myp',JSON.stringify(MYSCORE));
+  render('jobs');
+}
+function mpClear(){ localStorage.removeItem('hub-myp'); MYSCORE=null; render('jobs'); }
+function myScore(j){
+  if(!MYSCORE) return null;
+  const req=j.req||'', pro=j.pro||'', txt=req+pro+(j.con||'')+(j.kw||'')+(j.r||'');
+  let s = 40;
+  const schMap={qingbei:22,c9:16,haiwai:13,'985':12,'211':9,syb:6,qita:2};
+  const xtj = (j.cat==='xt'||j.cat==='gw');
+  s += (schMap[MYSCORE.sch]!==undefined?schMap[MYSCORE.sch]:2) * (xtj?1:0.6);
+  if(/硕士|研究生/.test(req)) s += MYSCORE.deg==='shuo'?6:0;
+  if(/硕士\+|硕士（硬|仅限硕士|硕士及以上/.test(req) && MYSCORE.deg!=='shuo') s-=10;
+  if(/党员/.test(req)){
+    if(MYSCORE.pol==='dy'){ s += /党员优先/.test(req)?4:6; }
+    else if(/硬|仅限|必须/.test(req)) s-=15;
+  }
+  if(/英语|雅思|外语|英文|托福/.test(txt)){ s += MYSCORE.eng==='t8'?8:MYSCORE.eng==='c6h'?6:MYSCORE.eng==='c6'?4:-4; }
+  if(MYSCORE.skills.includes('sql') && /数据|SQL|商分|分析/.test(txt)) s+=5;
+  if(MYSCORE.skills.includes('ai') && /AI|大模型|算法|智能/.test(txt)) s+=5;
+  if(MYSCORE.skills.includes('prod') && /产品/.test(j.r+pro)) s+=4;
+  if(MYSCORE.skills.includes('fin') && /投行|证券|基金|固收|银行|金融|信托/.test(txt)) s+=4;
+  if(MYSCORE.cats.length){ s += MYSCORE.cats.includes(j.cat)?10:-3; }
+  const cityMap={bj:['北京'],sh:['上海'],sz:['深圳','广州'],xr:['杭州','成都','武汉','南京','苏州','西安','长沙','重庆','天津','合肥','宁波','无锡']};
+  if(MYSCORE.city && MYSCORE.city!=='bx' && cityMap[MYSCORE.city]){
+    s += cityMap[MYSCORE.city].some(c=>(j.base||'').includes(c))?6:-3;
+  }
+  return Math.max(5,Math.min(100,Math.round(s)));
+}
+function mpPanel(){
+  const p=MYSCORE||{};
+  const sel=(id,opts,cur)=>'<select id="'+id+'" onchange="mpSave()" style="padding:4px 8px;border:1px solid var(--line);border-radius:8px;font-family:inherit">'+opts.map(o=>'<option value="'+o[0]+'" '+(cur===o[0]?'selected':'')+'>'+o[1]+'</option>').join('')+'</select>';
+  const chk=(n,v,label,cur)=>'<label style="font-size:12px;margin-right:10px;cursor:pointer"><input type="checkbox" name="'+n+'" value="'+v+'" '+(cur&&cur.includes(v)?'checked':'')+' onchange="mpSave()" style="vertical-align:-2px"> '+label+'</label>';
+  return '<details class="card" style="border-left:4px solid #1565C0;margin-bottom:12px" '+(MYSCORE?'':'open')+'><summary style="cursor:pointer;font-size:14px;font-weight:700">🧑 自定义画像打分（填你的背景 → 全库按你的情况重新打分排序 · 数据只存你自己浏览器里）</summary>'
+    +'<div style="margin-top:10px;font-size:12.5px;color:#444;line-height:2.2">'
+    +'<b>学校层次：</b>'+sel('mp-sch',[['qingbei','清华/北大'],['c9','C9/华五人'],['985','985'],['211','211'],['syb','双一流'],['haiwai','海外QS100'],['qita','其他']],p.sch)
+    +'　<b>学历：</b>'+sel('mp-deg',[['shuo','硕士'],['ben','本科']],p.deg)
+    +'　<b>政治面貌：</b>'+sel('mp-pol',[['dy','党员（含预备）'],['ty','共青团员'],['qz','群众']],p.pol)
+    +'　<b>英语：</b>'+sel('mp-eng',[['t8','雅思7+/托福100+'],['c6h','六级500+'],['c6','六级425+'],['pt','一般']],p.eng)
+    +'　<b>意向城市：</b>'+sel('mp-city',[['bx','不限'],['bj','北京'],['sh','上海'],['sz','深圳/广州'],['xr','新一线']],p.city)+'<br>'
+    +'<b>技能（有就勾）：</b>'+chk('mp-skill','sql','SQL/数据分析',p.skills)+chk('mp-skill','ai','AI工具/Coding',p.skills)+chk('mp-skill','prod','产品实习',p.skills)+chk('mp-skill','fin','金融/财会基础',p.skills)+'<br>'
+    +'<b>意向赛道（多选，命中+10分）：</b>'+Object.keys(CATS).map(k=>chk('mp-cat',k,CATS[k].name,p.cats)).join('')
+    +'　<a class="btn small sec" onclick="mpClear()" style="cursor:pointer">清除画像</a>'
+    +'<div style="font-size:11px;color:#999;margin-top:4px">打分规则透明：门槛项（学校/学历/党员/英语）按岗位要求的硬性程度加减分，技能/赛道/城市命中加分。0-100分，改任意一项立即重排全库。</div>'
+    +'</div></details>';
 }
 
 /* ================= 总览 ================= */
@@ -342,7 +395,7 @@ function vDash(){
       <div style="margin-top:8px"><a class="btn small" href="javascript:void(0)" onclick="document.querySelector('nav a[data-v=gk]').click()">进入考公备战 →</a></div></div>
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">🎯 考查流程速览（按赛道 · 从网申到录用）</h3>
       <div style="font-size:12.5px;color:#333;line-height:2">
-      <b>🏛️ 选调/公务员：</b>报名→笔试（行测+申论，清北定向报录比多在3:1-8:1）→面谈/结构化面试→体检→政审（含家庭主要成员）→公示。京考、省考完全同构，一套备考通吃<br>
+      <b>🏛️ 选调/公务员：</b>报名→笔试（行测+申论，定向选调报录比多在3:1-8:1（清北专额更低））→面谈/结构化面试→体检→政审（含家庭主要成员）→公示。京考、省考完全同构，一套备考通吃<br>
       <b>🏛️ 部委（国考）：</b>笔试（行测+申论；外交部考英语、商务部加试专业课）→专业考试→结构化/无领导面试（多5:1差额）→体检→政审→公示<br>
       <b>🏦 央企总部（国网/烟草/三桶油）：</b>网申（机筛学历专业）→全国统考（综合知识+专业，国网一批11月笔试）→面试（半结构化2-3轮，管培常加无领导）→offer——流程最快的一条线<br>
       <b>🏦 银行总行/省分：</b>网申→笔试（行测+英语+综合+性格测试，多ATA统考）→面试（半结构化+无领导）→体检政审；总行「打招呼」现象真实存在，省分更看笔试硬分<br>
@@ -389,7 +442,7 @@ function vJobs(){
   const btns = Object.keys(CATS).map(k=>
     `<span class="fbtn ${curCat===k?'on':''}" style="${curCat===k?`background:${CATS[k].color};border-color:${CATS[k].color}`:''}"
       onclick="curCat='${k}';render('jobs')">${CATS[k].name}</span>`).join('');
-  return `<h2>岗位库</h2><div class="sub">共 ${ALL_JOBS().length} 个岗位全部展示（无分页） · 按体制属性分色 · 点击卡片展开详情 · 🔥×N=竞争激烈度（情报见下方）</div>
+  return `<h2>岗位库</h2><div class="sub">共 ${ALL_JOBS().length} 个岗位全部展示（无分页） · 按体制属性分色 · 点击卡片展开详情 · 🔥×N=竞争激烈度（情报见下方） · 截止日期多为预估口径，以各单位官方公告为准</div>
     <div class="filterbar">
       <span class="fbtn ${curCat==='all'?'on':''}" style="${curCat==='all'?'background:#1d1d1f;border-color:#1d1d1f':''}" onclick="curCat='all';render('jobs')">全部</span>${btns}
       <span style="flex:1"></span>
@@ -398,6 +451,7 @@ function vJobs(){
         <option value="dl" ${curSort==='dl'?'selected':''}>按截止时间</option>
         <option value="fit" ${curSort==='fit'?'selected':''}>按匹配度</option>
         <option value="pay" ${curSort==='pay'?'selected':''}>按薪资下限</option>
+        <option value="myscore" ${curSort==='myscore'?'selected':''}>🧑 按我的画像分</option>
       </select>
       <input type="text" placeholder="搜索公司/岗位…" oninput="JOBSTAT.__q=this.value;document.getElementById('joblist').innerHTML=jobListHtml()" value="${esc(JOBSTAT.__q||'')}" style="width:150px">
     </div>
@@ -411,7 +465,8 @@ function vJobs(){
       <b>11月28-29日：</b>国考笔试（28日上午行测，29日下午申论）· 11月上旬山东省考报名（参考11月7-10日）<br>
       <b>12月：</b>京考笔试（12月中）· 广东定向选调（最晚，12月初启动）<br>
       <b>次年1月：</b>国考成绩 · <b>3月中旬：省考联考</b><br>
-      💡 策略：上海/黑龙江马上报 → 清北定向一批锁保底 → 国考同步考（同一套行测申论复用）→ 省考联考最后冲高。时间来源：中公/金标尺等机构2026-09预测，以各省组织部官方公告为准</div></div>`:''}
+      💡 策略：上海/黑龙江马上报 → 专额定向（清北专项）一批锁保底 → 国考同步考（同一套行测申论复用）→ 省考联考最后冲高。时间来源：中公/金标尺等机构2026-09预测，以各省组织部官方公告为准</div></div>`:''}
+    ${mpPanel()}
     <details class="card" style="border-left:4px solid #B71C1C;margin-bottom:12px"><summary style="cursor:pointer;font-size:14px;font-weight:700">🔥 竞争激烈程度（2027届情报 · 默认折叠，点开看谁卷谁一目了然）</summary>
       <div style="margin-top:10px">${HEAT.map(x=>`<div style="border-bottom:1px dashed var(--line);padding:8px 0;font-size:13px;line-height:1.8"><b style="color:${x.level>=5?'#B71C1C':x.level>=4?'#E65100':x.level>=3?'#F9A825':'#2E7D32'}">${'🔥'.repeat(x.level)}${x.name}</b>　<span style="color:#555">${esc(x.fact)}</span><br><span style="color:#1565C0">🧭 应对：${esc(x.tip)}</span></div>`).join('')}</div>
       <div style="font-size:11.5px;color:#999;margin-top:6px">数据来源：各厂官方招聘计划、脉脉高聘、前程无忧《2026就业白皮书》、牛客面经 · 2026年9月整理 · 🔥1-5=竞争从低到极高（绿色=对你是机会）</div></details>
@@ -492,7 +547,8 @@ function jobListHtml(){
   const q = (JOBSTAT.__q||'').trim();
   if(q) list = list.filter(j=>(j.c+j.r+j.req+(j.base||'')).includes(q));
   const payMin = p => { const m=String(p).match(/(\d+)[-–]/); return m?+m[1]:0; };
-  if(curSort==='score') list.sort((a,b)=>jobScore(b)-jobScore(a));
+  if(curSort==='score') list.sort((a,b)=>(MYSCORE?myScore(b):jobScore(b))-(MYSCORE?myScore(a):jobScore(a)));
+  if(curSort==='myscore') list.sort((a,b)=>(myScore(b)??0)-(myScore(a)??0));
   if(curSort==='dl') list.sort((a,b)=>(daysLeft(a.dl)??999)-(daysLeft(b.dl)??999));
   if(curSort==='fit') list.sort((a,b)=>b.fit-a.fit);
   if(curSort==='pay') list.sort((a,b)=>payMin(b.pay)-payMin(a.pay));
@@ -506,6 +562,7 @@ function jobListHtml(){
       <div class="top"><span class="comp">${esc(j.c)}</span><span class="role">${esc(j.r)}</span>
         <span class="cat-tag">${cat.name}</span><span class="fit">${'★'.repeat(j.fit)}${'☆'.repeat(5-j.fit)}</span>
         <span class="cat-tag" style="background:#1d1d1f">🎯 ${jobScore(j)}分</span>
+        ${MYSCORE?`<span class="cat-tag" style="background:#1565C0" title="按你填的画像实时打分">🧑 ${myScore(j)}分</span>`:''}
         ${h>=3?`<span class="cat-tag" style="background:${h>=5?'#B71C1C':'#E65100'}" title="竞争激烈度：基于转正率/报录比/HC情报">🔥×${h}</span>`:''}
         ${/外派|驻外|海外派驻|常驻海外|接受出国|全球轮岗|海外基地/.test((j.pro||'')+(j.req||'')+(j.r||''))?`<span class="cat-tag" style="background:#0277BD">✈ 外派</span>`:''}
         ${j.custom?`<span class="cat-tag" style="background:#555" onclick="event.stopPropagation();delCustom('${j.id}')">我加的 ✕</span>`:''}</div>
