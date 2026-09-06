@@ -81,6 +81,7 @@
   <a data-v="notes">随手记</a>
   <a data-v="gk">考公备战</a>
   <a data-v="ann">公告</a>
+  <a data-v="arch">档案室</a>
   <a onclick="exportData()" title="备份投递/日程/笔记到文件">⬇ 导出</a>
   <a onclick="document.getElementById('impFile').click()" title="从备份文件恢复">⬆ 导入</a>
 </nav>
@@ -108,7 +109,7 @@ let GKMOCKS = LS.get('hub-gk-mocks', []);// 考公模考记录
 let EVENTS  = LS.get('hub-events', []);  // 手动添加的日程提醒
 const STATUS = ['未投递','已投递','笔试','面试','Offer','已挂'];
 
-function save(){ LS.set('hub-apps',APPS); LS.set('hub-xps',XPS); LS.set('hub-notes',NOTES); LS.set('hub-jobstat',JOBSTAT); LS.set('hub-customs',CUSTOMS); LS.set('hub-gk-mods',GKMODS); LS.set('hub-gk-mocks',GKMOCKS); LS.set('hub-events',EVENTS); }
+function save(){ try{ LS.set('hub-apps',APPS); LS.set('hub-xps',XPS); LS.set('hub-notes',NOTES); LS.set('hub-jobstat',JOBSTAT); LS.set('hub-customs',CUSTOMS); LS.set('hub-gk-mods',GKMODS); LS.set('hub-gk-mocks',GKMOCKS); LS.set('hub-events',EVENTS); }catch(e){ alert('⚠️ 浏览器本地存储已满！请立即「导出」备份，并到「档案室」清理旧记录'); } }
 const $ = s => document.querySelector(s);
 const ALL_JOBS = () => JOBS.concat(CUSTOMS);
 const job = id => ALL_JOBS().find(j=>j.id===id);
@@ -155,6 +156,7 @@ function render(v){
   if(v==='notes') el.innerHTML = vNotes();
   if(v==='ann') el.innerHTML = vAnn();
   if(v==='gk') el.innerHTML = vGk();
+  if(v==='arch') el.innerHTML = vArchive();
   afterRender(v);
 }
 function daysLeft(dl){ // dl 形如 2026-11-23
@@ -210,6 +212,14 @@ const UP_CASES = [
   {t:'英专硕士上岸国家电网国际部', d:'无电气背景，报非电类国际业务岗，靠英语+综合能力拉开分差，1个月专项准备。一批11月报名、二批次年3月，英语占比高——正是你的优势。', kw:'国网 非电类 英专 上岸'},
   {t:'北大文科硕上岸清北定向选调', d:'定向通道笔试报录比约3:1（普通岗80:1），申论直接用课程论文功底写，不背模板。', kw:'清北 定向选调 经验帖'},
   {t:'德语专业女生拿下中石油国际事业', d:'秋招投60家拿3个offer，最冷的岗位竞争最小——信息差就是红利。', kw:'中石油 国际事业 文科 面经'},
+  {t:'北大国关硕士上岸商务部地区司', d:'国考135分+商务部专业加试靠平时积累；面试用区域研究案例答题——部委面试没有标准答案，分析框架就是你的护城河。', kw:'商务部 国考 面经'},
+  {t:'文科硕士上岸央企总部管培（中信系）', d:'笔试行测与公考同源；面试全程实习案例复盘，一次供需诊断讲透30分钟。总部岗纯国内、竞争比海外岗温和。', kw:'中信 管培 总部 面经'},
+  {t:'北大本硕留校做行政（辅导员岗）', d:'党员+学生骨干经历是硬门槛，直接过滤90%竞争者；笔试考行测+校情，面试重学生工作经验，导师推荐是隐藏加分项。', kw:'高校 辅导员 行政 面经'},
+  {t:'女生上岸云南定向选调（省直岗）', d:'清北通道报录比约3:1，笔试比国考温和一档；面谈环节讲真实动机最加分，别背模板。', kw:'云南 定向选调 经验'},
+  {t:'文科转码失败，转行策略产品上岸', d:'投了100+家总结出：文科生的出路不是卷技术，是把研究能力翻译成商业语言——供需分析+竞品拆解就是你的技术栈。', kw:'文科 转行 产品 面经'},
+  {t:'秋招零offer，实习6个月逆翻盘转正字节', d:'9月秋招颗粒无收，10月入职实习，次年1月转正答辩通过——转正率50%不是虚数，是秋招失利者最实的后路。', kw:'字节 实习转正 经验'},
+  {t:'硕士上岸军队文职（政治理论教员）', d:'党员+硕士双达标，部分岗位免笔试直进面试；待遇同级公务员上浮，体检提前三个月规律作息即可。', kw:'军队文职 上岸 待遇'},
+  {t:'英专硕拿下玛氏管培（全英五轮面）', d:'快消管培不限专业：英语流利+领导力故事库是唯二钥匙；网测刷人70%但隔年可重复申请。', kw:'玛氏 管培 面经'},
 ];
 
 /* ================= 岗位综合匹配分（搜索排序模型） ================= */
@@ -567,6 +577,36 @@ function addCustomEvent(){
   EVENTS.push({date:d, label:l}); save(); render('sched');
 }
 function delCustomEvent(i){ EVENTS.splice(i,1); save(); render('sched'); }
+
+/* ================= 档案室（全部记录 + 存储状态） ================= */
+function storageUsage(){
+  const keys=['hub-apps','hub-xps','hub-notes','hub-jobstat','hub-customs','hub-gk-mods','hub-gk-mocks','hub-events'];
+  const names={'hub-apps':'投递状态','hub-xps':'经验贴','hub-notes':'随手记','hub-jobstat':'岗位备注','hub-customs':'自建岗位','hub-gk-mods':'考公进度','hub-gk-mocks':'模考记录','hub-events':'手动日程'};
+  let total=0; const rows=keys.map(k=>{ const s=(localStorage.getItem(k)||'').length; total+=s; return {n:names[k], s}; }).sort((a,b)=>b.s-a.s);
+  return {rows, total};
+}
+function fmtKB(n){ return n<1024? n+' B' : (n/1024).toFixed(1)+' KB'; }
+function vArchive(){
+  const u=storageUsage(); const LIMIT=5*1024*1024; const pct=u.total/LIMIT*100;
+  const barColor = pct>80?'var(--red)':pct>50?'#B8860B':'#2E7D32';
+  const all=ALL_JOBS().filter(j=>APPS[j.id]);
+  const appRows=all.map(j=>{ const a=APPS[j.id]; const st=STATUS[a.status]||'未投递'; const cat=CATS[j.cat]||{color:'#888',name:'自定义'};
+    return `<div class="evrow"><span class="st" style="background:${cat.color};color:#fff">${esc(cat.name)}</span><span style="flex:1">${esc(j.c)} · ${esc(j.r)}</span><span class="st ${a.status===4?'ok':a.status===5?'bad':''}">${st}</span><span style="color:#999;font-size:12px">${esc(a.appliedAt||'')}</span></div>`; }).join('')||'<div class="empty">还没有投递记录</div>';
+  const xpRows=XPS.map((x,i)=>`<div class="evrow"><span style="flex:1"><b>${esc(x.t)}</b> <span style="color:#999;font-size:12px">${esc(x.src||'')}${x.time?' · 发帖时间:'+esc(x.time):''}${x.saved?' · 记录于'+esc(x.saved):''}</span>${x.note?`<div style="color:#666;font-size:12px">${esc(x.note)}</div>`:''}${x.url?`<div style="font-size:12px"><a href="${esc(x.url)}" target="_blank" style="color:#1565C0">${esc(x.url)}</a></div>`:''}</span><span style="color:#aaa;cursor:pointer" onclick="delXp(${i})">✕</span></div>`).join('')||'<div class="empty">空</div>';
+  const noteRows=NOTES.map((n,i)=>`<div class="evrow"><span style="flex:1"><b style="color:#5D4037">${esc(n.cat)}</b> ${esc(n.text)}<div style="color:#999;font-size:12px">${esc(n.date||'')}</div></span><span style="color:#aaa;cursor:pointer" onclick="delNote(${i})">✕</span></div>`).join('')||'<div class="empty">空</div>';
+  const evRows=EVENTS.length?EVENTS.map((e,i)=>`<div class="evrow"><span class="evdate">${esc(e.date)}</span><span style="flex:1">${esc(e.label)}</span><span style="color:#aaa;cursor:pointer" onclick="delCustomEvent(${i})">✕</span></div>`).join(''):'<div class="empty">还没有手动日程（自动的截止/考试日在「日程预警」页）</div>';
+  return `<h2>档案室</h2><div class="sub">你所有记录的总仓库：过往全部投递（含已挂/历史）、经验贴、随手记、手动日程，一眼看尽</div>
+    <div class="card" style="border-left:4px solid #2E7D32"><h3 style="font-size:14px;margin-bottom:6px">💾 存储状态与上限说明</h3>
+      <div style="font-size:12.5px;color:#444;line-height:1.9">
+      浏览器给每个网站的本地存储上限约 <b>5MB</b>（纯文本，约250万字）。你现在用了 <b>${fmtKB(u.total)}</b>，占上限 <b>${pct.toFixed(2)}%</b>——按一年高强度记录估算也只用到1-2%，<b>使用一年完全够</b>。保险起见每月点一次「导出」存份JSON到云盘即可高枕无忧；存储真满时保存会弹窗提醒你。
+      <div style="background:#eee;border-radius:6px;height:10px;margin:8px 0;overflow:hidden"><div style="width:${Math.max(0.5,pct)}%;height:100%;background:${barColor}"></div></div>
+      ${u.rows.map(r=>`<span style="display:inline-block;margin:2px 10px 2px 0;font-size:12px;color:#666">${r.n}: ${fmtKB(r.s)}</span>`).join('')}
+      <div style="margin-top:8px"><button class="btn small" onclick="exportData()">⬇️ 立即导出全部数据备份</button></div></div></div>
+    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📬 投递全记录（${all.length}条，含已挂/历史）</h3>${appRows}</div>
+    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📚 经验贴全记录（${XPS.length}条）</h3>${xpRows}</div>
+    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">🗒 随手记全记录（${NOTES.length}条）</h3>${noteRows}</div>
+    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📅 手动日程全记录（${EVENTS.length}条）</h3>${evRows}</div>`;
+}
 
 /* ================= 最新公告（每日自动抓取） ================= */
 function annData(){ return (typeof ANNOUNCEMENTS_DATA!=='undefined') ? ANNOUNCEMENTS_DATA : null; }
