@@ -129,6 +129,9 @@ const SEED_XPS = [
   {t:'知乎 · 外企秋招全流程（英文面试/时间线）', src:'知乎搜索', time:'实时更新', url:'https://www.zhihu.com/search?type=content&q=%E5%A4%96%E4%BC%81%E7%A7%8B%E6%8B%9B%20%E9%9D%A2%E7%BB%8F', note:'外企节奏比互联网晚，10-11月是主战场', g:'外企/国际组织'},
   {t:'UN Careers · 联合国全球职位', src:'官网', time:'实时更新', url:'https://careers.un.org', note:'YPP/JPO 官方入口；关注 Inspira 平台', g:'外企/国际组织'},
   {t:'小红书 · 女生体制内岗位避雷与推荐', src:'小红书搜索', time:'实时更新', url:'https://www.xiaohongshu.com/search_result?keyword=%E5%A5%B3%E7%94%9F%20%E4%BD%93%E5%88%B6%E5%86%85%20%E5%B2%97%E4%BD%8D', note:'一线岗（油田/平台/稽查）性别倾向的前辈反馈：机关、国际业务、总部岗普遍友好', g:'女生视角'},
+  {t:'国家大学生就业服务平台（24365）· 官方岗位总入口', src:'官网', time:'实时更新', url:'https://www.ncss.cn', note:'教育部官方平台，央国企/事业单位岗位不少在这里首发；用「国际关系/政治学类」筛选', g:'综合'},
+  {t:'应届生求职网 · BBS面经宝库', src:'官网', time:'实时更新', url:'https://www.yingjiesheng.com', note:'老牌校招网站，BBS区的长篇面经（尤其银行/快消/外企）比社平台更详细', g:'综合'},
+  {t:'知乎 · 2027届秋招时间线话题', src:'知乎搜索', time:'实时更新', url:'https://www.zhihu.com/search?type=content&q=2027%E5%B1%8A%20%E7%A7%8B%E6%8B%9B%20%E6%97%B6%E9%97%B4%E7%BA%BF', note:'各行业节奏与截止日期汇总帖，每周扫一次防止漏投', g:'综合'},
 ];
 // 清理旧版失效链接 + 合并新预置（只动预置项，你手动记的不会丢）
 const BROKEN_XP = ['http://et.airchina.com.cn/cn/ground_crew_info/184753.shtml','http://www.eximbank.gov.cn/202510/t20251029_70302.html','https://www.bilibili.com/cheese/play/ep42565','https://fenbi.com/spa/tiku/guide/catalog/xingce'];
@@ -160,32 +163,41 @@ function daysLeft(dl){ // dl 形如 2026-11-23
 }
 
 /* ================= 每日鼓励 + 上岸实证 ================= */
+const MARKET_BRIEF = {
+  date: '2026-09-06',
+  items: [
+    {i:'🔥', t:'你的赛道', d:'AI相关岗位已占新发校招的近4成（脉脉2026年中数据），“策略产品+AI产品实习+数据分析”是本周期最稀缺的复合牌；央企秋招预计释放30万+岗，能源电力与国有金融占六成，9-11月是网申高峰。'},
+    {i:'⚔️', t:'你的竞争者', d:'2026届硕士毕业生首次突破100万。但和你抢同一个岗位的不是1270万人，是投同公司同岗位的那约200人——他们里清北硕+党员+两段大厂实习的屈指可数，你在这200人里是第一梯队。'},
+    {i:'📌', t:'本周该做的事', d:'大厂提前批已大量关闭、正式批9月中收尾——本周完成美团系+字节+阿里正式批网申；央国企9月起密集开闸，每天刷一次国聘+中信/国投/华润；清北定向选调公告9月底前出，盯北大就业中心专栏。'},
+    {i:'🧭', t:'下一个关键节点', d:'10月15日左右国考报名（岗位表发布当天就筛好岗位，别拖到截止日）；9月底北大约中央选调校内推荐截止。'}
+  ]
+};
 const MOTIVATION = [
-  ['性格好是稀缺资源。','很多人可能感觉不到，直到有一天你会发现，','这个世界上偏执暴躁、精神内耗、被害妄想的人真的很多——','他们平时非常正常，却在某些时刻给你带来伤害和麻烦。','和性格好的人在一起，轻松自在，如沐春风。','所以先成为性格好的人，','你想要的，会绕过千山万水来找你。'],
-  ['「我会亲手把我自己，','送上想要的高度。」','——这句话，请抄在笔记本第一页。','每天10小时的复利，三个月后见分晓。'],
-  ['永远不要抱怨。','能解决就去解决，这是能力；','不能解决就去忍受，这是坚韧。','真正的强大不是对抗，','是允许一切发生。'],
-  ['你走的每一步都算数：','读过的书、写过的报告、熬过的夜，','会在某个面试的下午，','被你自己惊艳到。'],
-  ['秋招不是考试，是匹配。','被拒绝不代表你不好，','只代表这里不是你的位置。','找到位置的人从来不是全才，','是找准了的人。'],
-  ['允许自己有状态差的一天。','休息不是落后，','是给子弹上膛。'],
-  ['别人焦虑的时候你在刷题，','别人放弃的时候你还在投递。','三年后回头看，','你会感谢现在这个没有躺平的自己。'],
-  ['理想主义不是缺点，是稀缺的燃料。','这个时代缺的从来不是精明的人，','是还想认真做点事的人。','而你的专业，本身就是理想主义者的阵地。'],
-  ['Offer会迟到，但不会缺席。','你要做的只是在它到来之前，','把状态保持住。'],
-  ['所谓上岸，不是挤进别人的船，','是学会造自己的船。'],
-  ['压力最大的时候，','恰恰是离突破最近的时候。','数据不会骗人：多投20家，','面试率翻倍。'],
-  ['你不是在求职，','是在选择和谁共度未来十年。','会挑岗位的人，才配得上好岗位。'],
-  ['害怕选择，是因为你还有得选。','这本身，就是一种领先。'],
-  ['把每一次笔试面试当成免费模考。','投上100家练出来的临场感，','是任何辅导班都给不了的。'],
-  ['真正拉开差距的不是天赋，','是投递那天你没有犹豫，','刷题那晚你没有开黑。','自律的爽感，秋招结束那天兑现。'],
-  ['你以为的运气，','不过是别人偷偷刷完的第三遍错题。','所谓上岸，就是把不确定性一格一格做完。'],
-  ['投了50家没回音很正常，','HR的邮箱和你一样会累。','第51封发出去的瞬间，','概率已经开始改变。'],
-  ['面试官问「你有什么问题」时，','问成长路径，别问加班。','你问什么，就会成为什么样的人。'],
-  ['别把秋招当审判，','当成人生第一次大规模尽调：','你在挑公司，公司也在被你尽调。'],
-  ['状态不好的日子，就做机械的事：','背单词、刷一组资料分析、改一版简历。','行动是治愈焦虑的唯一解药。'],
-  ['同届人都在晒offer的时候，','请记住：晒出来的都是幸存者偏差，','你的节奏只属于你自己。'],
-  ['公积金顶格、带薪年假、双休，','这些不是玄学，是你谈判的底气。','信息越多，条件越好——这正是这张表的意义。'],
-  ['女生在职场的上限，','由打破规则的人不断抬高。','你投出的每一份简历，','都是在给下一个女生铺路。'],
-  ['三个月后你会站在哪个offer面前，','取决于今天这十个小时怎么用。','未来的你在等你，别让她久等。'],
-  ['人生是旷野不是轨道。','选调、央企、大厂、国际组织，','每条路都通向不同的风景，','但没有一条是死路。'],
+  ['秋招的本质是一场信息战，','而你手里的岗位库每天都在变厚。','剩下的事很简单：','每天10小时，把不确定性一格一格做完。'],
+  ['焦虑的解药从来不是想通，','是做完这组资料分析。','手在动的时候，','脑子就没空害怕。'],
+  ['你不需要成为最厉害的人，','你只需要成为投得最多、准备得最久、','复盘得最狠的那一个。','执行力，就是普通人的天赋。'],
+  ['别人在群里问「有人投了吗」，','你已经在改第四版简历。','秋招淘汰的从来不是学历，','是还停在「准备开始准备」的人。'],
+  ['「我不怕吃苦，我怕的是没有机会吃苦。」','——把你的这句话设成手机壁纸。','今年秋招，机会正在向你走来。'],
+  ['北大硕士不是你的终点，','是你的起跑线。','你在燕园写过的每一份报告，','都会在某个面试间里替你说话。'],
+  ['网申石沉大海第7天，请记住：','投20家没回音叫正常，','连续投100家才叫入场。','概率从不辜负大样本。'],
+  ['别信「女生不适合」那套话术。','油田不要你，机关要；平台岗不要你，国际业务抢着要。','你要做的是把简历投给对的地方，','而不是为一个错的地方自我怀疑。'],
+  ['每天叫醒你的不该是恐慌，','是「今天又比昨天多投了3家」的爽感。','秋招是马拉松，','领跑者都懂配速。'],
+  ['面试官说「我们需要抗压能力强的人」，','你笑了一下。','两段实习扛过来的你，','怕什么八轮面试。'],
+  ['所谓信息差，就是你在刷岗位库的时候，','别人还在等同学转发。','你手里的每一行数据，','都是别人看不见的护城河。'],
+  ['目标不是「找个工作」，','是在几百个选项里找出那3个','值得你全力以赴的。','会挑的人，才配得上被好机会挑中。'],
+  ['半夜emo很正常，','但请把崩溃时间控制在20分钟以内。','20分钟后，打开题库。','成年人的自愈力，就是核心竞争力。'],
+  ['你的竞争对手不是1270万毕业生，','是和你投同一家公司的那200个人。','而他们里，有几个北大硕+两段大厂实习+党员？','算完这道题，就不慌了。'],
+  ['笔试没有玄学：','行测是熟练度，申论是写作功底，','专业面是你的实习复盘。','三样东西，你都有底子。'],
+  ['「这个岗位要求太高了吧」——不，','是你把别人的长处看成了门槛。','国际关系+数据分析+AI产品实习，','这是2027届最稀缺的复合牌。'],
+  ['放弃比坚持累多了：','放弃之后你还得重新焦虑一遍。','不如把这份力气拿去刷题。'],
+  ['秋招季最好的状态：','白天像战士一样投递，','晚上像学者一样复盘，','睡前像孩子一样相信明天。'],
+  ['别人的offer晒在朋友圈，','你的offer会写进你的命运里。','别比进度，比深度。'],
+  ['今天刷的每一组资料分析，','都是在给明天的自己发工资。','复利这个东西，','对刷题也一样生效。'],
+  ['外派怕什么？','你连燕园的冬天都熬过来了。','世界那么大，','本来就是给准备好看的人准备的。'],
+  ['「这次没考上怎么办？」——那你就是','下一届考生眼里的难度天花板。','题库里永远有你的一席之地。','但先别想这个，先刷题。'],
+  ['把「我很焦虑」换成「我在推进」，','把「我不行」换成「我再试一版」。','语言会重塑行动，','行动会重塑命运。'],
+  ['选调是路，大厂是路，央企是路，','国际组织也是路。','你不是没有退路，','你是路太多了——这叫幸福的烦恼。'],
+  ['未来的某一天，你会站在自己的办公室里，','想起2026年秋天这个刷题到深夜的自己，','然后轻轻说一句：','谢谢你，没有放弃。'],
 ];
 function dailyQuote(){
   const d = new Date();
@@ -211,6 +223,11 @@ function scoreParts(j){
   };
 }
 function jobScore(j){ const s=scoreParts(j); return Math.round(s.fit+s.pay+s.growth+s.mob) + ((daysLeft(j.dl)??1)<0 ? -8 : 0); }
+function catStrategyHtml(){
+  const s = (typeof CAT_STRATEGY!=='undefined') && CAT_STRATEGY[curCat];
+  if(!s) return '';
+  return `<div class="card" style="border-left:4px solid ${CATS[curCat].color};margin-bottom:12px;background:linear-gradient(135deg,#f6f9ff,#fff)"><h3 style="font-size:14px;margin-bottom:6px">🎯 ${CATS[curCat].name} · 备考策略</h3><div style="font-size:12.5px;color:#333;line-height:2"><div>📚 <b>先备好：</b>${esc(s.books)}</div><div>🗓 <b>节奏：</b>${esc(s.plan)}</div><div>⚔️ <b>你的打法：</b>${esc(s.edge)}</div></div></div>`;
+}
 
 /* ================= 总览 ================= */
 function vDash(){
@@ -242,10 +259,11 @@ function vDash(){
       <span style="font-size:12.5px;color:#444"> ${cnt}个岗 ｜ <span style="color:#1e7e34">✓ ${esc(CAT_INSIGHT[k].pro)}</span> ｜ <span style="color:#b02a2a">△ ${esc(CAT_INSIGHT[k].con)}</span></span></div>`;
   }).join('');
 
-  return `<h2>总览</h2><div class="sub">${esc(PROFILE.school)} · ${esc(PROFILE.major)} · ${esc(PROFILE.degree)}</div>
+  return `<h2>关于我</h2><div class="sub">${esc(PROFILE.school)} · ${esc(PROFILE.major)} · ${esc(PROFILE.degree)}</div>
     <div class="card" style="background:linear-gradient(135deg,#fff8e6,#fff);border-color:#f0e2b6">
       <div style="font-size:12px;color:#B8860B;font-weight:700;margin-bottom:6px">🔥 今日份 · 我的未来式（每天换一句）</div>${dailyQuote()}</div>
     ${stats}
+    <div class="card" style="background:linear-gradient(135deg,#eef4ff,#fff);border-color:#c9d9f5"><h3 style="font-size:15px;margin-bottom:8px">📊 秋招市场洞察 <span style="font-size:11px;color:#888;font-weight:400">· 数据截至 ${MARKET_BRIEF.date}，定期更新</span></h3>${MARKET_BRIEF.items.map(x=>`<div style="margin-bottom:8px"><b style="font-size:12.5px">${x.i} ${x.t}：</b><span style="font-size:12.5px;color:#333">${esc(x.d)}</span></div>`).join('')}</div>
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">⏰ 21天内即将截止（参考窗口）</h3>${soonHtml}</div>
     ${confHtml?`<div class="card"><h3 style="font-size:15px;margin-bottom:8px">🚨 日程冲突预警</h3>${confHtml}</div>`:''}
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📣 最新公告（每日自动抓取）</h3>${annListHtml(12)}</div>
@@ -284,6 +302,7 @@ function vJobs(){
       <b>12月</b>：京考笔试（12月中旬）· 上海选调面试<br>
       <b>次年1-3月</b>：部分省二批 · <b>省考联考（3月中旬）</b><br>
       💡 策略：清北定向一批锁保底 → 国考同步考（同一套行测申论复用）→ 省考联考最后一次冲高</div></div>`:''}
+    ${catStrategyHtml()}
     <details class="card" style="margin-bottom:12px"><summary style="cursor:pointer;font-size:13.5px;font-weight:600">➕ 自己看到的岗位，手动加一条（和岗位库同框显示）</summary>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
         <input type="text" id="cj-c" placeholder="公司（如：米哈游）" style="flex:1;min-width:150px">
@@ -467,18 +486,18 @@ const XP_CHANNELS = [
   {g:'女生视角', color:'#ad1457', links:[['小红书:女生体制内','https://www.xiaohongshu.com/search_result?keyword=%E5%A5%B3%E7%94%9F%20%E4%BD%93%E5%88%B6%E5%86%85%20%E5%B2%97%E4%BD%8D'],['小红书:秋招避雷','https://www.xiaohongshu.com/search_result?keyword=%E7%A7%8B%E6%8B%9B%20%E9%81%BF%E9%9B%B7']]},
 ];
 function vXp(){
-  const items = XPS.map((x,i)=>`<div class="xp"><div class="xmeta">${x.g?`<span class="cat-tag" style="background:#888;font-size:10px">${esc(x.g)}</span> `:''}[${esc(x.src)}] ${esc(x.time)}</div>
+  const items = XPS.map((x,i)=>`<div class="xp"><div class="xmeta">${x.g?`<span class="cat-tag" style="background:#888;font-size:10px">${esc(x.g)}</span> `:''}[${esc(x.src)}] ${x.time?`发帖 ${esc(x.time)}`:''}${x.saved?` · <span style="color:#1565C0">记录于 ${esc(x.saved)}</span>`:''}</div>
     <b>${esc(x.t)}</b> ${x.url&&x.url.startsWith('http')?`<a href="${esc(x.url)}" target="_blank" style="color:#1565C0;font-size:12.5px">↗</a>`:''}
     <div style="color:#555;margin-top:2px">${esc(x.note||'')}</div>
     <span class="ndel" style="float:right;color:#aaa;cursor:pointer;font-size:12px" onclick="delXp(${i})">✕</span></div>`).join('');
   const chans = XP_CHANNELS.map(c=>`<div style="margin-bottom:10px"><span class="cat-tag" style="background:${c.color}">${esc(c.g)}</span>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">${c.links.map(l=>`<a class="fbtn" style="text-decoration:none" href="${l[1].startsWith('http')?l[1]:'javascript:void(0)'}" ${l[1].startsWith('http')?'target="_blank"':''}>${esc(l[0])} ↗</a>`).join('')}</div></div>`).join('');
-  return `<h2>经验贴</h2><div class="sub">树洞/未名BBS/小红书需登录无法自动抓取 → 官方专栏+多平台检索直达，点开永远是最新帖；好帖随手记一条沉淀在这里</div>
+  return `<h2>经验贴</h2><div class="sub">树洞/小红书好帖随手记：填标题+来源+发帖时间，保存时自动记录你的存档时间；纯文字存本机，一年量绰绰有余（记得每月导出备份）</div>
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">🔎 分行业实时检索（每天点开都是新帖）</h3>${chans}</div>
     <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
       <input type="text" id="xp-t" placeholder="标题（如：国航管培一面面经）" style="flex:2;min-width:180px">
       <input type="text" id="xp-s" placeholder="来源（小红书/牛客/知乎…）" style="flex:1;min-width:120px">
-      <input type="text" id="xp-time" placeholder="时间（如 2026-09）" style="width:110px">
+      <input type="text" id="xp-time" placeholder="发帖时间（如 2026-09）" style="width:140px">
     </div>
     <textarea id="xp-n" placeholder="要点/链接/检索词……"></textarea>
     <div style="margin-top:8px;text-align:right"><button class="btn" onclick="addXp()">保存经验贴</button></div></div>
@@ -486,7 +505,7 @@ function vXp(){
 }
 function addXp(){
   const t=$('#xp-t').value.trim(); if(!t) return alert('请填标题');
-  XPS.unshift({t, src:$('#xp-s').value.trim()||'手动记录', time:$('#xp-time').value.trim()||new Date().toLocaleDateString('zh-CN'), note:$('#xp-n').value.trim()});
+  XPS.unshift({t, src:$('#xp-s').value.trim()||'手动记录', time:$('#xp-time').value.trim()||'', saved:new Date().toLocaleString('zh-CN'), note:$('#xp-n').value.trim()});
   save(); render('xp');
 }
 function delXp(i){ XPS.splice(i,1); save(); render('xp'); }
