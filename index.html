@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>我的未来式我做主 · 2027届</title>
+<title>SJX的校招准备网站 · 2027届</title>
 <style>
   :root{--ink:#222;--gray:#777;--bg:#f7f6f4;--card:#fff;--line:#e6e2dc;--red:#B71C1C;}
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -72,7 +72,7 @@
 </head>
 <body>
 <nav>
-  <span class="brand">✨ 我的未来式我做主</span>
+  <span class="brand">✨ SJX的校招准备网站</span>
   <a data-v="dash" class="on">总览</a>
   <a data-v="jobs">岗位库</a>
   <a data-v="apps">我的投递</a>
@@ -106,10 +106,11 @@ let JOBSTAT = LS.get('hub-jobstat', {}); // 岗位人工备注/补充
 let CUSTOMS = LS.get('hub-customs', []); // 我自己补充的岗位
 let GKMODS  = LS.get('hub-gk-mods', {}); // 考公行测模块进度
 let GKMOCKS = LS.get('hub-gk-mocks', []);// 考公模考记录
+let GKWRONG = LS.get('hub-gk-wrong', []);// 考公错题集
 let EVENTS  = LS.get('hub-events', []);  // 手动添加的日程提醒
 const STATUS = ['未投递','已投递','笔试','面试','Offer','已挂'];
 
-function save(){ try{ LS.set('hub-apps',APPS); LS.set('hub-xps',XPS); LS.set('hub-notes',NOTES); LS.set('hub-jobstat',JOBSTAT); LS.set('hub-customs',CUSTOMS); LS.set('hub-gk-mods',GKMODS); LS.set('hub-gk-mocks',GKMOCKS); LS.set('hub-events',EVENTS); }catch(e){ alert('⚠️ 浏览器本地存储已满！请立即「导出」备份，并到「档案室」清理旧记录'); } }
+function save(){ try{ LS.set('hub-apps',APPS); LS.set('hub-xps',XPS); LS.set('hub-notes',NOTES); LS.set('hub-jobstat',JOBSTAT); LS.set('hub-customs',CUSTOMS); LS.set('hub-gk-mods',GKMODS); LS.set('hub-gk-mocks',GKMOCKS); LS.set('hub-gk-wrong',GKWRONG); LS.set('hub-events',EVENTS); }catch(e){ alert('⚠️ 浏览器本地存储已满！请立即「导出」备份，并到「档案室」清理旧记录'); } }
 const $ = s => document.querySelector(s);
 const ALL_JOBS = () => JOBS.concat(CUSTOMS);
 const job = id => ALL_JOBS().find(j=>j.id===id);
@@ -180,7 +181,7 @@ const MARKET_BRIEF = {
     {i:'🔥', t:'你的赛道', d:'AI相关岗位已占新发校招的近4成（脉脉2026年中数据），“策略产品+AI产品实习+数据分析”是本周期最稀缺的复合牌；央企秋招预计释放30万+岗，能源电力与国有金融占六成，9-11月是网申高峰。'},
     {i:'⚔️', t:'你的竞争者', d:'2026届硕士毕业生首次突破100万。但和你抢同一个岗位的不是1270万人，是投同公司同岗位的那约200人——他们里清北硕+党员+两段大厂实习的屈指可数，你在这200人里是第一梯队。'},
     {i:'📌', t:'本周该做的事', d:'大厂提前批已大量关闭、正式批9月中收尾——本周完成美团系+字节+阿里正式批网申；央国企9月起密集开闸，每天刷一次国聘+中信/国投/华润；清北定向选调公告9月底前出，盯北大就业中心专栏。'},
-    {i:'🧭', t:'下一个关键节点', d:'10月15日左右国考报名（岗位表发布当天就筛好岗位，别拖到截止日）；9月底北大约中央选调校内推荐截止。'}
+    {i:'🧭', t:'下一个关键节点', d:'上海/黑龙江定向选调9月初已发公告（报名就在眼前，本周就去查官方公告）；北京定向选调预计9月中旬启动；10月14日左右国考公告、15-24日报名（岗位表发布当天就筛好，别拖到截止日）；9月底北大约中央选调校内推荐截止。'}
   ]
 };
 const MOTIVATION = [
@@ -229,6 +230,27 @@ const UP_CASES = [
   {t:'硕士上岸军队文职（政治理论教员）', d:'党员+硕士双达标，部分岗位免笔试直进面试；待遇同级公务员上浮，体检提前三个月规律作息即可。', kw:'军队文职 上岸 待遇'},
   {t:'英专硕拿下玛氏管培（全英五轮面）', d:'快消管培不限专业：英语流利+领导力故事库是唯二钥匙；网测刷人70%但隔年可重复申请。', kw:'玛氏 管培 面经'},
 ];
+// BBS真实案例库：找工作版爬取30页约630帖中筛出的真实offer对比/上岸/避坑帖（2026-09-06收录）
+// 点标题直达原帖（需BBS登录态）
+const bbsUrl = id => 'https://bbs.pku.edu.cn/v2/post-read.php?bid=99&threadid='+id;
+const CASE_LIB = [
+  {cat:'🏛️ 体制内 · 选调/部委/公务员', color:'#5D4037', items:[
+    {id:19054682,t:'天坑人文本，计划浙皖市直选调，求建议'},{id:19055810,t:'【好文分享】 泛文科择业部委/北京市直及央国企'},{id:19055922,t:'秋招体制内经验咨询'},{id:19054484,t:'体制内北大毕业有何长处，以求同龄人中获得竞争优势'},{id:18741508,t:'Offer选择：家乡选调、大厂、央企、公募'},{id:19012291,t:'选调回家乡后面会后悔没留在大城市吗'},{id:18914794,t:'【offer求建议】bw or 央企总部'},{id:19016661,t:'【OFFER求助】直辖市选调VS深圳事业单位'},{id:19052646,t:'社科人28年本科毕业想进河南体制内'},{id:18797591,t:'【国考选调攻略-选岗篇】萌新去年的一点经验'},{id:18899105,t:'求助前辈们，本科选调还是降级保研？'},{id:18965678,t:'又到了国考报名季了，义务答疑。'},{id:19050756,t:'【offer求助】选调市直or211辅导员'},{id:18389715,t:'专门开帖吧，关于部委的所有问题'},{id:19050931,t:'求教前辈们国考/选调报名的党员资格问题'},{id:18964714,t:'更新下4年深圳公务员的现状'},{id:18804039,t:'【国考选调攻略-城市地区篇】后辈浅见'},{id:18966956,t:'中西部省份选调自救指南'},{id:18992428,t:'大买事业单位 vs 金融BW'},{id:19053020,t:'【求建议】体制内新人应该如何自处'},{id:19052748,t:'新一线城市选调开盲盒结果感觉很迷茫，求助各位前辈'},{id:19052524,t:'请求帮助：有无中央遴选大佬指点'},{id:19013203,t:'【offer求建议】核心bw(zjw） vs 江浙非核心省直'},{id:19013524,t:'香港深造 or yx非核心部委？'},{id:19011479,t:'外交部遴选是什么情况？'},{id:19007840,t:'今年清北专项的选调会全部取消吗'},{id:19012210,t:'求问部委事业单位入dang容易吗'},{id:19011900,t:'bw下面的公益二类事业编咋样。稳定吗'},{id:18874014,t:'部委事业单位咨询'},{id:19049157,t:'知行计划 中央部委实习 求助'},{id:19049364,t:'【offer帮选】bw事业编vs.垄断央企总vs.北京市'},{id:19048388,t:'【求建议】继续留在高校还是去gwy'},{id:18920020,t:'【offer求建议】中信股票衍生品VS安徽合肥市直定向'},{id:19005734,t:'【Offer求建议】总行 vs 部委 （谢谢大噶～）'},{id:19010386,t:'高校vs总行vs部委'},{id:18997830,t:'江浙省厅公检法选调 VS 字节SSP'},{id:19005742,t:'省直机关一个处一般几个人'},{id:18998213,t:'【最新更新信息！】区级gwy VS 腰部gt基金后台职能'},{id:18974082,t:'关于体制内有关工作岗位的一点体会'},{id:19007856,t:'bw的驻外储备人员岗怎么样'},{id:18872682,t:'【offer比较】辽宁选调vs国家电投子公司'},{id:19005875,t:'好奇bw普通人仕途大概咋样，当部长或委员概率'},{id:19005698,t:'北京gwy（市直、区直）会分房吗'},{id:19005984,t:'国考公安部上岸，劝退贴看太多有点担心'},{id:19008743,t:'小镇普通人想走体制内工作，广东or北京'},{id:19003779,t:'北京区直还是yx？'},{id:19006870,t:'求大家帮考虑offer：央企总or家乡江浙市直'},{id:19015306,t:'NX选调和普通省考国考真实入职情况咋样？'},{id:19008995,t:'已签约重庆定选'},{id:19006191,t:'去了省直某非常边缘的部门 有什么渠道去别的厅呀'},{id:19005881,t:'考g上岸血泪集：一人提一条曾经踩过的坑'},{id:18799055,t:'【国考选调攻略-备考篇】学渣的备考策略'},{id:19008589,t:'外交部外派艰苦地区待遇如何'},{id:19009978,t:'求助计算机专业在外交部如何'},{id:19013793,t:'北京基层法院入额问题请教'},{id:19050463,t:'【offer帮选】北京市直 vs 烟草'},{id:19012339,t:'求问科技部一类单位事业编'},{id:19016307,t:'帝都211马院 VS BW事业编'},{id:19013243,t:'【offer建议】央企二级 vs. 省直 vs. 高校'},{id:19010687,t:'金融基础设施vs核心bw'},{id:19009025,t:'ofr求助：央企国际子/农发总/公募/贷款bw/舔回o'},{id:19016120,t:'如果想去云南工作'},{id:19002821,t:'求问福建博士选调相关情况'},{id:19006544,t:'求问 有没有在发改委下属的xi经济思想研究中心工作'},{id:19016188,t:'求问offer对比，bw事业单位技术岗vs行政岗'}
+  ]},
+  {cat:'🏦 央国企 · 总部/银行/能源/金融', color:'#00695C', items:[
+    {id:19057330,t:'校招央企入职被调部门怎么办'},{id:18882455,t:'三桶油vs大厂vs建总'},{id:19057018,t:'国企在职想做副业'},{id:19055298,t:'有没有uu了解总行、央企总部卡多少年龄'},{id:19056720,t:'有没有人在银行支付清算类岗位工作呀？'},{id:19056271,t:'央企总部工作，国资委借调要不要去？'},{id:19001067,t:'【offer求助】有无发电央企总部管培的前辈或者友友'},{id:18979718,t:'【offer求帮选】招总职能类vs国企定向选聘'},{id:18949158,t:'求问工科去金融类国企可能吗？'},{id:19055458,t:'北京的央企国企社招更倾向于录取本地人吗'},{id:19055379,t:'好奇央国企、总行中后台是不是都是萝卜坑啊'},{id:19054413,t:'分享本人国企【公元1621年】工作3年的小故事'},{id:19055377,t:'去央企 总行雅思6.5够吗'},{id:17687628,t:'研一学妹求助国企央企人力资源部求职规划'},{id:18914311,t:'实业央企'},{id:19055172,t:'要不要从头部券商润到新一线区属投资机构，卷不'},{id:19055074,t:'股份制总行管培轮岗，有信用卡指标'},{id:18992208,t:'中远海运管培生'},{id:19054680,t:'国企二级单位培养期五年'},{id:19054666,t:'新一轮国企改革有何影响'},{id:19054251,t:'管理类本科毕业能去国央企吗，还是为了泛体制就业考'},{id:19054070,t:'【offer帮选】中远海运集团管培 vs 兴业资运中'},{id:19054128,t:'求助一下央国企薪资问题'},{id:19053524,t:'总行管培感觉熬不过轮岗期咋办'},{id:19053246,t:'总行轮岗选择 京内or京外'},{id:18978687,t:'互联网算法vs股份制银行管培'},{id:18868290,t:'【offer求比较】招总vs中总'},{id:18309657,t:'上交所待遇与发展情况'},{id:19051898,t:'Offer选择请教【军工贸易】【金融量化】'},{id:19052273,t:'【offer建议】中总信科 vs 移动总财务部'},{id:18985340,t:'offer求比较：半导体vs中国移动vs芯片公司'},{id:19051192,t:'【博后比较】股份行 v. 国资pe v. 保险总'},{id:19051907,t:'【Offer最终选择】省烟草vs省属国资pe'},{id:19048391,t:'【offer三选一】华能vs央财行政vs社工部事业编'},{id:19051728,t:'27秋招--央国企--泛计算机就业'},{id:19013690,t:'中石油数智研究院社招，有没有了解这个单位的校友？'},{id:19051407,t:'能源央企科技岗VS不交社保继续找'},{id:19051334,t:'国有总行后台跳槽求建议'},{id:19051062,t:'【offer求助】人文bg想去总行，中行北分实习值'},{id:19051109,t:'伪校招Offer求助，某四大AMC子vs中银富登vs京国企'},{id:18992476,t:'中信ib和中金并购，选哪个好呢'},{id:18983684,t:'【Offer比较】中总 v. 工总 v. 家乡人才引进'},{id:19050176,t:'【offer帮选】FICC自营vs公募研究'},{id:19051060,t:'【offer求助】银行省分vs公募中台'},{id:19050948,t:'【offer选择】头部公募产品 vs 上交所'},{id:19050951,t:'【暑期求助】浙商银行or复习备考'},{id:19050607,t:'【Offer帮选】河北电网vs农行省分管培'},{id:19050551,t:'【offer比较】零售消费品商分vs新央企总部分析岗'},{id:19049661,t:'Offer选择：华为 vs 平安 vs 中国移动'},{id:19050252,t:'【offer求助】南方基金AI应用岗 vs 民生总行数据+'},{id:19049970,t:'【offer帮选】平安金市 vs 券商资管 vs 公募ETF'},{id:19050118,t:'【求建议】中粮国际社招投资岗'},{id:19049270,t:'【Offer帮选】互联网产品vs在港央企'},{id:19049062,t:'【offer帮选】上交所 vs 央行系统国企 vs 行业协会'},{id:19004094,t:'求助，北京电网党校和综合能源公司待遇'},{id:19049653,t:'招商局集团总部怎么样？'},{id:19049425,t:'央企发展案例：工作六年，职级主管，待遇35左右'},{id:19049397,t:'【Offer帮选】海油物采vs管网研究总院vs山东高速'},{id:19014345,t:'请教前辈，总行新人的技能排序'},{id:19049088,t:'【offer帮选】中证登 or 中金'},{id:19048665,t:'【岗位咨询】中债信用增进、建信养老、中银理财'},{id:19012154,t:'【Offer求助】建总 vs 江苏工行省分'},{id:18983999,t:'【offer比较】游戏公司vs中石油vs新能源车企vs广告'},{id:19004565,t:'【offer求助】中证登 vs 交易所'},{id:19001990,t:'【offer帮选】信托业保障基金VS建行省分VS人行省分'},{id:19014588,t:'【Offer比较】兴业北分vs国寿安保vs中粮信托'},{id:19016462,t:'想找北京不卷的国央企信息技术岗'},{id:19006270,t:'【国资PE咨询】电科投资'},{id:19005031,t:'【offer求助】金融央企总部vs股份行总行'},{id:18998079,t:'【offer求助】中信固收自营 vs 平安银行金市'},{id:19016583,t:'请大家对比一下招商局集团总部vs国寿养老总'},{id:18989672,t:'【offer求建议】家乡央企二级子vs北京央企二级子'},{id:18989705,t:'【offer求建议】重庆两家银行 VS 南网广州供电局'},{id:19013866,t:'【offer比较】山东全资二级vs浙江控股国企'},{id:19015986,t:'新央企中国资源循环集团有限公司（中资环）请教'},{id:19015911,t:'咨询一下国央企薪资问题'},{id:19012238,t:'【offer求助】上海黄金交易所'},{id:19011931,t:'【offer求助】军贸央企 vs 联洲国际'},{id:19014565,t:'【offer比较】国寿寿总 vs 广东省农发'},{id:19014241,t:'央企的集团公司和股份公司都是总部吗？'},{id:19013743,t:'【Offer求帮选】中总 VS 中证登北分 VS 招商基金'},{id:18985200,t:'校招入职成都国企被裁后续——已转正'},{id:19013302,t:'【offer建议】南网超高压昆明局vs中石化广州工程公'},{id:19011977,t:'【offer比较】中石油 vs 中车'},{id:19013485,t:'求问【中国航发】相关'},{id:18992977,t:'【offer求助】中煤总部管培vs浙资运营'},{id:18997373,t:'25贵校硕士总行工作一个月裸辞去读博 后悔ing'},{id:19011584,t:'【offer求助】四川银行总行科技岗'},{id:19011542,t:'【offer求助】江苏省国投集团'},{id:19010497,t:'【offer求建议】航天科工财务子vs华能财务子'},{id:19010451,t:'【offer选择】总行、券商、大宗交易'},{id:19010909,t:'【offer求助】人民银行下属金融基础设施'},{id:19009746,t:'【offer决赛圈】中总、券商总办、大宗交易龙头'},{id:19009366,t:'【offer求助】有人了解中电信量子集团吗？'},{id:19009953,t:'值得毁约去吗，zx集团vs国有总前台'},{id:19007255,t:'上清所待遇现在如何？'},{id:18992032,t:'国开总薪资待遇咨询'},{id:18993213,t:'【offer求助】国有行省分 vs 国投总'},{id:19006225,t:'【南方电网】求问电网大头兵待遇'},{id:19005735,t:'【offer求助】农总 VS 农发总'},{id:18987490,t:'【offer求助】农总风险合规 vs 建总派驻纪检组'},{id:18888833,t:'【offer求助】 江苏移动vs农行数据中心上海'},{id:19003113,t:'【offer选择】诚通基金VS丝路基金'},{id:19004294,t:'【offer求建议】政策行总行 VS 保险央企二级子'},{id:19003778,t:'offer求助 中信信托还是国开行省分（辽宁）'},{id:18992388,t:'国投人工智能管培值得去吗？'},{id:19003502,t:'中信金融资产管理有限公司怎么样'},{id:19008193,t:'【26届公募offer】求问未来发展！'},{id:19009320,t:'保险资管中台岗值得去吗'},{id:19008027,t:'投行还值得去吗：招总fintech管培 VS 大平台ib'},{id:19008172,t:'中国电子产业工程（中电易联）在军贸央国企里算'},{id:19010682,t:'军工头部所vs半导体设备厂'},{id:19010145,t:'军工央企子公司法务vs头部pe/vc 法务岗'},{id:19008664,t:'Offer选择：QS前10计算机二硕 or 国网二级子职'},{id:19006891,t:'央企二级单位总部VS省厅'},{id:19007061,t:'浦发银行总行管培生现在有降薪吗？'},{id:19007432,t:'【春招笔试选择】中国移动 vs 工银瑞信'},{id:19006298,t:'银行间市场数据报告库公司VS交易商协会VS票据交易所'},{id:18891258,t:'外汇管理局 中央外汇业务中心'},{id:19005107,t:'中证登社招还能进吗？'},{id:18918216,t:'再开个楼聊聊金融大降薪后能干的副业'},{id:19006153,t:'【offer决赛求助】深交所'},{id:19006141,t:'【春招求建议】沪深交易所未来发展如何'},{id:19009679,t:'请教一下北京户口单列计划'},{id:19053881,t:'央企总部工作，亲戚（隔代）是重要二级公司主要'},{id:19053160,t:'某央企二级子公司避雷'},{id:19008395,t:'中邮创业基金怎么样，求助'},{id:19004930,t:'【offer求助】 头部券商躺平 & 香港matrixport'},{id:19009991,t:'【offer求建议】国有总后台VS子公司投资经理'},{id:19005720,t:'博士总行求职：直接入行经办OR入站博后？'},{id:19000597,t:'【offer求助】中海油天津'},{id:19000964,t:'【offer求助】请问有在海油工作的前辈吗'},{id:18694801,t:'有前辈了解中石化sei待遇咋样嘛'},{id:19004687,t:'央企利润上交比例提高有何影响'},{id:19005291,t:'offer求助【北京供销社系统如何】'},{id:18990546,t:'【offer求建议】中航科创深圳待遇和工作强度怎么样'},{id:19050462,t:'offer选择 中学老师 央国企'}
+  ]},
+  {cat:'💻 互联网 · 大厂/AI/量化', color:'#1565C0', items:[
+    {id:19056909,t:'互联网被裁后人生出路抉择'},{id:18745663,t:'22届互联网被裁'},{id:19055822,t:'在秋招路口很迷茫，央国企or逼自己大厂算法？'},{id:18985989,t:'【offer求助】互联网or公募or老师'},{id:19052403,t:'【offer求咨询】安克创新产品经理offer'},{id:19051379,t:'【社招offer求职】银河通用 vs 寒武纪 vs 字节'},{id:19051375,t:'大厂产品经理请进！'},{id:19051460,t:'贵校本硕搜广推算法何去何从？'},{id:19050002,t:'互联网/大厂 非技术岗位被裁之后出路为何？'},{id:18984232,t:'【offer求建议】本科就业美团产品 or 读研？'},{id:19004936,t:'【Offer求助】腾讯 vs 字节'},{id:19014652,t:'【offer比较】蚂蚁vs字节'},{id:19002332,t:'【offer求助】字节VS其它'},{id:19013276,t:'帮家属问：字节offer接不接'},{id:19014349,t:'润出去外企拿大包WLB还是在大厂苟住'},{id:19013472,t:'大厂工作的意义是什么'},{id:19011370,t:'心力不够还应该去大厂卷吗'},{id:19011675,t:'【offer比较】京东TET vs 新能源市场解决方案'},{id:19007828,t:'春招offer求比较，互联网开发岗，谢谢大家'},{id:19007678,t:'offer选择求建议：具身智能，大模型'},{id:19006942,t:'互联网vs券商AI岗'},{id:19009178,t:'暑期实习 阿里系offer对比分析求助 - agent算法'},{id:18939007,t:'量化'},{id:18331884,t:'信科本科生去量化做开发怎么样？'},{id:19010020,t:'26校招好未来产品offer求问'},{id:19052489,t:'【offer选择】三甲医院事业编or互联网中厂'},{id:19056399,t:'大平台Or面壁智能？'}
+  ]},
+  {cat:'🎓 高校 · 教师/事业编/教培', color:'#6A1B9A', items:[
+    {id:19057277,t:'【大龄女博后出站找工作】'},{id:19054883,t:'非京籍北大本硕还能找到比较好的中学教师工作吗'},{id:19052885,t:'【是否该辞职】普通一本讲师在得很不顺心，求参考'},{id:19055233,t:'大专院校管理岗值得去吗'},{id:19050318,t:'Offer求助|宁波鄞州区事业编VS天津某高校辅导员'},{id:19052386,t:'刚入职青椒被派遣去省科技厅挂职值得去吗？'},{id:18992096,t:'求学长学姐指教现在进教培可以吗'},{id:18969175,t:'中部地区大专辅导员的日常（长期不定期更新）'},{id:18988659,t:'【分享】高校行政管理岗求职经验帖'},{id:19049493,t:'到手辅导员offer，意图跳槽求指导'},{id:18973501,t:'教职求助'},{id:19049650,t:'【求建议】要不要离职去广州做教师'},{id:19012066,t:'985废物青椒失眠了——转行政还是继续等待转教学岗'},{id:19048331,t:'高校博后OR中科院特助'},{id:19008616,t:'高校事业编人社厅已公示，还可以不去吗？'},{id:19010720,t:'普通高校讲师 vs. 港中深博后'},{id:19016171,t:'有在广州做教培的校友们吗？'},{id:19013823,t:'来自双非高校里的工作吐槽'},{id:19015933,t:'【文科教培offer】xdf初数 vs xes小高数'},{id:19015036,t:'人至中年，大龄博后，选企业还是地方高校'},{id:19006828,t:'求问深研院行政岗待遇以及有无编制'},{id:19009156,t:'【offer求助】珠三角非深高中vs深圳初中'},{id:19006994,t:'【求助】上海市或周边地区公立中学教师求职要求'},{id:19008119,t:'秋招北京教师编求职经历'},{id:19008876,t:'关于教培行业的一些感悟分享'},{id:19008484,t:'延毕还是接教培offer'},{id:19007664,t:'刚专升本的省会公办高校值得去吗？'},{id:19008118,t:'教资考试笔试好考吗？'},{id:19004934,t:'【Offer求助】行政 OR 中心城区教师'},{id:19004340,t:'求助，教培大厂选择'},{id:19006857,t:'教培怪异offer'},{id:19006150,t:'诚寻报考高校行政的建议'},{id:19004782,t:'求助，广东资产评估协会事业编待遇情况'},{id:19007427,t:'是否要从高校离职呢？'},{id:18994225,t:'青椒非升即走评职称没过，转行政还是继续死磕学术'},{id:18675212,t:'24届毕业的同学，教招进度如何？有心仪的offer了吗'},{id:19006583,t:'求问中国石油大学北京讲师岗'},{id:19049053,t:'【offer帮选】生物私企 vs 高中生物老师'}
+  ]},
+  {cat:'📖 求职经验 · 避坑/规划/复盘', color:'#B8860B', items:[
+    {id:19057392,t:'目前就业形势真的很糟糕吗？'},{id:19056643,t:'工作base地抉择'},{id:19054814,t:'升学与就业抉择'},{id:18774986,t:'毕业三年的学长找工经验帖--更新结束--答疑中'},{id:18934016,t:'【毕业一年回顾】选个合适的工作很重要'},{id:19053122,t:'后悔拒绝offer'},{id:19049979,t:'【避雷中旅】5天前我是第一名，5天后我变成了第四名'},{id:19050596,t:'博士期间好后悔没有去实习'},{id:2278,t:'我的找工作经历和一些感受'},{id:19049957,t:'分享一点儿跳槽的经历和教训'},{id:19005077,t:'2024年北大毕业生平均起薪 zz'},{id:19048696,t:'真心后悔读研'},{id:19008123,t:'求教硕士延毕的职业规划和时间安排'},{id:19013778,t:'文科+冷门专业+农村+没有背景+没技术+往届，破'},{id:19014163,t:'人文社科本科就业除大厂教培能去哪里'},{id:19016585,t:'金融女生毕业职业选择'},{id:19014663,t:'北方独生女异地找工作'},{id:19009817,t:'小城市的工作机会，要不要去，'},{id:19016059,t:'如何面对没那么满意的offer'},{id:19013953,t:'25年毕业校招选错ofr怎么办'},{id:19052063,t:'校招入职前转岗恶意被卡求助'},{id:19007916,t:'毕业后工作3年了还是好焦虑'}
+  ]},
+];
+const CASE_TOTAL = CASE_LIB.reduce((s,g)=>s+g.items.length,0);
 
 /* ================= 岗位综合匹配分（搜索排序模型） ================= */
 function payMid(p){ const s=String(p); const m=s.match(/(\d+)[-–~](\d+)/); if(m) return (+m[1]+ +m[2])/2; const one=s.match(/(\d+)/); return one?+one[1]:12; }
@@ -281,16 +303,64 @@ function vDash(){
   return `<h2>关于我</h2><div class="sub">${esc(PROFILE.school)} · ${esc(PROFILE.major)} · ${esc(PROFILE.degree)}</div>
     <div class="card" style="background:linear-gradient(135deg,#fff8e6,#fff);border-color:#f0e2b6">
       <div style="font-size:12px;color:#B8860B;font-weight:700;margin-bottom:6px">🔥 今日份 · 我的未来式（每天换一句）</div>${dailyQuote()}</div>
+    <div class="card" style="border-left:4px solid #1A237E;background:linear-gradient(135deg,#f5f7ff,#fff)"><h3 style="font-size:15px;margin-bottom:8px">📋 简历画像 · 优势与短板（2026-09版简历解析）</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div><div style="font-size:12.5px;font-weight:700;color:#1e7e34;margin-bottom:6px">✅ 你的五张王牌</div>
+          <div style="font-size:12.5px;color:#333;line-height:1.9">
+            ① <b>北大硕+GPA前5%+三好学生</b>：学历硬通货，选调/央国企定级直接占优<br>
+            ② <b>两段美团实习（策略产品AI建设+数据分析）</b>：「AI产品+数据」复合牌是2027届最稀缺配置，直接对标大厂策略产品岗<br>
+            ③ <b>党员+国际关系（政治学大类）</b>：央选/定向选调/部委的黄金身份组合<br>
+            ④ <b>雅思7.0+CET6 567</b>：央企国际业务岗（中石油国际事业/中远海运/国网国际）的语言直通卡<br>
+            ⑤ <b>AI工具链实战（CatPaw搭Demo/10+自动化工作流）</b>：面试可现场展示的即战力，别人只有「熟练Office」
+          </div></div>
+        <div><div style="font-size:12.5px;font-weight:700;color:#b02a2a;margin-bottom:6px">△ 四个真实短板（都有解法）</div>
+          <div style="font-size:12.5px;color:#333;line-height:1.9">
+            ① <b>无正式全职经验</b>：「来了就能干」的证明要靠实习复盘讲故事补——供需诊断/漏斗归因/口径治理各打磨成一页STAR<br>
+            ② <b>女生婚育隐性筛选</b>：市场化一线岗真实存在（岗位库已标⚠️），但机关/总部/国际岗不明显——投对地方比自我怀疑重要<br>
+            ③ <b>国际关系在纯金融/技术岗不占优</b>：用SQL+看板作品证明分析硬实力（你已有，要写出来）<br>
+            ④ <b>无海外学位</b>：用雅思7.0+泰国境外业务报告对冲即可，非硬伤
+          </div></div>
+      </div>
+      <div style="margin-top:10px;border-top:1px dashed var(--line);padding-top:8px;font-size:12.5px;line-height:2;color:#333">
+        <b>🎯 按赛道还差什么：</b><br>
+        <b>🏛️ 选调/部委：</b>行测+申论（见考公备战）+时政积累（人民日报评论/半月谈）+本周找辅导员开党员证明<br>
+        <b>🏦 央国企总部：</b>笔试行测题（与公考同源直接复用）+目标集团主业研究（面试必问「为什么选我们」）<br>
+        <b>💻 大厂策略产品：</b>实习STAR故事3版+case题库刷20道+盯正式批补录与春招窗口<br>
+        <b>🌏 央企国际业务：</b>口语保持+把泰国报告写成「跨文化业务输出」案例+11月国网国际/中石油国际事业一批别错过<br>
+        <b>🎓 高校/文职：</b>辅导员岗需学生骨干经历（现在还来得及补学院助理岗）+军队文职突击政治理论两周
+      </div></div>
     ${stats}
     <div class="card" style="background:linear-gradient(135deg,#eef4ff,#fff);border-color:#c9d9f5"><h3 style="font-size:15px;margin-bottom:8px">📊 秋招市场洞察 <span style="font-size:11px;color:#888;font-weight:400">· 数据截至 ${MARKET_BRIEF.date}，定期更新</span></h3>${MARKET_BRIEF.items.map(x=>`<div style="margin-bottom:8px"><b style="font-size:12.5px">${x.i} ${x.t}：</b><span style="font-size:12.5px;color:#333">${esc(x.d)}</span></div>`).join('')}</div>
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">⏰ 21天内即将截止（参考窗口）</h3>${soonHtml}</div>
     ${confHtml?`<div class="card"><h3 style="font-size:15px;margin-bottom:8px">🚨 日程冲突预警</h3>${confHtml}</div>`:''}
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📣 最新公告（每日自动抓取）</h3>${annListHtml(12)}</div>
-    <div class="card"><h3 style="font-size:15px;margin-bottom:6px">🧭 考公备战</h3><div style="font-size:13px;color:#555">行测五大模块进度 · 模考成绩记录 · 国考/京考/省考倒计时</div>
+    <div class="card"><h3 style="font-size:15px;margin-bottom:6px">🧭 考公备战</h3><div style="font-size:13px;color:#555">行测五大模块进度 · 题型方法 · 申论 · 模考成绩 · 错题集 · 倒计时</div>
       <div style="margin-top:8px"><a class="btn small" href="javascript:void(0)" onclick="document.querySelector('nav a[data-v=gk]').click()">进入考公备战 →</a></div></div>
-    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">💪 上岸实证（他们可以，你也可以）</h3>
+    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">🎯 考查流程速览（按赛道 · 从网申到录用）</h3>
+      <div style="font-size:12.5px;color:#333;line-height:2">
+      <b>🏛️ 选调/公务员：</b>报名→笔试（行测+申论，清北定向报录比多在3:1-8:1）→面谈/结构化面试→体检→政审（含家庭主要成员）→公示。京考、省考完全同构，一套备考通吃<br>
+      <b>🏛️ 部委（国考）：</b>笔试（行测+申论；外交部考英语、商务部加试专业课）→专业考试→结构化/无领导面试（多5:1差额）→体检→政审→公示<br>
+      <b>🏦 央企总部（国网/烟草/三桶油）：</b>网申（机筛学历专业）→全国统考（综合知识+专业，国网一批11月笔试）→面试（半结构化2-3轮，管培常加无领导）→offer——流程最快的一条线<br>
+      <b>🏦 银行总行/省分：</b>网申→笔试（行测+英语+综合+性格测试，多ATA统考）→面试（半结构化+无领导）→体检政审；总行「打招呼」现象真实存在，省分更看笔试硬分<br>
+      <b>💻 大厂（美团/字节/阿里）：</b>提前批（7-8月免笔试）→正式批网申→笔试（行测类+产品case）→1-4轮专业面（深挖实习复盘）→HR面→offer审批；策略产品岗重点是「把实习讲成方法论」<br>
+      <b>🧴 快消管培（宝洁/欧莱雅/玛氏）：</b>网申→网测（性格认知，宝洁OT刷人70%）→AI面/群面→总监终面（英文case常见）<br>
+      <b>🎓 高校辅导员/行政：</b>报名（党员+学生干部硬门槛）→笔试（行测+校情+思政）→面试（重学生工作案例）→政审体检；教师岗加试讲<br>
+      <b>🎖️ 军队文职：</b>报名→笔试（公共科目+专业）→面试→体检（严格）→政审；党员+硕士部分岗位免笔试
+      </div></div>
+    <div class="card" style="border-left:4px solid #E65100"><h3 style="font-size:15px;margin-bottom:8px">🏆 最值得去的具体岗位（按你的画像精选：平台+待遇+培养+你的竞争力）</h3>
+      <div style="font-size:12.5px;color:#333;line-height:2">
+      <b>① 中央选调/部委——外交部/商务部地区司/中联部：</b>北大+党员+国关+雅思7.0就是央选核心画像，外交部英语加试是你的分差项；平台天花板+配租/子女入学保障。<span style="color:#E65100">9月底校内推荐截止</span><br>
+      <b>② 北京市直（定向选调）：</b>待遇比部委高10-15%、通州房源基本不排队、晚7点下班是常态（情报卡已验证）——平台与生活的性价比之选<br>
+      <b>③ 央企国际业务——国网国际/中石油国际事业：</b>雅思7.0+泰国境外报告直接对口；央企待遇第一梯队，<span style="color:#E65100">国网一批11月报名</span>；「不怕吃苦怕没机会吃苦」的正解赛道<br>
+      <b>④ 美团/字节 策略产品·AI产品（正式批）：</b>两段美团实习直接对标，30万年薪预期在这条线最现实；秋招不利还有实习转正后路（转正率约50%）<br>
+      <b>⑤ 政策行总行（国开/农发/进出口）：</b>泛文科友好+央企中上待遇+稳定；笔试与考公完全复用，边际成本极低<br>
+      <b>⑥ 上海/广东定向选调（想留一线）：</b>清北通道报录比低；<span style="color:#E65100">上海9月初已启动、广东12月初</span>，巡考可连考多次<br>
+      <span style="color:#999">⚠️ 证券总部/中债登类「神仙单位」普遍需硬关系打招呼——当彩票投，别当主线（情报卡结论）。</span>
+      </div></div>
+    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">💪 上岸实证（12条精读 + ${CASE_TOTAL}条BBS真实案例 · 点标题直达原帖）</h3>
       ${UP_CASES.map(c=>`<div style="border-bottom:1px dashed var(--line);padding:7px 0;font-size:13px"><b>${esc(c.t)}</b>　<span style="color:#555">${esc(c.d)}</span> <span style="color:#999;font-size:12px">🔎 检索词：${esc(c.kw)}</span></div>`).join('')}
-      <div style="font-size:12px;color:#999;margin-top:6px">部分行业一线岗（油田/平台/稽查）实操中存在性别倾向，机关、国际业务、总部岗不明显——岗位库里带 ⚠️ 标注的已帮你标出。</div></div>
+      ${CASE_LIB.map(g=>`<details style="margin-top:10px;border-top:1px dashed var(--line);padding-top:8px"><summary style="cursor:pointer;font-size:13.5px;font-weight:700;color:${g.color}">${g.cat}（${g.items.length}帖 · 点开看全部）</summary><div style="margin-top:6px">${g.items.map(it=>`<a href="${bbsUrl(it.id)}" target="_blank" style="display:inline-block;margin:2px 10px 2px 0;font-size:12.5px;color:#1565C0;text-decoration:none;border-bottom:1px dashed #1565C0">↗ ${esc(it.t)}</a>`).join('')}</div></details>`).join('')}
+      <div style="font-size:12px;color:#999;margin-top:6px">部分行业一线岗（油田/平台/稽查）实操中存在性别倾向，机关、国际业务、总部岗不明显——岗位库里带 ⚠️ 标注的已帮你标出。BBS链接需北大BBS登录态（校内网/VPN）。</div></div>
     <div class="card profile-traits"><h3 style="font-size:15px;margin-bottom:8px">🃏 我的底牌（匹配判断依据）</h3>
       <div style="margin-bottom:8px">${PROFILE.traits.map(t=>'<span>'+esc(t)+'</span>').join('')}</div>${insight}</div>`;
 }
@@ -314,13 +384,15 @@ function vJobs(){
     </div>
     ${(curCat==='xt'||curCat==='gw')?`<div class="card" style="border-left:4px solid #B71C1C;margin-bottom:12px"><h3 style="font-size:14px;margin-bottom:6px">📅 选调/公务员考试时间轴（清北通道优先 · 2027届参考）</h3>
       <div style="font-size:12.5px;color:#444;line-height:2">
-      <b>9月</b>：云南/广西/四川等清北定向选调报名（最早批次）· 中央选调启动（校内推荐，北大约9月底截止）<br>
-      <b>10月上旬</b>：江西/江苏/沪浙陆续发公告 · <b>国考报名（10月15日左右，笔试11月底周日）</b><br>
-      <b>10-11月</b>：各省清北定向选调笔试面试高峰（一批11月底前完成）<br>
-      <b>11月</b>：国考笔试 · 京考报名 · 深圳市考<br>
-      <b>12月</b>：京考笔试（12月中旬）· 上海选调面试<br>
-      <b>次年1-3月</b>：部分省二批 · <b>省考联考（3月中旬）</b><br>
-      💡 策略：清北定向一批锁保底 → 国考同步考（同一套行测申论复用）→ 省考联考最后一次冲高</div></div>`:''}
+      <b style="color:#B71C1C">✅ 已启动（9月初）：</b>上海、黑龙江2027届定向选调——<b style="color:#B71C1C">这两省报名窗口就在眼前，本周去查官方公告</b>；中央选调同步启动（北大校内推荐，约9月底截止）<br>
+      <b>9月中旬：</b>北京定向选调+优培计划公告（预计）<br>
+      <b>10月上旬：</b>山东专额定向选调公告+报名（岗位含省直及济南/青岛市直）<br>
+      <b>10月14日：</b>国考公告发布（预计）→ <b>10月15-24日国考报名</b>（先观望2-3天看报录比，别拖到最后一天）<br>
+      <b>10月下旬-11月初：</b>山东专额笔试 · 军队文职公告 · 各省定向选调密集发布（集中到11月初，江西预计10-11月）<br>
+      <b>11月28-29日：</b>国考笔试（28日上午行测，29日下午申论）· 11月上旬山东省考报名（参考11月7-10日）<br>
+      <b>12月：</b>京考笔试（12月中）· 广东定向选调（最晚，12月初启动）<br>
+      <b>次年1月：</b>国考成绩 · <b>3月中旬：省考联考</b><br>
+      💡 策略：上海/黑龙江马上报 → 清北定向一批锁保底 → 国考同步考（同一套行测申论复用）→ 省考联考最后冲高。时间来源：中公/金标尺等机构2026-09预测，以各省组织部官方公告为准</div></div>`:''}
     <details class="card" style="border-left:4px solid #B71C1C;margin-bottom:12px" open><summary style="cursor:pointer;font-size:14px;font-weight:700">🔥 竞争激烈程度（2027届情报 · 点谁卷谁一目了然）</summary>
       <div style="margin-top:10px">${HEAT.map(x=>`<div style="border-bottom:1px dashed var(--line);padding:8px 0;font-size:13px;line-height:1.8"><b style="color:${x.level>=5?'#B71C1C':x.level>=4?'#E65100':x.level>=3?'#F9A825':'#2E7D32'}">${'🔥'.repeat(x.level)}${x.name}</b>　<span style="color:#555">${esc(x.fact)}</span><br><span style="color:#1565C0">🧭 应对：${esc(x.tip)}</span></div>`).join('')}</div>
       <div style="font-size:11.5px;color:#999;margin-top:6px">数据来源：各厂官方招聘计划、脉脉高聘、前程无忧《2026就业白皮书》、牛客面经 · 2026年9月整理 · 🔥1-5=竞争从低到极高（绿色=对你是机会）</div></details>
@@ -646,8 +718,8 @@ function delCustomEvent(i){ EVENTS.splice(i,1); save(); render('sched'); }
 
 /* ================= 档案室（全部记录 + 存储状态） ================= */
 function storageUsage(){
-  const keys=['hub-apps','hub-xps','hub-notes','hub-jobstat','hub-customs','hub-gk-mods','hub-gk-mocks','hub-events'];
-  const names={'hub-apps':'投递状态','hub-xps':'经验贴','hub-notes':'随手记','hub-jobstat':'岗位备注','hub-customs':'自建岗位','hub-gk-mods':'考公进度','hub-gk-mocks':'模考记录','hub-events':'手动日程'};
+const keys=['hub-apps','hub-xps','hub-notes','hub-jobstat','hub-customs','hub-gk-mods','hub-gk-mocks','hub-gk-wrong','hub-events'];
+const names={'hub-apps':'投递状态','hub-xps':'经验贴','hub-notes':'随手记','hub-jobstat':'岗位备注','hub-customs':'自建岗位','hub-gk-mods':'考公进度','hub-gk-mocks':'模考记录','hub-gk-wrong':'错题集','hub-events':'手动日程'};
   let total=0; const rows=keys.map(k=>{ const s=(localStorage.getItem(k)||'').length; total+=s; return {n:names[k], s}; }).sort((a,b)=>b.s-a.s);
   return {rows, total};
 }
@@ -708,7 +780,10 @@ function vAnn(){
 
 /* ================= 考公备战 ================= */
 const GK_TARGETS = [
+  {n:'上海/黑龙江选调·查公告报名', d:'2026-09-13'},
   {n:'北大约中央选调·校内推荐截止', d:'2026-09-30'},
+  {n:'国考公告发布·筛岗位', d:'2026-10-14'},
+  {n:'国考报名截止', d:'2026-10-24'},
   {n:'国考笔试', d:'2026-11-29'},
   {n:'京考笔试', d:'2026-12-13'},
   {n:'省考联考', d:'2027-03-15'},
@@ -731,14 +806,49 @@ function vGk(){
       <td style="padding:8px 6px;font-size:12px;color:#555">${esc(m.note||'')}</td>
       <td style="padding:8px 6px"><span style="color:#aaa;cursor:pointer" onclick="gkDelMock(${i})">✕</span></td></tr>`).join('')
     : '<tr><td colspan="6" style="padding:16px;text-align:center;color:#999">还没有模考记录：粉笔模考/真题卷都记进来，进步靠积累</td></tr>';
+  const wrongRows = GKWRONG.length ? GKWRONG.map((w,i)=>`
+    <tr><td style="padding:8px 6px;color:#999">${esc(w.date)}</td><td style="padding:8px 6px;font-weight:600">${esc(w.m)}</td>
+      <td style="padding:8px 6px">${esc(w.t)}</td><td style="padding:8px 6px;color:#b02a2a">${esc(w.r)}</td>
+      <td style="padding:8px 6px"><input type="text" style="width:110px" placeholder="待复盘" value="${esc(w.ok||'')}" onchange="gkSetWrong(${i},'ok',this.value)"></td>
+      <td style="padding:8px 6px"><span style="color:#aaa;cursor:pointer" onclick="gkDelWrong(${i})">✕</span></td></tr>`).join('')
+    : '<tr><td colspan="6" style="padding:16px;text-align:center;color:#999">还没有错题：刷题遇到「当时不会/蒙对/公式记错」的都记进来</td></tr>';
   return `<h2>考公备战</h2><div class="sub">行测模块进度 + 模考成绩 + 关键节点倒计时（日期参考历年，以当年公告为准）</div>
-    <div class="card" style="border-left:4px solid #B71C1C;background:linear-gradient(135deg,#fff5f5,#fff)"><h3 style="font-size:14px;margin-bottom:6px">🎬 零基础作战计划（9月6日启动 · 85天到国考）</h3><div style="font-size:12.5px;color:#333;line-height:2"><div><b>🚨 本周必办（9/7-9/13）：</b>刷北大就业中心选调专栏，确认「约中央选调」校内推荐的材料清单（成绩单/党员证明/学院意见），该找辅导员问的这周问完——<b>这是全部时间线里最紧的一扇门</b></div><div><b>① 基础期（9/7-10/18，6周）：</b>粉笔980系统班把行测五大模块过一遍（资料分析/言语/判断优先），每周日一套分模块模考记进度；申论每周1篇大作文+看半月谈找语感（用论文功底写，别背模板）</div><div><b>⏰ 10月15日左右国考报名：</b>岗位表发布当天就筛（限应届+政治学类+限党员三重叠加），别拖到截止日；选调同步报</div><div><b>② 冲刺期（10/19-11/28，5周半）：</b>国考历年真题整套限时刷（上午行测下午申论还原考场）+错题本复盘；行测保住资料分析90%+，申论大作文二稿重写打磨</div><div><b>③ 考后连轴（11/29之后）：</b>京考12月中笔试同一套题热着上；央企/事业编笔试全套复用，一鱼多吃</div><div>📌 <b>你占便宜的地方：</b>申论=写稿本行；国关属政治学类，事业单位选B类卷（综合应用=社科写作）；选调报录比3:1，你不需要在万人坑里赢</div></div></div>
+    <div class="card" style="border-left:4px solid #B71C1C;background:linear-gradient(135deg,#fff5f5,#fff)"><h3 style="font-size:14px;margin-bottom:6px">🎬 零基础作战计划（9月6日启动 · 85天到国考）</h3><div style="font-size:12.5px;color:#333;line-height:2"><div><b>🚨 本周必办（9/7-9/13）：</b>①上海/黑龙江定向选调9月初已发公告——本周查官方公告确认报名截止日并完成报名；②刷北大就业中心选调专栏，确认「约中央选调」校内推荐的材料清单（成绩单/党员证明/学院意见），该找辅导员问的这周问完——<b>这是全部时间线里最紧的一扇门</b></div><div><b>① 基础期（9/7-10/18，6周）：</b>粉笔980系统班把行测五大模块过一遍（资料分析/言语/判断优先），每周日一套分模块模考记进度；申论每周1篇大作文+看半月谈找语感（用论文功底写，别背模板）</div><div><b>⏰ 10月15日左右国考报名：</b>岗位表发布当天就筛（限应届+政治学类+限党员三重叠加），别拖到截止日；选调同步报</div><div><b>② 冲刺期（10/19-11/28，5周半）：</b>国考历年真题整套限时刷（上午行测下午申论还原考场）+错题本复盘；行测保住资料分析90%+，申论大作文二稿重写打磨</div><div><b>③ 考后连轴（11/29之后）：</b>京考12月中笔试同一套题热着上；央企/事业编笔试全套复用，一鱼多吃</div><div>📌 <b>你占便宜的地方：</b>申论=写稿本行；国关属政治学类，事业单位选B类卷（综合应用=社科写作）；选调报录比3:1，你不需要在万人坑里赢</div></div></div>
     <div class="grid g4" style="margin-bottom:14px">${cards}</div>
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📊 行测五大模块 · 刷题进度与正确率</h3>
       <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">
         <thead><tr style="border-bottom:2px solid var(--line);color:#999;font-size:12px"><th align="left" style="padding:6px">模块</th><th align="left" style="padding:6px">已刷题数</th><th align="left" style="padding:6px">正确率%</th><th align="left" style="padding:6px">状态</th></tr></thead>
         <tbody>${modRows}</tbody></table></div>
       <div style="font-size:12px;color:#999;margin-top:6px">输入即自动保存。资料分析性价比最高（优先拉到85%+）；数量关系可战略性放弃。</div></div>
+    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📐 行测五大模块 · 题型清单与做题方法（含「直接刷题 vs 必须看课」判断）</h3>
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12.5px">
+        <thead><tr style="border-bottom:2px solid var(--line);color:#999;font-size:12px"><th align="left" style="padding:6px;width:86px">模块</th><th align="left" style="padding:6px">题型清单</th><th align="left" style="padding:6px">方法要点</th><th align="left" style="padding:6px;width:150px">刷题还是看课</th></tr></thead>
+        <tbody>
+        <tr style="border-bottom:1px dashed var(--line)"><td style="padding:8px 6px;font-weight:700;color:#1e7e34">资料分析<br><span style="font-weight:400;color:#999">目标90%+</span></td><td style="padding:8px 6px">增长率/增长量、比重及变化、平均数、倍数、基期现期、综合分析（末题）</td><td style="padding:8px 6px">先看题定位材料→列式→截位直除/差分法/有效数字速算；每天1组20题保手感</td><td style="padding:8px 6px">看2-3节速算技巧课后<b>全程刷题</b>——唯一近乎线性提分的模块</td></tr>
+        <tr style="border-bottom:1px dashed var(--line)"><td style="padding:8px 6px;font-weight:700;color:#1e7e34">言语理解<br><span style="font-weight:400;color:#999">目标75%+</span></td><td style="padding:8px 6px">逻辑填空（实词/成语）、片段阅读（中心理解/细节/语句排序/语句填空）</td><td style="padding:8px 6px">中心理解抓主题词+行文脉络（转折/因果/并列）；逻辑填空靠语境呼应+高频成语积累</td><td style="padding:8px 6px">片段阅读<b>先看课学方法</b>（自己刷会卡60%）；逻辑填空直接刷+错题记词语辨析</td></tr>
+        <tr style="border-bottom:1px dashed var(--line)"><td style="padding:8px 6px;font-weight:700;color:#1e7e34">判断推理<br><span style="font-weight:400;color:#999">目标80%+</span></td><td style="padding:8px 6px">图形推理、定义判断、类比推理、逻辑判断（翻译推理/加强削弱/分析推理）</td><td style="padding:8px 6px">图推记特征口诀（一笔画/对称/封闭面）；加强削弱抓论点论据；定义找关键词排除</td><td style="padding:8px 6px">逻辑判断<b>必须看课</b>（有公式）；图推看课后刷出敏感度；定义/类比可直接刷</td></tr>
+        <tr style="border-bottom:1px dashed var(--line)"><td style="padding:8px 6px;font-weight:700;color:#B8860B">数量关系<br><span style="font-weight:400;color:#999">目标60%</span></td><td style="padding:8px 6px">工程/行程/经济利润/排列组合/概率/几何/最值</td><td style="padding:8px 6px">先挑软柿子（工程、经济利润、和差倍比）；代入排除法、赋值法万能；不会的蒙同一选项</td><td style="padding:8px 6px">看课学套路（自己摸索性价比极低）；投入别超总时间10%</td></tr>
+        <tr><td style="padding:8px 6px;font-weight:700;color:#999">常识判断<br><span style="font-weight:400;color:#999">目标55%</span></td><td style="padding:8px 6px">政治时政/法律/科技/人文/地理</td><td style="padding:8px 6px">不用专门复习——你有政治学底子；考前两周突击时政汇总即可</td><td style="padding:8px 6px">都不用；考前收各机构免费时政PDF背一遍</td></tr>
+        </tbody></table></div>
+      <div style="font-size:12px;color:#999;margin-top:6px">💰 资料建议：粉笔APP题库+B站免费系统课完全够用，不必买万元班；花钱优先级：纸质真题卷＞专项题库＞二手系统班（可在闲鱼/校内收）；考前各机构免费时政PDF必收。</div></div>
+    <div class="card" style="border-left:4px solid #6A1B9A"><h3 style="font-size:15px;margin-bottom:8px">✍️ 申论 · 题型与备考法（你的主场）</h3>
+      <div style="font-size:13px;color:#333;line-height:2">
+        <b>五大题型：</b>①归纳概括（必考，从材料找关键词踩点给分）②提出对策 ③综合分析（词句理解/评价类）④贯彻执行（应用文，占分最大——通知/倡议书/讲话稿格式）⑤大作文（议论文1000-1200字）<br>
+        <b>核心方法：</b>小题=踩点给分，动宾结构合并同类项，<b>抄材料是核心竞争力不是缺点</b>；大作文=总论点+三段分论点（意义型/对策型），开头结尾各准备3套自己的句式<br>
+        <b>刷题vs看课：</b>小题看1-2节课学「踩点」方法后<b>必须动笔写</b>（只看不写=白学），写完对照参考答案数踩中的点；大作文每两周1篇完整写<br>
+        <b>资料（全免费）：</b>人民日报评论员文章（学政务语感）、半月谈、学习强国、粉笔APP申论智能批改；<b>别买范文模板书</b>——用论文功底写自己的框架比背模板高分<br>
+        <b>🎯 你的专属打法：</b>国关学术训练（问题-文献-论证-结论）直接迁移到大作文论证；唯一要调的是把学术腔调成政务体（多读人民日报头版），这是从65分到75分的关键</div></div>
+    <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📕 错题集（录入 · 复盘 · 考前只看没过关的）</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <select id="wr-m">${GK_MODS.map(m=>`<option>${m}</option>`).join('')}<option>申论</option></select>
+        <input type="text" id="wr-t" placeholder="题目/考点描述（如：基期比重，忘了先减后除）" style="flex:2;min-width:220px">
+        <input type="text" id="wr-r" placeholder="错误原因（公式错/粗心/没思路/时间不够）" style="flex:1;min-width:160px">
+        <button class="btn" onclick="gkAddWrong()">录入</button>
+      </div>
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr style="border-bottom:2px solid var(--line);color:#999;font-size:12px"><th align="left" style="padding:6px">日期</th><th align="left" style="padding:6px">模块</th><th align="left" style="padding:6px">题目/考点</th><th align="left" style="padding:6px">原因</th><th align="left" style="padding:6px">复盘（过关了吗）</th><th></th></tr></thead>
+        <tbody>${wrongRows}</tbody></table></div>
+      <div style="font-size:12px;color:#999;margin-top:6px">复盘栏：第二/三天重做对了就写「已过关」；考前只看没写「已过关」的。数据存在本地+云端备份（hub-gk-wrong）。</div></div>
     <div class="card"><h3 style="font-size:15px;margin-bottom:8px">📝 模考记录</h3>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
         <input type="date" id="gk-d">
@@ -766,20 +876,28 @@ function gkAddMock(){
   save(); render('gk');
 }
 function gkDelMock(i){ GKMOCKS.splice(i,1); save(); render('gk'); }
+function gkAddWrong(){
+  const t=$('#wr-t').value.trim();
+  if(!t) return alert('请填写题目/考点描述');
+  GKWRONG.unshift({date:new Date().toISOString().slice(0,10), m:$('#wr-m').value, t, r:$('#wr-r').value.trim()});
+  save(); render('gk');
+}
+function gkSetWrong(i,k,v){ GKWRONG[i][k]=v; save(); }
+function gkDelWrong(i){ GKWRONG.splice(i,1); save(); render('gk'); }
 
 /* ================= 数据导出/导入（跨设备迁移） ================= */
 function buildBackupPayload(){
   return {exportedAt:new Date().toLocaleString('zh-CN'),
     'hub-apps':LS.get('hub-apps',{}),'hub-xps':LS.get('hub-xps',[]),
     'hub-notes':LS.get('hub-notes',[]),'hub-jobstat':LS.get('hub-jobstat',{}),
-    'hub-customs':LS.get('hub-customs',[]),'hub-gk-mods':LS.get('hub-gk-mods',{}),'hub-gk-mocks':LS.get('hub-gk-mocks',[]),'hub-events':LS.get('hub-events',[])};
+    'hub-customs':LS.get('hub-customs',[]),'hub-gk-mods':LS.get('hub-gk-mods',{}),'hub-gk-mocks':LS.get('hub-gk-mocks',[]),'hub-gk-wrong':LS.get('hub-gk-wrong',[]),'hub-events':LS.get('hub-events',[])};
 }
 function exportData(){
   const payload = buildBackupPayload();
   const blob = new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = '我的未来式我做主备份-'+new Date().toISOString().slice(0,10)+'.json';
+  a.download = 'SJX校招准备网站备份-'+new Date().toISOString().slice(0,10)+'.json';
   a.click(); URL.revokeObjectURL(a.href);
 }
 async function copyBackup(){
@@ -800,7 +918,7 @@ function importData(input){
   r.onload = () => {
     try{
       const d = JSON.parse(r.result);
-      ['hub-apps','hub-xps','hub-notes','hub-jobstat','hub-customs','hub-gk-mods','hub-gk-mocks','hub-events'].forEach(k=>{ if(d[k]!==undefined) localStorage.setItem(k,JSON.stringify(d[k])); });
+      ['hub-apps','hub-xps','hub-notes','hub-jobstat','hub-customs','hub-gk-mods','hub-gk-mocks','hub-gk-wrong','hub-events'].forEach(k=>{ if(d[k]!==undefined) localStorage.setItem(k,JSON.stringify(d[k])); });
       alert('导入成功，页面即将刷新'); location.reload();
     }catch(e){ alert('文件格式不对，请选择「导出」生成的 json 文件'); }
   };
@@ -814,7 +932,7 @@ render('dash');
   const r = await fetch('backup.json',{cache:'no-store'});
   if(!r.ok) return;
   const d = await r.json(); let changed=false;
-  ['hub-apps','hub-xps','hub-notes','hub-jobstat','hub-customs','hub-gk-mods','hub-gk-mocks','hub-events'].forEach(k=>{
+  ['hub-apps','hub-xps','hub-notes','hub-jobstat','hub-customs','hub-gk-mods','hub-gk-mocks','hub-gk-wrong','hub-events'].forEach(k=>{
     if(localStorage.getItem(k)===null && d[k]!==undefined){ localStorage.setItem(k,JSON.stringify(d[k])); changed=true; }
   });
   if(changed) location.reload();
