@@ -1,152 +1,104 @@
 // 自动生成，请勿手动修改
-// 生成时间: 2026-09-05 13:34:13
+// 生成时间: 2026-09-06 04:58:28
 
 const ANNOUNCEMENTS_DATA = {
-  "lastUpdate": "2026-09-05 13:34:13",
-  "total": 32,
+  "lastUpdate": "2026-09-06 04:58:28",
+  "total": 24,
   "items": [
     {
       "title": "中信校招在招职位（共258个）· 中信集团总部管理培训生",
       "source": "中信集团",
-      "date": "2026-09-05",
-      "url": "https://job.citic.com/recruit#/index"
-    },
-    {
-      "title": "中信校招在招职位（共258个）· 中国中信集团有限公司",
-      "source": "中信集团",
-      "date": "2026-09-05",
-      "url": "https://job.citic.com/recruit#/index"
-    },
-    {
-      "title": "中信校招在招职位（共258个）· 全国，海外，澳门特别行政区，香港特别行政区",
-      "source": "中信集团",
-      "date": "2026-09-05",
-      "url": "https://job.citic.com/recruit#/index"
-    },
-    {
-      "title": "中信校招在招职位（共258个）· 2026-08-31",
-      "source": "中信集团",
-      "date": "2026-09-05",
+      "date": "2026-09-06",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中信校招在招职位（共258个）· 大众出版营销编辑",
       "source": "中信集团",
-      "date": "2026-09-05",
-      "url": "https://job.citic.com/recruit#/index"
-    },
-    {
-      "title": "中信校招在招职位（共258个）· 中信出版集团股份有限公司",
-      "source": "中信集团",
-      "date": "2026-09-05",
-      "url": "https://job.citic.com/recruit#/index"
-    },
-    {
-      "title": "中信校招在招职位（共258个）· 新消费板块",
-      "source": "中信集团",
-      "date": "2026-09-05",
-      "url": "https://job.citic.com/recruit#/index"
-    },
-    {
-      "title": "中信校招在招职位（共258个）· 朝阳区嘉铭中心",
-      "source": "中信集团",
-      "date": "2026-09-05",
+      "date": "2026-09-06",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中信校招在招职位（共258个）· 大众出版助理编辑",
       "source": "中信集团",
-      "date": "2026-09-05",
+      "date": "2026-09-06",
+      "url": "https://job.citic.com/recruit#/index"
+    },
+    {
+      "title": "中信校招在招职位（共258个）· 电气设计",
+      "source": "中信集团",
+      "date": "2026-09-06",
+      "url": "https://job.citic.com/recruit#/index"
+    },
+    {
+      "title": "中信校招在招职位（共258个）· 液压设计",
+      "source": "中信集团",
+      "date": "2026-09-06",
+      "url": "https://job.citic.com/recruit#/index"
+    },
+    {
+      "title": "中信校招在招职位（共258个）· 工程概预算",
+      "source": "中信集团",
+      "date": "2026-09-06",
+      "url": "https://job.citic.com/recruit#/index"
+    },
+    {
+      "title": "中信校招在招职位（共258个）· 公用设计",
+      "source": "中信集团",
+      "date": "2026-09-06",
+      "url": "https://job.citic.com/recruit#/index"
+    },
+    {
+      "title": "中信校招在招职位（共258个）· 电气自动化设计",
+      "source": "中信集团",
+      "date": "2026-09-06",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中化学校招在招岗位 · 法务管理岗",
       "source": "中化学国际",
-      "date": "2026-09-05",
+      "date": "2026-09-06",
       "url": "https://cncec.iguopin.com/job"
     },
     {
       "title": "中化学校招在招岗位 · 财务管理岗",
       "source": "中化学国际",
-      "date": "2026-09-05",
+      "date": "2026-09-06",
       "url": "https://cncec.iguopin.com/job"
     },
     {
       "title": "中化学校招在招岗位 · 安装技术岗",
       "source": "中化学国际",
-      "date": "2026-09-05",
+      "date": "2026-09-06",
       "url": "https://cncec.iguopin.com/job"
     },
     {
       "title": "中化学校招在招岗位 · 土建技术岗",
       "source": "中化学国际",
-      "date": "2026-09-05",
+      "date": "2026-09-06",
       "url": "https://cncec.iguopin.com/job"
     },
     {
       "title": "中化学校招在招岗位 · 党务管理岗",
       "source": "中化学国际",
-      "date": "2026-09-05",
+      "date": "2026-09-06",
       "url": "https://cncec.iguopin.com/job"
     },
     {
       "title": "中化学校招在招岗位 · 俄语翻译岗",
       "source": "中化学国际",
-      "date": "2026-09-05",
+      "date": "2026-09-06",
       "url": "https://cncec.iguopin.com/job"
     },
     {
       "title": "中化学校招在招岗位 · 工程造价",
       "source": "中化学国际",
-      "date": "2026-09-05",
+      "date": "2026-09-06",
       "url": "https://cncec.iguopin.com/job"
     },
     {
       "title": "中化学校招在招岗位 · 设备材料岗",
       "source": "中化学国际",
-      "date": "2026-09-05",
-      "url": "https://cncec.iguopin.com/job"
-    },
-    {
-      "title": "中化学校招在招岗位 · 测绘技术岗实习生-俄罗斯",
-      "source": "中化学国际",
-      "date": "2026-09-05",
-      "url": "https://cncec.iguopin.com/job"
-    },
-    {
-      "title": "中化学校招在招岗位 · 电气仪表安装工程师",
-      "source": "中化学国际",
-      "date": "2026-09-05",
-      "url": "https://cncec.iguopin.com/job"
-    },
-    {
-      "title": "中化学校招在招岗位 · 海外安装工程师",
-      "source": "中化学国际",
-      "date": "2026-09-05",
-      "url": "https://cncec.iguopin.com/job"
-    },
-    {
-      "title": "中化学校招在招岗位 · 涉外法务",
-      "source": "中化学国际",
-      "date": "2026-09-05",
-      "url": "https://cncec.iguopin.com/job"
-    },
-    {
-      "title": "中化学校招在招岗位 · 化工设计岗",
-      "source": "中化学国际",
-      "date": "2026-09-05",
-      "url": "https://cncec.iguopin.com/job"
-    },
-    {
-      "title": "中化学校招在招岗位 · 电气技术（校招-海外岗）",
-      "source": "中化学国际",
-      "date": "2026-09-05",
-      "url": "https://cncec.iguopin.com/job"
-    },
-    {
-      "title": "中化学校招在招岗位 · 防腐保温管理（校招-海外岗）",
-      "source": "中化学国际",
-      "date": "2026-09-05",
+      "date": "2026-09-06",
       "url": "https://cncec.iguopin.com/job"
     },
     {
@@ -213,6 +165,51 @@ const ANNOUNCEMENTS_DATA = {
       "name": "中石油",
       "url": "https://zhaopin.cnpc.com.cn/",
       "reason": "反爬拦截，需手动查看"
+    },
+    {
+      "name": "国聘 iguopin",
+      "url": "https://www.iguopin.com",
+      "reason": "央企国企公告聚合平台（三桶油/两网/烟草等），JS渲染需手动查看"
+    },
+    {
+      "name": "北大就业中心",
+      "url": "https://scc.pku.edu.cn",
+      "reason": "北大宣讲/经验分享/选调与国际组织专栏，列表为JS动态渲染"
+    },
+    {
+      "name": "北大选调生专栏",
+      "url": "https://scc.pku.edu.cn/frontpage/pku/html/xds_index.html",
+      "reason": "各省面向北大定向选调公告入口"
+    },
+    {
+      "name": "北大国际组织专栏",
+      "url": "https://scc.pku.edu.cn/frontpage/pku/html/gjzz_index.html",
+      "reason": "UNDP/JPO等国际组织推送信息"
+    },
+    {
+      "name": "中海油",
+      "url": "https://zhaopin.cnooc.com",
+      "reason": "网申需登录，公告手动查看"
+    },
+    {
+      "name": "中核人才招聘网",
+      "url": "https://campus.cnnc.com.cn",
+      "reason": "中核2027届校招主入口（公众号同步发布），网申需登录"
+    },
+    {
+      "name": "国家电网招聘平台",
+      "url": "https://zhaopin.sgcc.com.cn",
+      "reason": "两网公告主渠道，网申需注册"
+    },
+    {
+      "name": "中国烟草招聘",
+      "url": "http://www.tobacco.gov.cn/gjtab/zpxx/",
+      "reason": "烟草系统公告聚合页，各省市中烟分开发布"
+    },
+    {
+      "name": "国投SDIC校招",
+      "url": "https://campus.sdiconline.com",
+      "reason": "国投集团校招网申主入口"
     }
   ]
 };
