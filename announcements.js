@@ -1,104 +1,104 @@
 // 自动生成，请勿手动修改
-// 生成时间: 2026-09-06 04:58:28
+// 生成时间: 2026-09-07 05:04:02
 
 const ANNOUNCEMENTS_DATA = {
-  "lastUpdate": "2026-09-06 04:58:28",
+  "lastUpdate": "2026-09-07 05:04:02",
   "total": 24,
   "items": [
     {
       "title": "中信校招在招职位（共258个）· 中信集团总部管理培训生",
       "source": "中信集团",
-      "date": "2026-09-06",
+      "date": "2026-09-07",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中信校招在招职位（共258个）· 大众出版营销编辑",
       "source": "中信集团",
-      "date": "2026-09-06",
+      "date": "2026-09-07",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中信校招在招职位（共258个）· 大众出版助理编辑",
       "source": "中信集团",
-      "date": "2026-09-06",
+      "date": "2026-09-07",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中信校招在招职位（共258个）· 电气设计",
       "source": "中信集团",
-      "date": "2026-09-06",
+      "date": "2026-09-07",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中信校招在招职位（共258个）· 液压设计",
       "source": "中信集团",
-      "date": "2026-09-06",
+      "date": "2026-09-07",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中信校招在招职位（共258个）· 工程概预算",
       "source": "中信集团",
-      "date": "2026-09-06",
+      "date": "2026-09-07",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中信校招在招职位（共258个）· 公用设计",
       "source": "中信集团",
-      "date": "2026-09-06",
+      "date": "2026-09-07",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中信校招在招职位（共258个）· 电气自动化设计",
       "source": "中信集团",
-      "date": "2026-09-06",
+      "date": "2026-09-07",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中化学校招在招岗位 · 法务管理岗",
       "source": "中化学国际",
-      "date": "2026-09-06",
+      "date": "2026-09-07",
       "url": "https://cncec.iguopin.com/job"
     },
     {
       "title": "中化学校招在招岗位 · 财务管理岗",
       "source": "中化学国际",
-      "date": "2026-09-06",
+      "date": "2026-09-07",
       "url": "https://cncec.iguopin.com/job"
     },
     {
       "title": "中化学校招在招岗位 · 安装技术岗",
       "source": "中化学国际",
-      "date": "2026-09-06",
+      "date": "2026-09-07",
       "url": "https://cncec.iguopin.com/job"
     },
     {
       "title": "中化学校招在招岗位 · 土建技术岗",
       "source": "中化学国际",
-      "date": "2026-09-06",
+      "date": "2026-09-07",
       "url": "https://cncec.iguopin.com/job"
     },
     {
       "title": "中化学校招在招岗位 · 党务管理岗",
       "source": "中化学国际",
-      "date": "2026-09-06",
+      "date": "2026-09-07",
       "url": "https://cncec.iguopin.com/job"
     },
     {
       "title": "中化学校招在招岗位 · 俄语翻译岗",
       "source": "中化学国际",
-      "date": "2026-09-06",
+      "date": "2026-09-07",
       "url": "https://cncec.iguopin.com/job"
     },
     {
       "title": "中化学校招在招岗位 · 工程造价",
       "source": "中化学国际",
-      "date": "2026-09-06",
+      "date": "2026-09-07",
       "url": "https://cncec.iguopin.com/job"
     },
     {
       "title": "中化学校招在招岗位 · 设备材料岗",
       "source": "中化学国际",
-      "date": "2026-09-06",
+      "date": "2026-09-07",
       "url": "https://cncec.iguopin.com/job"
     },
     {
