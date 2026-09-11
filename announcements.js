@@ -1,104 +1,104 @@
 // 自动生成，请勿手动修改
-// 生成时间: 2026-09-10 05:04:28
+// 生成时间: 2026-09-11 05:01:23
 
 const ANNOUNCEMENTS_DATA = {
-  "lastUpdate": "2026-09-10 05:04:28",
-  "total": 25,
+  "lastUpdate": "2026-09-11 05:01:23",
+  "total": 23,
   "items": [
     {
       "title": "中信校招在招职位（共265个）· 中信集团总部管理培训生",
       "source": "中信集团",
-      "date": "2026-09-10",
+      "date": "2026-09-11",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中信校招在招职位（共265个）· 大众出版营销编辑",
       "source": "中信集团",
-      "date": "2026-09-10",
+      "date": "2026-09-11",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中信校招在招职位（共265个）· 大众出版助理编辑",
       "source": "中信集团",
-      "date": "2026-09-10",
+      "date": "2026-09-11",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中信校招在招职位（共265个）· 网络维护工程师",
       "source": "中信集团",
-      "date": "2026-09-10",
+      "date": "2026-09-11",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中信校招在招职位（共265个）· 商务销售",
       "source": "中信集团",
-      "date": "2026-09-10",
+      "date": "2026-09-11",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中信校招在招职位（共265个）· 人工智能工程师",
       "source": "中信集团",
-      "date": "2026-09-10",
+      "date": "2026-09-11",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中信校招在招职位（共265个）· 软件开发工程师",
       "source": "中信集团",
-      "date": "2026-09-10",
+      "date": "2026-09-11",
       "url": "https://job.citic.com/recruit#/index"
     },
     {
       "title": "中信校招在招职位（共265个）· 中信国安-国安控股-资产运营岗",
       "source": "中信集团",
-      "date": "2026-09-10",
+      "date": "2026-09-11",
       "url": "https://job.citic.com/recruit#/index"
+    },
+    {
+      "title": "中化学校招在招岗位 · 化工工艺工程师(000958)",
+      "source": "中化学国际",
+      "date": "2026-09-11",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 热工工程师(000971)",
+      "source": "中化学国际",
+      "date": "2026-09-11",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 自控工程师(000977)",
+      "source": "中化学国际",
+      "date": "2026-09-11",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 化工设备工程师(000978)",
+      "source": "中化学国际",
+      "date": "2026-09-11",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 土建工程师(000979)",
+      "source": "中化学国际",
+      "date": "2026-09-11",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · 给排水工程师(000980)",
+      "source": "中化学国际",
+      "date": "2026-09-11",
+      "url": "https://cncec.iguopin.com/job"
+    },
+    {
+      "title": "中化学校招在招岗位 · IT工程师(000981)",
+      "source": "中化学国际",
+      "date": "2026-09-11",
+      "url": "https://cncec.iguopin.com/job"
     },
     {
       "title": "中化学校招在招岗位 · 工艺管道设计工程师（校招）(000821)",
       "source": "中化学国际",
-      "date": "2026-09-10",
-      "url": "https://cncec.iguopin.com/job"
-    },
-    {
-      "title": "中化学校招在招岗位 · 工艺管道设计工程师（校招）(000796)",
-      "source": "中化学国际",
-      "date": "2026-09-10",
-      "url": "https://cncec.iguopin.com/job"
-    },
-    {
-      "title": "中化学校招在招岗位 · 热工设计工程师（校招）(000797)",
-      "source": "中化学国际",
-      "date": "2026-09-10",
-      "url": "https://cncec.iguopin.com/job"
-    },
-    {
-      "title": "中化学校招在招岗位 · 储运设计工程师（校招）(000798)",
-      "source": "中化学国际",
-      "date": "2026-09-10",
-      "url": "https://cncec.iguopin.com/job"
-    },
-    {
-      "title": "中化学校招在招岗位 · 环境给排水设计工程师（校招）(000799)",
-      "source": "中化学国际",
-      "date": "2026-09-10",
-      "url": "https://cncec.iguopin.com/job"
-    },
-    {
-      "title": "中化学校招在招岗位 · 设备机械设计工程师（校招）(000801)",
-      "source": "中化学国际",
-      "date": "2026-09-10",
-      "url": "https://cncec.iguopin.com/job"
-    },
-    {
-      "title": "中化学校招在招岗位 · 建筑结构设计工程师（校招）(000800)",
-      "source": "中化学国际",
-      "date": "2026-09-10",
-      "url": "https://cncec.iguopin.com/job"
-    },
-    {
-      "title": "中化学校招在招岗位 · 电气仪表设计工程师（校招）(000795)",
-      "source": "中化学国际",
-      "date": "2026-09-10",
+      "date": "2026-09-11",
       "url": "https://cncec.iguopin.com/job"
     },
     {
@@ -106,18 +106,6 @@ const ANNOUNCEMENTS_DATA = {
       "source": "国航招聘",
       "date": "2026-09-08",
       "url": "http://www.airchina.com.cn/cn/about_us/recruitment/185290.shtml"
-    },
-    {
-      "title": "中航集团（国航股份）数字化转型办公室2026年市场化人才招聘简章",
-      "source": "国航招聘",
-      "date": "2026-08-21",
-      "url": "http://www.airchina.com.cn/cn/about_us/recruitment/ground_crew_info/185270.shtml"
-    },
-    {
-      "title": "中航集团人力资源运营中心2026年市场化人才招聘简章",
-      "source": "国航招聘",
-      "date": "2026-08-21",
-      "url": "http://www.airchina.com.cn/cn/about_us/recruitment/ground_crew_info/185265.shtml"
     },
     {
       "title": "中国进出口银行2026年社会招聘启事2026-08-12",
